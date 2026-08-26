@@ -1,0 +1,5 @@
+import { PathoScribeApp } from "@/components/pathoscribe-app";
+
+export default function Home() {
+  return <PathoScribeApp />;
+}

@@ -1,0 +1,54 @@
+{
+  "name": "pathoscribe",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/validate-pathology-workflow.mjs",
+    "test:v1.1": "node scripts/validate-v1.1-unit.mjs",
+    "test:normal-cases": "node scripts/validate-normal-demo-cases.mjs",
+    "test:error-cases": "node scripts/validate-error-demo-cases.mjs",
+    "test:case-audit": "node scripts/audit-evaluation-cases.mjs",
+    "test:worklist-links": "node scripts/validate-worklist-evaluation-links.mjs",
+    "test:web": "node scripts/verify-web-routes.mjs",
+    "data:sync:diagnoses": "node scripts/sync-ncc-diagnosis-reference.mjs",
+    "data:sync:immunopathology": "node scripts/sync-ncc-immunopathology.mjs",
+    "data:sync:pathologic-stages": "node scripts/sync-ncc-pathologic-stages.mjs",
+    "data:sync:bronchoscopy": "node scripts/sync-ncc-bronchoscopy.mjs",
+    "data:sync:cancer-dictionary": "node scripts/sync-cancer-dictionary-snapshot.mjs",
+    "data:sync:lung-linkage": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/sync-ncc-lung-linkage.ps1",
+    "data:sync:registry-metadata": "node scripts/sync-ncc-lung-registry-metadata.mjs",
+    "data:generate:pathology-workflow": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-pathology-workflow.ps1",
+    "data:generate:outsourced-fixtures": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-outsourced-evaluation-fixtures.ps1",
+    "data:test:outsourced-fixtures": "node scripts/validate-outsourced-fixtures.mjs",
+    "data:generate:evaluation": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-evaluation-cases.ps1",
+    "data:test:evaluation": "node scripts/validate-evaluation-cases.mjs",
+    "data:test:pathology-workflow": "node scripts/validate-pathology-workflow.mjs",
+    "evaluate:gemini": "node scripts/run-gemini-evaluation.mjs",
+    "test:evaluation-runner": "node scripts/validate-gemini-evaluation.mjs"
+  },
+  "dependencies": {
+    "@google/genai": "^2.13.0",
+    "html-to-text": "^10.0.1",
+    "lucide-react": "^0.468.0",
+    "next": "16.2.11",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.11",
+    "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "8.5.26",
+    "sharp": "0.35.3"
+  }
+}

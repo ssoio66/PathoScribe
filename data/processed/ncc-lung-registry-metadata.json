@@ -1,0 +1,3229 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-22T13:47:33.460Z",
+  "source": {
+    "provider": "국립암센터",
+    "collection": "폐암 레지스트리 메타정보",
+    "sourceFile": "국립암센터_폐암 레지스트리 메타정보_20200110.csv",
+    "localFile": "ncc-lung-registry-metadata-20200110.csv",
+    "sourceDate": "2020-01-10",
+    "encoding": "CP949",
+    "acquisition": "사용자 제공 로컬 CSV",
+    "sourceSha256": "FA604E1B96F67191014C87EFE64BD2347D24E0D11FD4E979FDF5C4A5161E14EC",
+    "redistribution": "원본 배포 조건 확인 전 GitHub 재배포 보류"
+  },
+  "csvSchema": {
+    "headers": [
+      "NUM",
+      "gpId",
+      "gpNm",
+      "tblId",
+      "tblNm",
+      "colId",
+      "colNm",
+      "dataType",
+      "colDesc",
+      "colCnt",
+      "dispFormat"
+    ]
+  },
+  "statistics": {
+    "metadataRows": 253,
+    "groups": 15,
+    "tables": 29,
+    "tablesWithPatientSubstituteKey": 19
+  },
+  "tables": [
+    {
+      "groupId": "LUNG_TRGT",
+      "groupName": "Summary",
+      "tableId": "LUNG_PT_TRGT",
+      "tableName": "기본정보",
+      "fields": [
+        {
+          "sequence": 1,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 24809,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PT_TRGT.PT_SBST_NO"
+        },
+        {
+          "sequence": 2,
+          "columnId": "SEX_CD",
+          "columnName": "성별 코드",
+          "dataType": "String(code)",
+          "description": "성별코드",
+          "reportedCount": 24791,
+          "displayFormat": "M 남 | F 여",
+          "sourceRecordId": "LUNG_PT_TRGT.SEX_CD"
+        },
+        {
+          "sequence": 3,
+          "columnId": "BRTH_YMD",
+          "columnName": "생년월일",
+          "dataType": "DATE",
+          "description": "생년월일",
+          "reportedCount": 24791,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PT_TRGT.BRTH_YMD"
+        },
+        {
+          "sequence": 4,
+          "columnId": "FRST_DIAG_CD",
+          "columnName": "최초 진단 코드",
+          "dataType": "String(code)",
+          "description": "최초진단코드",
+          "reportedCount": 24809,
+          "displayFormat": "원내검사 코드",
+          "sourceRecordId": "LUNG_PT_TRGT.FRST_DIAG_CD"
+        },
+        {
+          "sequence": 5,
+          "columnId": "FRST_DIAG_YMD",
+          "columnName": "최초 진단일",
+          "dataType": "DATE",
+          "description": "최초진단일자",
+          "reportedCount": 24809,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PT_TRGT.FRST_DIAG_YMD"
+        },
+        {
+          "sequence": 6,
+          "columnId": "FRST_DIAG_NM",
+          "columnName": "최초 진단명",
+          "dataType": "String(256)",
+          "description": "최초진단명",
+          "reportedCount": 24809,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PT_TRGT.FRST_DIAG_NM"
+        },
+        {
+          "sequence": 7,
+          "columnId": "DIAG_ATT_AGE",
+          "columnName": "진단 시 나이",
+          "dataType": "Integer(3)",
+          "description": "진단 시 나이",
+          "reportedCount": 24791,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PT_TRGT.DIAG_ATT_AGE"
+        },
+        {
+          "sequence": 8,
+          "columnId": "FRMD_YMD",
+          "columnName": "초진일",
+          "dataType": "DATE",
+          "description": "초진일자",
+          "reportedCount": 24391,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PT_TRGT.FRMD_YMD"
+        },
+        {
+          "sequence": 9,
+          "columnId": "FRST_OPRT_YMD",
+          "columnName": "최초 수술일",
+          "dataType": "DATE",
+          "description": "최초 수술일자",
+          "reportedCount": 5307,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PT_TRGT.FRST_OPRT_YMD"
+        },
+        {
+          "sequence": 10,
+          "columnId": "FRST_OPRT_NM",
+          "columnName": "최초 수술명",
+          "dataType": "String(256)",
+          "description": "최초 수술명",
+          "reportedCount": 5307,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PT_TRGT.FRST_OPRT_NM"
+        },
+        {
+          "sequence": 11,
+          "columnId": "CHMO_STRT_YMD",
+          "columnName": "항암치료 시작일",
+          "dataType": "DATE",
+          "description": "항암화학요법치료 시작일",
+          "reportedCount": 12065,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PT_TRGT.CHMO_STRT_YMD"
+        },
+        {
+          "sequence": 12,
+          "columnId": "RTX_STRT_YMD",
+          "columnName": "방사선치료 시작일",
+          "dataType": "DATE",
+          "description": "방사선치료시작일자",
+          "reportedCount": 7136,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PT_TRGT.RTX_STRT_YMD"
+        },
+        {
+          "sequence": 13,
+          "columnId": "DEAD_YMD",
+          "columnName": "사망일",
+          "dataType": "DATE",
+          "description": "사망일",
+          "reportedCount": 3816,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PT_TRGT.DEAD_YMD"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_CNDX_BDMS",
+      "groupName": "진단 및 신체",
+      "tableId": "LUNG_RG_CNDX",
+      "tableName": "진단정보",
+      "fields": [
+        {
+          "sequence": 14,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 39381,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_RG_CNDX.PT_SBST_NO"
+        },
+        {
+          "sequence": 15,
+          "columnId": "LUNG_DIAG_KIND_NM",
+          "columnName": "진단구분명",
+          "dataType": "String(50)",
+          "description": "폐암 진단 종류 명칭",
+          "reportedCount": 39381,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_RG_CNDX.LUNG_DIAG_KIND_NM"
+        },
+        {
+          "sequence": 16,
+          "columnId": "DIAG_YMD",
+          "columnName": "진단일",
+          "dataType": "DATE",
+          "description": "진단일자",
+          "reportedCount": 39381,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_RG_CNDX.DIAG_YMD"
+        },
+        {
+          "sequence": 17,
+          "columnId": "DIAG_CD",
+          "columnName": "진단 코드",
+          "dataType": "String(code)",
+          "description": "진단코드",
+          "reportedCount": 39381,
+          "displayFormat": "원내검사 코드",
+          "sourceRecordId": "LUNG_RG_CNDX.DIAG_CD"
+        },
+        {
+          "sequence": 18,
+          "columnId": "DIAG_NM",
+          "columnName": "진단명",
+          "dataType": "String(256)",
+          "description": "진단명",
+          "reportedCount": 39381,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_RG_CNDX.DIAG_NM"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_CNDX_BDMS",
+      "groupName": "진단 및 신체",
+      "tableId": "LUNG_PT_BDMS",
+      "tableName": "신체계측정보",
+      "fields": [
+        {
+          "sequence": 19,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 500357,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PT_BDMS.PT_SBST_NO"
+        },
+        {
+          "sequence": 20,
+          "columnId": "HT_MSRM_YMD",
+          "columnName": "신장 측정일",
+          "dataType": "DATE",
+          "description": "신장 측정 일",
+          "reportedCount": 75444,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PT_BDMS.HT_MSRM_YMD"
+        },
+        {
+          "sequence": 21,
+          "columnId": "HT_VL",
+          "columnName": "신장 (cm)",
+          "dataType": "Float(51)",
+          "description": "신장(cm)",
+          "reportedCount": 71180,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PT_BDMS.HT_VL"
+        },
+        {
+          "sequence": 22,
+          "columnId": "WT_MSRM_YMD",
+          "columnName": "체중 측정일",
+          "dataType": "DATE",
+          "description": "체중 측정 일",
+          "reportedCount": 499632,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PT_BDMS.WT_MSRM_YMD"
+        },
+        {
+          "sequence": 23,
+          "columnId": "WT_VL",
+          "columnName": "체중 (kg)",
+          "dataType": "Float(51)",
+          "description": "체중",
+          "reportedCount": 467196,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PT_BDMS.WT_VL"
+        },
+        {
+          "sequence": 24,
+          "columnId": "BMI_VL",
+          "columnName": "BMI",
+          "dataType": "Float(62)",
+          "description": "BMI",
+          "reportedCount": 67382,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PT_BDMS.BMI_VL"
+        },
+        {
+          "sequence": 25,
+          "columnId": "ECOG_CD",
+          "columnName": "ECOG 코드",
+          "dataType": "Integer(code)",
+          "description": "ECOG 전신상태평가",
+          "reportedCount": 20595,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PT_BDMS.ECOG_CD"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_CEXM_INIT",
+      "groupName": "Initial 진단검사",
+      "tableId": "LUNG_PE_CEXM_INIT",
+      "tableName": "Initial lab",
+      "fields": [
+        {
+          "sequence": 26,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 755482,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_CEXM_INIT.PT_SBST_NO"
+        },
+        {
+          "sequence": 27,
+          "columnId": "CEXM_YMD",
+          "columnName": "검사일",
+          "dataType": "DATE",
+          "description": "임상검사일자",
+          "reportedCount": 755482,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_CEXM_INIT.CEXM_YMD"
+        },
+        {
+          "sequence": 28,
+          "columnId": "CEXM_CLSF_NM",
+          "columnName": "검사 종류명",
+          "dataType": "String(20)",
+          "description": "검사종류명",
+          "reportedCount": 755482,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CEXM_INIT.CEXM_CLSF_NM"
+        },
+        {
+          "sequence": 29,
+          "columnId": "CEXM_NM",
+          "columnName": "검사명",
+          "dataType": "String(60)",
+          "description": "진단검사 명칭",
+          "reportedCount": 755482,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CEXM_INIT.CEXM_NM"
+        },
+        {
+          "sequence": 30,
+          "columnId": "CEXM_RSLT_CMNT",
+          "columnName": "검사 결과 내용",
+          "dataType": "String(100)",
+          "description": "임상검사결과내용",
+          "reportedCount": 700110,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_CEXM_INIT.CEXM_RSLT_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_MIEX_INIT",
+      "groupName": "Initial 영상검사",
+      "tableId": "LUNG_PE_MIEX_INIT",
+      "tableName": "Initial 영상",
+      "fields": [
+        {
+          "sequence": 31,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 27274,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_MIEX_INIT.PT_SBST_NO"
+        },
+        {
+          "sequence": 32,
+          "columnId": "MIEX_YMD",
+          "columnName": "검사일",
+          "dataType": "DATE",
+          "description": "영상검사 검사일",
+          "reportedCount": 27274,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_MIEX_INIT.MIEX_YMD"
+        },
+        {
+          "sequence": 33,
+          "columnId": "MIEX_INHS_YN",
+          "columnName": "외부/내부",
+          "dataType": "String(1)",
+          "description": "외부/내부",
+          "reportedCount": 27274,
+          "displayFormat": "Y : 내부 / N : 외부",
+          "sourceRecordId": "LUNG_PE_MIEX_INIT.MIEX_INHS_YN"
+        },
+        {
+          "sequence": 34,
+          "columnId": "MIEX_CLSF_NM",
+          "columnName": "검사 종류명",
+          "dataType": "String(200)",
+          "description": "영상검사 종류 명칭",
+          "reportedCount": 27274,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_MIEX_INIT.MIEX_CLSF_NM"
+        },
+        {
+          "sequence": 35,
+          "columnId": "MIEX_NM",
+          "columnName": "검사명",
+          "dataType": "String(60)",
+          "description": "영상검사명",
+          "reportedCount": 27274,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_MIEX_INIT.MIEX_NM"
+        },
+        {
+          "sequence": 36,
+          "columnId": "MIEX_RSLT_CMNT",
+          "columnName": "검사 결과 내용",
+          "dataType": "String(4000)",
+          "description": "검사결과내용",
+          "reportedCount": 27266,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_MIEX_INIT.MIEX_RSLT_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_BX_INIT",
+      "groupName": "Initial 병리검사",
+      "tableId": "LUNG_PE_BX_INIT",
+      "tableName": "Initial 병리 결과",
+      "fields": [
+        {
+          "sequence": 37,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 18640,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_BX_INIT.PT_SBST_NO"
+        },
+        {
+          "sequence": 38,
+          "columnId": "BX_ACPT_YMD",
+          "columnName": "접수일",
+          "dataType": "DATE",
+          "description": "Biopsy 접수일자",
+          "reportedCount": 18640,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_BX_INIT.BX_ACPT_YMD"
+        },
+        {
+          "sequence": 39,
+          "columnId": "BX_READ_YMD",
+          "columnName": "판독일",
+          "dataType": "DATE",
+          "description": "병리검사 판독 일",
+          "reportedCount": 18640,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_BX_INIT.BX_READ_YMD"
+        },
+        {
+          "sequence": 40,
+          "columnId": "BX_INHS_YN",
+          "columnName": "외부/내부",
+          "dataType": "String(1)",
+          "description": "Biopsy 내부여부 (Y:내부 N:외부 Initial Biopsy)",
+          "reportedCount": 18640,
+          "displayFormat": "Y : 내부 / N : 외부",
+          "sourceRecordId": "LUNG_PE_BX_INIT.BX_INHS_YN"
+        },
+        {
+          "sequence": 41,
+          "columnId": "BX_SITE_CMNT",
+          "columnName": "검사 부위 내용",
+          "dataType": "String(100)",
+          "description": "부위",
+          "reportedCount": 18640,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BX_INIT.BX_SITE_CMNT"
+        },
+        {
+          "sequence": 42,
+          "columnId": "BX_MTHD_CMNT",
+          "columnName": "검사 방법 내용",
+          "dataType": "String(100)",
+          "description": "Biopsy 방법",
+          "reportedCount": 18640,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BX_INIT.BX_MTHD_CMNT"
+        },
+        {
+          "sequence": 43,
+          "columnId": "BX_MTHD_DETL_CMNT",
+          "columnName": "검사 방법 상세 내용",
+          "dataType": "String(200)",
+          "description": "병리검사 방법 상세 내용",
+          "reportedCount": 197,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BX_INIT.BX_MTHD_DETL_CMNT"
+        },
+        {
+          "sequence": 44,
+          "columnId": "BX_RSLT_CMNT",
+          "columnName": "검사 결과 내용",
+          "dataType": "String(2000)",
+          "description": "결과",
+          "reportedCount": 18640,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_BX_INIT.BX_RSLT_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_BRON",
+      "groupName": "기관지내시경검사",
+      "tableId": "LUNG_PE_BRON",
+      "tableName": "기관지내시경검사 결과",
+      "fields": [
+        {
+          "sequence": 45,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 9261,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_BRON.PT_SBST_NO"
+        },
+        {
+          "sequence": 46,
+          "columnId": "BRON_YMD",
+          "columnName": "검사일",
+          "dataType": "DATE",
+          "description": "기관지내시경검사 검사일",
+          "reportedCount": 9261,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_YMD"
+        },
+        {
+          "sequence": 47,
+          "columnId": "BRON_NM",
+          "columnName": "검사명",
+          "dataType": "String(200)",
+          "description": "기관지내시경 검사명",
+          "reportedCount": 9261,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_NM"
+        },
+        {
+          "sequence": 48,
+          "columnId": "BRON_VCAL_CORD_NM",
+          "columnName": "Vocal cord 명",
+          "dataType": "String(400)",
+          "description": "Vocal cord",
+          "reportedCount": 8416,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_VCAL_CORD_NM"
+        },
+        {
+          "sequence": 49,
+          "columnId": "BRON_TRCH_NM",
+          "columnName": "Trachea 명",
+          "dataType": "String(400)",
+          "description": "Trachea",
+          "reportedCount": 8426,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_TRCH_NM"
+        },
+        {
+          "sequence": 50,
+          "columnId": "BRON_TRCH_DETL_CMNT",
+          "columnName": "Trachea 상세명",
+          "dataType": "String(400)",
+          "description": "Trachea 상세",
+          "reportedCount": 41,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_TRCH_DETL_CMNT"
+        },
+        {
+          "sequence": 51,
+          "columnId": "BRON_CRIN_NM",
+          "columnName": "Carina 명",
+          "dataType": "String(400)",
+          "description": "Carina",
+          "reportedCount": 8399,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_CRIN_NM"
+        },
+        {
+          "sequence": 52,
+          "columnId": "BRON_CRIN_DETL_CMNT",
+          "columnName": "Carina 상세명",
+          "dataType": "String(400)",
+          "description": "Carina 상세",
+          "reportedCount": 128,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_CRIN_DETL_CMNT"
+        },
+        {
+          "sequence": 53,
+          "columnId": "BRON_RT_CMNT",
+          "columnName": "Rt. Bronchus 명",
+          "dataType": "String(1000)",
+          "description": "Rt. Bronchus",
+          "reportedCount": 8419,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_RT_CMNT"
+        },
+        {
+          "sequence": 54,
+          "columnId": "BRON_LT_CMNT",
+          "columnName": "Lt. Bronchus 명",
+          "dataType": "String(1000)",
+          "description": "Lt. Bronchus",
+          "reportedCount": 8397,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_LT_CMNT"
+        },
+        {
+          "sequence": 55,
+          "columnId": "BRON_EBUS_TBNA_PRPS_NM",
+          "columnName": "EBUS-TBNA 목적명",
+          "dataType": "String(50)",
+          "description": "EBUS-TBNA 목적",
+          "reportedCount": 2498,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_EBUS_TBNA_PRPS_NM"
+        },
+        {
+          "sequence": 56,
+          "columnId": "BRON_EBUS_TBNA_NM",
+          "columnName": "EBUS-TBNA 명",
+          "dataType": "String(2000)",
+          "description": "EBUS-TBNA",
+          "reportedCount": 4544,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_EBUS_TBNA_NM"
+        },
+        {
+          "sequence": 57,
+          "columnId": "BRON_EBUS_TBNA_CMNT",
+          "columnName": "EBUS-TBNA 소견 내용",
+          "dataType": "String(1000)",
+          "description": "EBUS-TBNA 소견",
+          "reportedCount": 1886,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_EBUS_TBNA_CMNT"
+        },
+        {
+          "sequence": 58,
+          "columnId": "BRON_DIAG_CMNT",
+          "columnName": "Diagnosis 내용",
+          "dataType": "String(400)",
+          "description": "Diagnosis",
+          "reportedCount": 9190,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_DIAG_CMNT"
+        },
+        {
+          "sequence": 59,
+          "columnId": "BRON_DIAG_DETL_CMNT",
+          "columnName": "Diagnosis 상세 내용",
+          "dataType": "String(400)",
+          "description": "Diagnosis 상세",
+          "reportedCount": 3466,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_DIAG_DETL_CMNT"
+        },
+        {
+          "sequence": 60,
+          "columnId": "BRON_SCPE_CMNT",
+          "columnName": "Bronchoscope 명",
+          "dataType": "String(400)",
+          "description": "Bronchoscope",
+          "reportedCount": 2845,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_SCPE_CMNT"
+        },
+        {
+          "sequence": 61,
+          "columnId": "BRON_MEDI_MDZM_VL",
+          "columnName": "Medication Midazolam",
+          "dataType": "Float(5,1)",
+          "description": "Medication Midazolam",
+          "reportedCount": 4857,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_MEDI_MDZM_VL"
+        },
+        {
+          "sequence": 62,
+          "columnId": "BRON_MEDI_FNTY_VL",
+          "columnName": "Medication Fentanyl",
+          "dataType": "Float(5,1)",
+          "description": "Medication Fentanyl",
+          "reportedCount": 2981,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_BRON.BRON_MEDI_FNTY_VL"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_PFT",
+      "groupName": "폐기능검사",
+      "tableId": "LUNG_PE_PFT",
+      "tableName": "폐기능검사 결과",
+      "fields": [
+        {
+          "sequence": 63,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 202519,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_PFT.PT_SBST_NO"
+        },
+        {
+          "sequence": 64,
+          "columnId": "PFT_YMD",
+          "columnName": "검사일",
+          "dataType": "DATE",
+          "description": "폐기능검사일자",
+          "reportedCount": 202514,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_PFT.PFT_YMD"
+        },
+        {
+          "sequence": 65,
+          "columnId": "PFT_NM",
+          "columnName": "검사명",
+          "dataType": "String(200)",
+          "description": "폐기능검사명",
+          "reportedCount": 202517,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_PFT.PFT_NM"
+        },
+        {
+          "sequence": 66,
+          "columnId": "PFT_RSLT_VL",
+          "columnName": "검사 결과",
+          "dataType": "String(200)",
+          "description": "폐기능검사 검사결과",
+          "reportedCount": 202517,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_PFT.PFT_RSLT_VL"
+        },
+        {
+          "sequence": 67,
+          "columnId": "PFT_RSLT_CMNT",
+          "columnName": "검사 결과 내용",
+          "dataType": "String(2000)",
+          "description": "폐기능검사 결론",
+          "reportedCount": 202366,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_PFT.PFT_RSLT_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_MUTA",
+      "groupName": "Mutation",
+      "tableId": "LUNG_PE_MUTA",
+      "tableName": "Mutation 결과",
+      "fields": [
+        {
+          "sequence": 68,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 49917,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_MUTA.PT_SBST_NO"
+        },
+        {
+          "sequence": 69,
+          "columnId": "MUTA_YMD",
+          "columnName": "검사일",
+          "dataType": "DATE",
+          "description": "병리 검사일",
+          "reportedCount": 49917,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_MUTA.MUTA_YMD"
+        },
+        {
+          "sequence": 70,
+          "columnId": "MUTA_CLSF_NM",
+          "columnName": "검사 종류명",
+          "dataType": "String(200)",
+          "description": "병리 검사종류",
+          "reportedCount": 49917,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_MUTA.MUTA_CLSF_NM"
+        },
+        {
+          "sequence": 71,
+          "columnId": "MUTA_RSLT_CMNT",
+          "columnName": "검사 결과 내용",
+          "dataType": "String(200)",
+          "description": "병리 검사결과",
+          "reportedCount": 49917,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_MUTA.MUTA_RSLT_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_OPRT",
+      "groupName": "수술",
+      "tableId": "LUNG_PE_OPRT",
+      "tableName": "수술정보",
+      "fields": [
+        {
+          "sequence": 72,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 9923,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_OPRT.PT_SBST_NO"
+        },
+        {
+          "sequence": 73,
+          "columnId": "OPRT_YMD",
+          "columnName": "수술일",
+          "dataType": "DATE",
+          "description": "수술일자",
+          "reportedCount": 9923,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_OPRT.OPRT_YMD"
+        },
+        {
+          "sequence": 74,
+          "columnId": "OPRT_NM",
+          "columnName": "수술명",
+          "dataType": "String(256)",
+          "description": "수술명",
+          "reportedCount": 9923,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_OPRT.OPRT_NM"
+        },
+        {
+          "sequence": 75,
+          "columnId": "OPRT_ADM_YMD",
+          "columnName": "입원일",
+          "dataType": "DATE",
+          "description": "입원일",
+          "reportedCount": 9878,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_OPRT.OPRT_ADM_YMD"
+        },
+        {
+          "sequence": 76,
+          "columnId": "OPRT_DSCH_YMD",
+          "columnName": "퇴원일",
+          "dataType": "DATE",
+          "description": "퇴원일",
+          "reportedCount": 9878,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_OPRT.OPRT_DSCH_YMD"
+        },
+        {
+          "sequence": 77,
+          "columnId": "OPRT_ELTM",
+          "columnName": "수술소요시간",
+          "dataType": "String(5)",
+          "description": "수술소요시간",
+          "reportedCount": 9901,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_OPRT.OPRT_ELTM"
+        },
+        {
+          "sequence": 78,
+          "columnId": "EBL_QTY",
+          "columnName": "추정실혈량",
+          "dataType": "String(50)",
+          "description": "추정실혈(EBL) 량",
+          "reportedCount": 4168,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_OPRT.EBL_QTY"
+        },
+        {
+          "sequence": 79,
+          "columnId": "ANES_CLSF_NM",
+          "columnName": "마취 종류명",
+          "dataType": "String(20)",
+          "description": "마취종류명칭",
+          "reportedCount": 6726,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_OPRT.ANES_CLSF_NM"
+        },
+        {
+          "sequence": 80,
+          "columnId": "ANES_CLSF_DETL_NM",
+          "columnName": "마취 종류 상세명",
+          "dataType": "String(100)",
+          "description": "마취 종류 상세",
+          "reportedCount": 548,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_OPRT.ANES_CLSF_DETL_NM"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_OPRT",
+      "groupName": "수술",
+      "tableId": "LUNG_PE_OPRT_LIST",
+      "tableName": "수술내용",
+      "fields": [
+        {
+          "sequence": 81,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 6023,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_OPRT_LIST.PT_SBST_NO"
+        },
+        {
+          "sequence": 82,
+          "columnId": "OPRT_YMD",
+          "columnName": "수술일",
+          "dataType": "DATE",
+          "description": "수술일자",
+          "reportedCount": 6023,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_OPRT_LIST.OPRT_YMD"
+        },
+        {
+          "sequence": 83,
+          "columnId": "LESI_SITE_NM",
+          "columnName": "병변부위명",
+          "dataType": "String(100)",
+          "description": "병변위치",
+          "reportedCount": 5903,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_OPRT_LIST.LESI_SITE_NM"
+        },
+        {
+          "sequence": 84,
+          "columnId": "ANES_NM",
+          "columnName": "Anesthesia 명",
+          "dataType": "String(400)",
+          "description": "Anesthesia",
+          "reportedCount": 6022,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_OPRT_LIST.ANES_NM"
+        },
+        {
+          "sequence": 85,
+          "columnId": "ANES_DETL_NM",
+          "columnName": "Anesthesia 상세 명",
+          "dataType": "String(400)",
+          "description": "Anesthesia 상세",
+          "reportedCount": 6020,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_OPRT_LIST.ANES_DETL_NM"
+        },
+        {
+          "sequence": 86,
+          "columnId": "INCI_CMNT",
+          "columnName": "Incision 내용",
+          "dataType": "String(400)",
+          "description": "incision",
+          "reportedCount": 5512,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_OPRT_LIST.INCI_CMNT"
+        },
+        {
+          "sequence": 87,
+          "columnId": "ITRA_EVNT_YN",
+          "columnName": "Itraop event (수술 중 특이사항) 여부",
+          "dataType": "String(1)",
+          "description": "itraop event (수술 중 특이사항)",
+          "reportedCount": 2952,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_PE_OPRT_LIST.ITRA_EVNT_YN"
+        },
+        {
+          "sequence": 88,
+          "columnId": "ITRA_EVNT_DETL_CMNT",
+          "columnName": "Itraop event (수술 중 특이사항) 상세 내용",
+          "dataType": "String(400)",
+          "description": "itraop event (수술 중 특이사항) 상세",
+          "reportedCount": 145,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_OPRT_LIST.ITRA_EVNT_DETL_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_SPR",
+      "groupName": "외과병리",
+      "tableId": "LUNG_PE_SPR",
+      "tableName": "수술 후 결과",
+      "fields": [
+        {
+          "sequence": 89,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 6518,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_SPR.PT_SBST_NO"
+        },
+        {
+          "sequence": 90,
+          "columnId": "SPR_ACPT_YMD",
+          "columnName": "접수일",
+          "dataType": "DATE",
+          "description": "접수일",
+          "reportedCount": 6518,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_SPR.SPR_ACPT_YMD"
+        },
+        {
+          "sequence": 91,
+          "columnId": "SPR_READ_YMD",
+          "columnName": "판독일",
+          "dataType": "DATE",
+          "description": "판독일",
+          "reportedCount": 6518,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_SPR.SPR_READ_YMD"
+        },
+        {
+          "sequence": 92,
+          "columnId": "TUMR_SIZE_VL",
+          "columnName": "종양의 크기",
+          "dataType": "String(100)",
+          "description": "종양의 크기",
+          "reportedCount": 5892,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.TUMR_SIZE_VL"
+        },
+        {
+          "sequence": 93,
+          "columnId": "CELL_TYPE_CMNT",
+          "columnName": "Celltype 내용",
+          "dataType": "String(300)",
+          "description": "Cell type",
+          "reportedCount": 5948,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.CELL_TYPE_CMNT"
+        },
+        {
+          "sequence": 94,
+          "columnId": "ADC_SUB_TYPE_CMNT",
+          "columnName": "ADC_subtype 내용",
+          "dataType": "String(350)",
+          "description": "ADC_subtype",
+          "reportedCount": 1895,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.ADC_SUB_TYPE_CMNT"
+        },
+        {
+          "sequence": 95,
+          "columnId": "CELL_DIFF_CMNT",
+          "columnName": "CellDiff 내용",
+          "dataType": "String(150)",
+          "description": "CellDiff",
+          "reportedCount": 4704,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.CELL_DIFF_CMNT"
+        },
+        {
+          "sequence": 96,
+          "columnId": "VPI_CMNT",
+          "columnName": "VPI(invasion to visceral pleural pleura) 내용",
+          "dataType": "String(200)",
+          "description": "VPI(invasion to visceral pleural pleura)",
+          "reportedCount": 5402,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.VPI_CMNT"
+        },
+        {
+          "sequence": 97,
+          "columnId": "VPI_DETL_CMNT",
+          "columnName": "VPI(invasion to visceral pleural pleura) 상세 내용",
+          "dataType": "String(200)",
+          "description": "VPI(invasion to visceral pleural pleura) 상세",
+          "reportedCount": 67,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.VPI_DETL_CMNT"
+        },
+        {
+          "sequence": 98,
+          "columnId": "PPI_CMNT",
+          "columnName": "PPI(invasion to parietal pleura) 내용",
+          "dataType": "String(200)",
+          "description": "PPI(invasion to parietal pleura)",
+          "reportedCount": 899,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.PPI_CMNT"
+        },
+        {
+          "sequence": 99,
+          "columnId": "PPI_DETL_CMNT",
+          "columnName": "PPI(invasion to parietal pleura) 상세 내용",
+          "dataType": "String(200)",
+          "description": "PPI(invasion to parietal pleura) 상세",
+          "reportedCount": 26,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.PPI_DETL_CMNT"
+        },
+        {
+          "sequence": 100,
+          "columnId": "CWI_CMNT",
+          "columnName": "CWI(invasion to chest wall) 내용",
+          "dataType": "String(200)",
+          "description": "CWI(invasion to chest wall)",
+          "reportedCount": 130,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.CWI_CMNT"
+        },
+        {
+          "sequence": 101,
+          "columnId": "CWI_DETL_CMNT",
+          "columnName": "CWI(invasion to chest wall) 상세 내용",
+          "dataType": "String(200)",
+          "description": "CWI(invasion to chest wall) 상세",
+          "reportedCount": 10,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.CWI_DETL_CMNT"
+        },
+        {
+          "sequence": 102,
+          "columnId": "MAIN_BRON_CMNT",
+          "columnName": "Main bronchus 내용",
+          "dataType": "String(250)",
+          "description": "Main bronchus",
+          "reportedCount": 4272,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.MAIN_BRON_CMNT"
+        },
+        {
+          "sequence": 103,
+          "columnId": "VSCL_INVS_CMNT",
+          "columnName": "Vascular Invasion 내용",
+          "dataType": "String(200)",
+          "description": "Vascular invasion 내용 (microscopic)",
+          "reportedCount": 5454,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.VSCL_INVS_CMNT"
+        },
+        {
+          "sequence": 104,
+          "columnId": "LYMP_INVS_CMNT",
+          "columnName": "Lymphatic Invasion 내용",
+          "dataType": "String(200)",
+          "description": "Lymphatic Invasion 내용",
+          "reportedCount": 5599,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.LYMP_INVS_CMNT"
+        },
+        {
+          "sequence": 105,
+          "columnId": "LYMP_RACT_CMNT",
+          "columnName": "Lymphoplasmacytic reaction 내용",
+          "dataType": "String(250)",
+          "description": "Lymphoplasmacytic reaction",
+          "reportedCount": 5419,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.LYMP_RACT_CMNT"
+        },
+        {
+          "sequence": 106,
+          "columnId": "PERI_NURL_INVS_CMNT",
+          "columnName": "Perineural Invasion 내용",
+          "dataType": "String(200)",
+          "description": "Perineural invasion",
+          "reportedCount": 5498,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.PERI_NURL_INVS_CMNT"
+        },
+        {
+          "sequence": 107,
+          "columnId": "TUMR_NECR_CMNT",
+          "columnName": "Tumor Necrosis 내용",
+          "dataType": "String(250)",
+          "description": "Tumor necrosis",
+          "reportedCount": 5466,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.TUMR_NECR_CMNT"
+        },
+        {
+          "sequence": 108,
+          "columnId": "BRON_MRGN_CMNT",
+          "columnName": "Bronchial margin",
+          "dataType": "String(250)",
+          "description": "Bronchial margin",
+          "reportedCount": 4588,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.BRON_MRGN_CMNT"
+        },
+        {
+          "sequence": 109,
+          "columnId": "SAFE_MRGN_VL",
+          "columnName": "Safety margin",
+          "dataType": "String(250)",
+          "description": "Safety margin",
+          "reportedCount": 4860,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.SAFE_MRGN_VL"
+        },
+        {
+          "sequence": 110,
+          "columnId": "LYMP_DSCT_CMNT",
+          "columnName": "Dissected to Lymph node 내용",
+          "dataType": "String(1000)",
+          "description": "Dissected to Lymph node",
+          "reportedCount": 5220,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.LYMP_DSCT_CMNT"
+        },
+        {
+          "sequence": 111,
+          "columnId": "MTST_LN_CNT",
+          "columnName": "Metastatic LN 개수",
+          "dataType": "String(100)",
+          "description": "Metastatic LN 개수",
+          "reportedCount": 2763,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.MTST_LN_CNT"
+        },
+        {
+          "sequence": 112,
+          "columnId": "MTST_LN_SITE_CMNT",
+          "columnName": "Metastatic LN 부위 내용",
+          "dataType": "String(300)",
+          "description": "Metastatic LN 부위",
+          "reportedCount": 1590,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.MTST_LN_SITE_CMNT"
+        },
+        {
+          "sequence": 113,
+          "columnId": "PERI_NODL_EXTN_CMNT",
+          "columnName": "Perinodal Extension 내용",
+          "dataType": "String(200)",
+          "description": "Perinodal extension",
+          "reportedCount": 1576,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.PERI_NODL_EXTN_CMNT"
+        },
+        {
+          "sequence": 114,
+          "columnId": "MTST_SIZE_CMNT",
+          "columnName": "Size of metastatic carcinoma",
+          "dataType": "String(300)",
+          "description": "Size of metastatic carcinoma",
+          "reportedCount": 1563,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.MTST_SIZE_CMNT"
+        },
+        {
+          "sequence": 115,
+          "columnId": "ADDI_PATH_FIND_CMNT",
+          "columnName": "additonal pathologic findings 내용",
+          "dataType": "String(400)",
+          "description": "additonal pathologic findings",
+          "reportedCount": 5163,
+          "displayFormat": "Free 텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.ADDI_PATH_FIND_CMNT"
+        },
+        {
+          "sequence": 116,
+          "columnId": "PATH_STAG",
+          "columnName": "Pathologic Stage",
+          "dataType": "String(20)",
+          "description": "병리 Stage",
+          "reportedCount": 5458,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.PATH_STAG"
+        },
+        {
+          "sequence": 117,
+          "columnId": "PATH_OTHR_STAG",
+          "columnName": "그 외 Pathologic stage",
+          "dataType": "String(20)",
+          "description": "그 외 Pathologic stage",
+          "reportedCount": 614,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.PATH_OTHR_STAG"
+        },
+        {
+          "sequence": 118,
+          "columnId": "PATH_T_STAG",
+          "columnName": "T Stage",
+          "dataType": "String(10)",
+          "description": "병리 T Stage",
+          "reportedCount": 5438,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.PATH_T_STAG"
+        },
+        {
+          "sequence": 119,
+          "columnId": "PATH_N_STAG",
+          "columnName": "N Stage",
+          "dataType": "String(10)",
+          "description": "병리 N Stage",
+          "reportedCount": 5299,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.PATH_N_STAG"
+        },
+        {
+          "sequence": 120,
+          "columnId": "PATH_M_STAG",
+          "columnName": "M stage",
+          "dataType": "String(10)",
+          "description": "병리 M Stage",
+          "reportedCount": 47,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_SPR.PATH_M_STAG"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_CHMO",
+      "groupName": "항암치료",
+      "tableId": "LUNG_PE_CHMO_CEXM",
+      "tableName": "항암치료 전 검체검사",
+      "fields": [
+        {
+          "sequence": 121,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 445627,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_CHMO_CEXM.PT_SBST_NO"
+        },
+        {
+          "sequence": 122,
+          "columnId": "CEXM_YMD",
+          "columnName": "검사일",
+          "dataType": "DATE",
+          "description": "임상검사일자",
+          "reportedCount": 445627,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_CHMO_CEXM.CEXM_YMD"
+        },
+        {
+          "sequence": 123,
+          "columnId": "CEXM_CLSF_NM",
+          "columnName": "검사 종류명",
+          "dataType": "String(20)",
+          "description": "검사종류명",
+          "reportedCount": 445627,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_CEXM.CEXM_CLSF_NM"
+        },
+        {
+          "sequence": 124,
+          "columnId": "CEXM_NM",
+          "columnName": "검사명",
+          "dataType": "String(60)",
+          "description": "진단검사 명칭",
+          "reportedCount": 445627,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_CEXM.CEXM_NM"
+        },
+        {
+          "sequence": 125,
+          "columnId": "CEXM_RSLT_CMNT",
+          "columnName": "검사 결과 내용",
+          "dataType": "String(200)",
+          "description": "임상검사결과내용",
+          "reportedCount": 412393,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_CEXM.CEXM_RSLT_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_CHMO",
+      "groupName": "항암치료",
+      "tableId": "LUNG_PE_CHMO",
+      "tableName": "항암치료정보",
+      "fields": [
+        {
+          "sequence": 126,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 72374,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_CHMO.PT_SBST_NO"
+        },
+        {
+          "sequence": 127,
+          "columnId": "CHMO_YN",
+          "columnName": "항암치료 여부",
+          "dataType": "String(1)",
+          "description": "항암화학요법치료 유무",
+          "reportedCount": 72374,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_PE_CHMO.CHMO_YN"
+        },
+        {
+          "sequence": 128,
+          "columnId": "CHMO_KIND_NM",
+          "columnName": "항암치료 구분명",
+          "dataType": "String(10)",
+          "description": "항암 구분 명칭",
+          "reportedCount": 60299,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO.CHMO_KIND_NM"
+        },
+        {
+          "sequence": 129,
+          "columnId": "CHMO_STRT_YMD",
+          "columnName": "시작일",
+          "dataType": "DATE",
+          "description": "항암치료 시작일",
+          "reportedCount": 60299,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_CHMO.CHMO_STRT_YMD"
+        },
+        {
+          "sequence": 130,
+          "columnId": "CHMO_END_YMD",
+          "columnName": "종료일",
+          "dataType": "DATE",
+          "description": "항암치료 종료일",
+          "reportedCount": 60299,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_CHMO.CHMO_END_YMD"
+        },
+        {
+          "sequence": 131,
+          "columnId": "CHMO_PRPS_NM",
+          "columnName": "목적명",
+          "dataType": "String(50)",
+          "description": "목적코드",
+          "reportedCount": 44235,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO.CHMO_PRPS_NM"
+        },
+        {
+          "sequence": 132,
+          "columnId": "ANCD_NM",
+          "columnName": "약품명",
+          "dataType": "String(200)",
+          "description": "항암제명",
+          "reportedCount": 60299,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO.ANCD_NM"
+        },
+        {
+          "sequence": 133,
+          "columnId": "ANCD_INGR_NM",
+          "columnName": "성분명",
+          "dataType": "String(200)",
+          "description": "항암제성분명",
+          "reportedCount": 60299,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO.ANCD_INGR_NM"
+        },
+        {
+          "sequence": 134,
+          "columnId": "CHMO_CYCL_VL",
+          "columnName": "Cycle",
+          "dataType": "Integer(4)",
+          "description": "항암화학요법치료 Cycle",
+          "reportedCount": 60299,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_CHMO.CHMO_CYCL_VL"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_RTX",
+      "groupName": "방사선 치료",
+      "tableId": "LUNG_PE_RTX",
+      "tableName": "방사선치료정보",
+      "fields": [
+        {
+          "sequence": 135,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 13393,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_RTX.PT_SBST_NO"
+        },
+        {
+          "sequence": 136,
+          "columnId": "RTX_RT_NO",
+          "columnName": "RT 번호",
+          "dataType": "Integer(4)",
+          "description": "방사선치료 RT 번호",
+          "reportedCount": 13393,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_RTX.RTX_RT_NO"
+        },
+        {
+          "sequence": 137,
+          "columnId": "RTX_SITE_NM",
+          "columnName": "치료 부위명",
+          "dataType": "String(100)",
+          "description": "방사선치료 치료 부위",
+          "reportedCount": 13393,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_RTX.RTX_SITE_NM"
+        },
+        {
+          "sequence": 138,
+          "columnId": "RTX_ORD_NM",
+          "columnName": "치료 처방명",
+          "dataType": "String(100)",
+          "description": "방사선치료 처방 명칭",
+          "reportedCount": 13393,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_RTX.RTX_ORD_NM"
+        },
+        {
+          "sequence": 139,
+          "columnId": "RTX_STRT_YMD",
+          "columnName": "방사선치료 시작일",
+          "dataType": "DATE",
+          "description": "방사선치료시작일자",
+          "reportedCount": 13393,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_RTX.RTX_STRT_YMD"
+        },
+        {
+          "sequence": 140,
+          "columnId": "RTX_END_YMD",
+          "columnName": "방사선치료 종료일",
+          "dataType": "DATE",
+          "description": "방사선치료종료일자",
+          "reportedCount": 13393,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_RTX.RTX_END_YMD"
+        },
+        {
+          "sequence": 141,
+          "columnId": "UNIT_CGY",
+          "columnName": "1회 선량",
+          "dataType": "Integer(5)",
+          "description": "1회 선량",
+          "reportedCount": 13393,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_RTX.UNIT_CGY"
+        },
+        {
+          "sequence": 142,
+          "columnId": "TOTL_CGY",
+          "columnName": "총 선량",
+          "dataType": "Integer(5)",
+          "description": "총 선량",
+          "reportedCount": 13393,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_RTX.TOTL_CGY"
+        },
+        {
+          "sequence": 143,
+          "columnId": "TOTL_TRTM_TNOT",
+          "columnName": "총 실시 횟수",
+          "dataType": "Integer(4)",
+          "description": "총 실시횟수",
+          "reportedCount": 13393,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_RTX.TOTL_TRTM_TNOT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_EVAL_DEAD",
+      "groupName": "치료평가 및 사망정보",
+      "tableId": "LUNG_PE_EVAL",
+      "tableName": "치료평가",
+      "fields": [
+        {
+          "sequence": 144,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 24809,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_EVAL.PT_SBST_NO"
+        },
+        {
+          "sequence": 145,
+          "columnId": "NCC_LAST_VSHS_YMD",
+          "columnName": "NCC 최종 내원일",
+          "dataType": "DATE",
+          "description": "NCC 최종 내원 일",
+          "reportedCount": 24748,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_EVAL.NCC_LAST_VSHS_YMD"
+        },
+        {
+          "sequence": 146,
+          "columnId": "LUNG_LAST_VSHS_YMD",
+          "columnName": "폐암센터 최종 내원일",
+          "dataType": "DATE",
+          "description": "폐암센터 최종 내원일",
+          "reportedCount": 24438,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_EVAL.LUNG_LAST_VSHS_YMD"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_EVAL_DEAD",
+      "groupName": "치료평가 및 사망정보",
+      "tableId": "LUNG_PT_DEAD",
+      "tableName": "사망정보",
+      "fields": [
+        {
+          "sequence": 147,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 24809,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PT_DEAD.PT_SBST_NO"
+        },
+        {
+          "sequence": 148,
+          "columnId": "DEAD_YN",
+          "columnName": "사망 여부",
+          "dataType": "String(1)",
+          "description": "사망여부",
+          "reportedCount": 24809,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_PT_DEAD.DEAD_YN"
+        },
+        {
+          "sequence": 149,
+          "columnId": "DEAD_YMD",
+          "columnName": "사망일",
+          "dataType": "DATE",
+          "description": "사망일",
+          "reportedCount": 3816,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PT_DEAD.DEAD_YMD"
+        },
+        {
+          "sequence": 150,
+          "columnId": "MAIN_DEAD_CAUS_CMNT",
+          "columnName": "주 사망 원인 내용",
+          "dataType": "String(100)",
+          "description": "주 사망 원인 내용",
+          "reportedCount": 3654,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PT_DEAD.MAIN_DEAD_CAUS_CMNT"
+        },
+        {
+          "sequence": 151,
+          "columnId": "ETC_DEAD_CAUS_1_CMNT",
+          "columnName": "기타 사망 원인 1 내용",
+          "dataType": "String(100)",
+          "description": "기타 사망 원인 1 내용",
+          "reportedCount": 1324,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PT_DEAD.ETC_DEAD_CAUS_1_CMNT"
+        },
+        {
+          "sequence": 152,
+          "columnId": "ETC_DEAD_CAUS_2_CMNT",
+          "columnName": "기타 사망 원인 2 내용",
+          "dataType": "String(100)",
+          "description": "기타 사망 원인 2 내용",
+          "reportedCount": 626,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PT_DEAD.ETC_DEAD_CAUS_2_CMNT"
+        },
+        {
+          "sequence": 153,
+          "columnId": "ETC_DEAD_CAUS_3_CMNT",
+          "columnName": "기타 사망 원인 3 내용",
+          "dataType": "String(100)",
+          "description": "기타 사망 원인 3 내용",
+          "reportedCount": 197,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PT_DEAD.ETC_DEAD_CAUS_3_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_1",
+      "tableName": "입원정보",
+      "fields": [
+        {
+          "sequence": 154,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 35914,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_MR_HLTH_1.PT_SBST_NO"
+        },
+        {
+          "sequence": 155,
+          "columnId": "ADM_YMD",
+          "columnName": "입원일",
+          "dataType": "DATE",
+          "description": "입원 일",
+          "reportedCount": 35914,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_MR_HLTH_1.ADM_YMD"
+        },
+        {
+          "sequence": 156,
+          "columnId": "ADM_ATT_AGE",
+          "columnName": "입원 시 나이",
+          "dataType": "Integer(4)",
+          "description": "입원 시 나이",
+          "reportedCount": 35914,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_MR_HLTH_1.ADM_ATT_AGE"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_2",
+      "tableName": "교육정도/직업",
+      "fields": [
+        {
+          "sequence": 157,
+          "columnId": "EDU_DGRE_CD",
+          "columnName": "교육정도코드",
+          "dataType": "Integer(code)",
+          "description": "교육정도코드",
+          "reportedCount": 34354,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_MR_HLTH_2.EDU_DGRE_CD"
+        },
+        {
+          "sequence": 158,
+          "columnId": "EDU_DGRE_ETC_CMNT",
+          "columnName": "교육정도기타내용",
+          "dataType": "String(100)",
+          "description": "교육정도기타내용",
+          "reportedCount": 123,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_2.EDU_DGRE_ETC_CMNT"
+        },
+        {
+          "sequence": 159,
+          "columnId": "JOB_KIND_CD",
+          "columnName": "직업종류코드",
+          "dataType": "Integer(code)",
+          "description": "직업종류코드",
+          "reportedCount": 30521,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_MR_HLTH_2.JOB_KIND_CD"
+        },
+        {
+          "sequence": 160,
+          "columnId": "JOB_KIND_ETC_CMNT",
+          "columnName": "직업종류기타내용",
+          "dataType": "String(100)",
+          "description": "직업종류기타내용",
+          "reportedCount": 30520,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_2.JOB_KIND_ETC_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_3",
+      "tableName": "음주력",
+      "fields": [
+        {
+          "sequence": 161,
+          "columnId": "DRNK_YN",
+          "columnName": "음주유무",
+          "dataType": "String(1)",
+          "description": "음주유무",
+          "reportedCount": 35911,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_3.DRNK_YN"
+        },
+        {
+          "sequence": 162,
+          "columnId": "DRNK_STRT_AGE",
+          "columnName": "음주시작연령",
+          "dataType": "String(10)",
+          "description": "음주시작연령",
+          "reportedCount": 12893,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_3.DRNK_STRT_AGE"
+        },
+        {
+          "sequence": 163,
+          "columnId": "DRNK_KIND_CD",
+          "columnName": "음주종류코드",
+          "dataType": "Integer(code)",
+          "description": "음주종류코드",
+          "reportedCount": 19267,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_MR_HLTH_3.DRNK_KIND_CD"
+        },
+        {
+          "sequence": 164,
+          "columnId": "DRNK_KIND_ETC_CMNT",
+          "columnName": "음주종류기타내용",
+          "dataType": "String(50)",
+          "description": "음주종류기타내용",
+          "reportedCount": 824,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_3.DRNK_KIND_ETC_CMNT"
+        },
+        {
+          "sequence": 165,
+          "columnId": "DRNK_QTY",
+          "columnName": "음주량(병/회)",
+          "dataType": "String(50)",
+          "description": "음주량(병/회)",
+          "reportedCount": 18797,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_3.DRNK_QTY"
+        },
+        {
+          "sequence": 166,
+          "columnId": "DRNK_TNOT",
+          "columnName": "음주횟수(회/월)",
+          "dataType": "String(50)",
+          "description": "음주횟수(회/월)",
+          "reportedCount": 18070,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_3.DRNK_TNOT"
+        },
+        {
+          "sequence": 167,
+          "columnId": "DRNK_DRTN",
+          "columnName": "음주기간(년)",
+          "dataType": "String(50)",
+          "description": "음주기간(년)",
+          "reportedCount": 18565,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_3.DRNK_DRTN"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_4",
+      "tableName": "흡연력",
+      "fields": [
+        {
+          "sequence": 168,
+          "columnId": "SMOK_CURR_YN",
+          "columnName": "흡연현재유무",
+          "dataType": "String(1)",
+          "description": "흡연현재유무",
+          "reportedCount": 17500,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_4.SMOK_CURR_YN"
+        },
+        {
+          "sequence": 169,
+          "columnId": "SMOK_YN",
+          "columnName": "흡연력유무",
+          "dataType": "String(1)",
+          "description": "흡연력유무",
+          "reportedCount": 35911,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_4.SMOK_YN"
+        },
+        {
+          "sequence": 170,
+          "columnId": "SMOK_STRT_AGE",
+          "columnName": "흡연시작연령",
+          "dataType": "String(10)",
+          "description": "흡연시작연령",
+          "reportedCount": 16877,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_4.SMOK_STRT_AGE"
+        },
+        {
+          "sequence": 171,
+          "columnId": "SMOK_QTY",
+          "columnName": "흡연량(갑/일)",
+          "dataType": "String(10)",
+          "description": "흡연량(갑/일)",
+          "reportedCount": 23422,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_4.SMOK_QTY"
+        },
+        {
+          "sequence": 172,
+          "columnId": "SMOK_DRTN",
+          "columnName": "흡연기간(년)",
+          "dataType": "String(10)",
+          "description": "흡연기간(년)",
+          "reportedCount": 23461,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_4.SMOK_DRTN"
+        },
+        {
+          "sequence": 173,
+          "columnId": "NSMK_STRT_MMNT",
+          "columnName": "금연시작시기",
+          "dataType": "String(10)",
+          "description": "금연시작시기",
+          "reportedCount": 17352,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_4.NSMK_STRT_MMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_5",
+      "tableName": "가족력(부)",
+      "fields": [
+        {
+          "sequence": 174,
+          "columnId": "FMHS_FATH_YN",
+          "columnName": "가족병력(부)유무 (Y:유 N:무)",
+          "dataType": "String(1)",
+          "description": "가족병력(부)유무 (Y:유 N:무)",
+          "reportedCount": 23008,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_5.FMHS_FATH_YN"
+        },
+        {
+          "sequence": 175,
+          "columnId": "FMHS_FATH_HTN_YN",
+          "columnName": "가족병력(부)고혈압여부",
+          "dataType": "String(1)",
+          "description": "가족병력(부)고혈압여부",
+          "reportedCount": 23008,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_5.FMHS_FATH_HTN_YN"
+        },
+        {
+          "sequence": 176,
+          "columnId": "FMHS_FATH_DM_YN",
+          "columnName": "가족병력(부)당뇨여부",
+          "dataType": "String(1)",
+          "description": "가족병력(부)당뇨여부",
+          "reportedCount": 23008,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_5.FMHS_FATH_DM_YN"
+        },
+        {
+          "sequence": 177,
+          "columnId": "FMHS_FATH_TB_YN",
+          "columnName": "가족병력(부)결핵여부",
+          "dataType": "String(1)",
+          "description": "가족병력(부)결핵여부",
+          "reportedCount": 23008,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_5.FMHS_FATH_TB_YN"
+        },
+        {
+          "sequence": 178,
+          "columnId": "FMHS_FATH_LVDZ_YN",
+          "columnName": "가족병력(부)간질환여부",
+          "dataType": "String(1)",
+          "description": "가족병력(부)간질환여부",
+          "reportedCount": 23008,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_5.FMHS_FATH_LVDZ_YN"
+        },
+        {
+          "sequence": 179,
+          "columnId": "FMHS_FATH_CNCR_YN",
+          "columnName": "가족병력(부)암여부",
+          "dataType": "String(1)",
+          "description": "가족병력(부)암여부",
+          "reportedCount": 23008,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_5.FMHS_FATH_CNCR_YN"
+        },
+        {
+          "sequence": 180,
+          "columnId": "FMHS_FATH_CNCR_CD",
+          "columnName": "가족병력(부)암종코드",
+          "dataType": "Integer(code)",
+          "description": "가족병력(부)암종코드",
+          "reportedCount": 2340,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_MR_HLTH_5.FMHS_FATH_CNCR_CD"
+        },
+        {
+          "sequence": 181,
+          "columnId": "FMHS_FATH_ETC_YN",
+          "columnName": "가족병력(부)기타여부",
+          "dataType": "String(1)",
+          "description": "가족병력(부)기타여부",
+          "reportedCount": 23008,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_5.FMHS_FATH_ETC_YN"
+        },
+        {
+          "sequence": 182,
+          "columnId": "FMHS_FATH_ETC_CMNT",
+          "columnName": "가족병력 (부) 기타 내용",
+          "dataType": "String(100)",
+          "description": "가족병력 (부) 기타 내용",
+          "reportedCount": 4192,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_5.FMHS_FATH_ETC_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_6",
+      "tableName": "가족력(모)",
+      "fields": [
+        {
+          "sequence": 183,
+          "columnId": "FMHS_MOTH_YN",
+          "columnName": "가족병력(모)유무 (Y:유 N:무)",
+          "dataType": "String(1)",
+          "description": "가족병력(모)유무 (Y:유 N:무)",
+          "reportedCount": 22501,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_6.FMHS_MOTH_YN"
+        },
+        {
+          "sequence": 184,
+          "columnId": "FMHS_MOTH_HTN_YN",
+          "columnName": "가족병력(모)고혈압여부",
+          "dataType": "String(1)",
+          "description": "가족병력(모)고혈압여부",
+          "reportedCount": 22501,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_6.FMHS_MOTH_HTN_YN"
+        },
+        {
+          "sequence": 185,
+          "columnId": "FMHS_MOTH_DM_YN",
+          "columnName": "가족병력(모)당뇨여부",
+          "dataType": "String(1)",
+          "description": "가족병력(모)당뇨여부",
+          "reportedCount": 22501,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_6.FMHS_MOTH_DM_YN"
+        },
+        {
+          "sequence": 186,
+          "columnId": "FMHS_MOTH_TB_YN",
+          "columnName": "가족병력(모)결핵여부",
+          "dataType": "String(1)",
+          "description": "가족병력(모)결핵여부",
+          "reportedCount": 22501,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_6.FMHS_MOTH_TB_YN"
+        },
+        {
+          "sequence": 187,
+          "columnId": "FMHS_MOTH_LVDZ_YN",
+          "columnName": "가족병력(모)간질환여부",
+          "dataType": "String(1)",
+          "description": "가족병력(모)간질환여부",
+          "reportedCount": 22501,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_6.FMHS_MOTH_LVDZ_YN"
+        },
+        {
+          "sequence": 188,
+          "columnId": "FMHS_MOTH_CNCR_YN",
+          "columnName": "가족병력(모)암여부",
+          "dataType": "String(1)",
+          "description": "가족병력(모)암여부",
+          "reportedCount": 22501,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_6.FMHS_MOTH_CNCR_YN"
+        },
+        {
+          "sequence": 189,
+          "columnId": "FMHS_MOTH_CNCR_CD",
+          "columnName": "가족병력(모)암종코드",
+          "dataType": "Integer(code)",
+          "description": "가족병력(모)암종코드",
+          "reportedCount": 1595,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_MR_HLTH_6.FMHS_MOTH_CNCR_CD"
+        },
+        {
+          "sequence": 190,
+          "columnId": "FMHS_MOTH_ETC_YN",
+          "columnName": "가족병력(모)기타여부",
+          "dataType": "String(1)",
+          "description": "가족병력(모)기타여부",
+          "reportedCount": 22501,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_6.FMHS_MOTH_ETC_YN"
+        },
+        {
+          "sequence": 191,
+          "columnId": "FMHS_MOTH_ETC_CMNT",
+          "columnName": "가족병력 (모) 기타 내용",
+          "dataType": "String(100)",
+          "description": "가족병력 (모) 기타 내용",
+          "reportedCount": 3108,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_6.FMHS_MOTH_ETC_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_7",
+      "tableName": "가족력(자녀)",
+      "fields": [
+        {
+          "sequence": 192,
+          "columnId": "FMHS_CHLD_YN",
+          "columnName": "가족병력(자녀)유무 (Y:유 N:무)",
+          "dataType": "String(1)",
+          "description": "가족병력(자녀)무 (N유 Y무)",
+          "reportedCount": 16395,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_7.FMHS_CHLD_YN"
+        },
+        {
+          "sequence": 193,
+          "columnId": "FMHS_CHLD_HTN_YN",
+          "columnName": "가족병력(자녀)고혈압여부",
+          "dataType": "String(1)",
+          "description": "가족병력(자녀)고혈압여부",
+          "reportedCount": 16395,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_7.FMHS_CHLD_HTN_YN"
+        },
+        {
+          "sequence": 194,
+          "columnId": "FMHS_CHLD_DM_YN",
+          "columnName": "가족병력(자녀)당뇨여부",
+          "dataType": "String(1)",
+          "description": "가족병력(자녀)당뇨여부",
+          "reportedCount": 16395,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_7.FMHS_CHLD_DM_YN"
+        },
+        {
+          "sequence": 195,
+          "columnId": "FMHS_CHLD_TB_YN",
+          "columnName": "가족병력(자녀)결핵여부",
+          "dataType": "String(1)",
+          "description": "가족병력(자녀)결핵여부",
+          "reportedCount": 16395,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_7.FMHS_CHLD_TB_YN"
+        },
+        {
+          "sequence": 196,
+          "columnId": "FMHS_CHLD_LVDZ_YN",
+          "columnName": "가족병력(자녀)간질환여부",
+          "dataType": "String(1)",
+          "description": "가족병력(자녀)간질환여부",
+          "reportedCount": 16395,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_7.FMHS_CHLD_LVDZ_YN"
+        },
+        {
+          "sequence": 197,
+          "columnId": "FMHS_CHLD_CNCR_YN",
+          "columnName": "가족병력(자녀)암여부",
+          "dataType": "String(1)",
+          "description": "가족병력(자녀)암여부",
+          "reportedCount": 16395,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_7.FMHS_CHLD_CNCR_YN"
+        },
+        {
+          "sequence": 198,
+          "columnId": "FMHS_CHLD_CNCR_CD",
+          "columnName": "가족병력(자녀)암종코드",
+          "dataType": "Integer(code)",
+          "description": "가족병력(자녀)암종코드",
+          "reportedCount": 203,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_MR_HLTH_7.FMHS_CHLD_CNCR_CD"
+        },
+        {
+          "sequence": 199,
+          "columnId": "FMHS_CHLD_ETC_YN",
+          "columnName": "가족병력(자녀)기타여부",
+          "dataType": "String(1)",
+          "description": "가족병력(자녀)기타여부",
+          "reportedCount": 16395,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_7.FMHS_CHLD_ETC_YN"
+        },
+        {
+          "sequence": 200,
+          "columnId": "FMHS_CHLD_ETC_CMNT",
+          "columnName": "가족병력 (자녀) 기타 내용",
+          "dataType": "String(100)",
+          "description": "가족병력(자녀)내용",
+          "reportedCount": 234,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_7.FMHS_CHLD_ETC_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_8",
+      "tableName": "가족력(형제/자매)",
+      "fields": [
+        {
+          "sequence": 201,
+          "columnId": "FMHS_BRSI_YN",
+          "columnName": "가족병력(형제/자매)유무 (Y:유 N:무)",
+          "dataType": "String(1)",
+          "description": "가족병력(형제/자매)유무 (Y:유 N:무)",
+          "reportedCount": 23358,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_8.FMHS_BRSI_YN"
+        },
+        {
+          "sequence": 202,
+          "columnId": "FMHS_BRSI_HTN_YN",
+          "columnName": "가족병력(형제/자매)고혈압여부",
+          "dataType": "String(1)",
+          "description": "가족병력(형제/자매)고혈압여부",
+          "reportedCount": 23358,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_8.FMHS_BRSI_HTN_YN"
+        },
+        {
+          "sequence": 203,
+          "columnId": "FMHS_BRSI_DM_YN",
+          "columnName": "가족병력(형제/자매)당뇨여부",
+          "dataType": "String(1)",
+          "description": "가족병력(형제/자매)당뇨여부",
+          "reportedCount": 23358,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_8.FMHS_BRSI_DM_YN"
+        },
+        {
+          "sequence": 204,
+          "columnId": "FMHS_BRSI_TB_YN",
+          "columnName": "가족병력(형제/자매)결핵여부",
+          "dataType": "String(1)",
+          "description": "가족병력(형제/자매)결핵여부",
+          "reportedCount": 23358,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_8.FMHS_BRSI_TB_YN"
+        },
+        {
+          "sequence": 205,
+          "columnId": "FMHS_BRSI_LVDZ_YN",
+          "columnName": "가족병력(형제/자매)간질환여부",
+          "dataType": "String(1)",
+          "description": "가족병력(형제/자매)간질환여부",
+          "reportedCount": 23358,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_8.FMHS_BRSI_LVDZ_YN"
+        },
+        {
+          "sequence": 206,
+          "columnId": "FMHS_BRSI_CNCR_YN",
+          "columnName": "가족병력(형제/자매)암여부",
+          "dataType": "String(1)",
+          "description": "가족병력(형제/자매)암여부",
+          "reportedCount": 23358,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_8.FMHS_BRSI_CNCR_YN"
+        },
+        {
+          "sequence": 207,
+          "columnId": "FMHS_BRSI_CNCR_CD",
+          "columnName": "가족병력(형제/자매)암종코드",
+          "dataType": "Integer(code)",
+          "description": "가족병력(형제/자매)암종코드",
+          "reportedCount": 2723,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_MR_HLTH_8.FMHS_BRSI_CNCR_CD"
+        },
+        {
+          "sequence": 208,
+          "columnId": "FMHS_BRSI_ETC_YN",
+          "columnName": "가족병력(형제/자매)기타여부",
+          "dataType": "String(1)",
+          "description": "가족병력(형제/자매)기타여부",
+          "reportedCount": 23358,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_8.FMHS_BRSI_ETC_YN"
+        },
+        {
+          "sequence": 209,
+          "columnId": "FMHS_BRSI_ETC_CMNT",
+          "columnName": "가족병력 (형제/자매) 기타 내용",
+          "dataType": "String(100)",
+          "description": "가족병력 (형제/자매) 기타 내용",
+          "reportedCount": 5377,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_8.FMHS_BRSI_ETC_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_9",
+      "tableName": "가족력(기타)",
+      "fields": [
+        {
+          "sequence": 210,
+          "columnId": "FMHS_ETC_YN",
+          "columnName": "가족병력기타유무 (Y:유 N:무)",
+          "dataType": "String(1)",
+          "description": "가족병력기타무 (N유 Y무)",
+          "reportedCount": 17500,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_9.FMHS_ETC_YN"
+        },
+        {
+          "sequence": 211,
+          "columnId": "FMHS_ETC_CMNT",
+          "columnName": "가족병력기타내용",
+          "dataType": "String(100)",
+          "description": "가족병력기타내용",
+          "reportedCount": 1655,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_9.FMHS_ETC_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_10",
+      "tableName": "과거력",
+      "fields": [
+        {
+          "sequence": 212,
+          "columnId": "PHIS_YN",
+          "columnName": "과거병력유무 (Y:유 N:무)",
+          "dataType": "String(1)",
+          "description": "과거병력유무 (Y:유 N:무)",
+          "reportedCount": 31410,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_YN"
+        },
+        {
+          "sequence": 213,
+          "columnId": "PHIS_HTN_YN",
+          "columnName": "과거병력고혈압여부",
+          "dataType": "String(1)",
+          "description": "과거병력고혈압여부",
+          "reportedCount": 31410,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_HTN_YN"
+        },
+        {
+          "sequence": 214,
+          "columnId": "PHIS_DM_YN",
+          "columnName": "과거병력당뇨여부",
+          "dataType": "String(1)",
+          "description": "과거병력당뇨여부",
+          "reportedCount": 31410,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_DM_YN"
+        },
+        {
+          "sequence": 215,
+          "columnId": "PHIS_TB_YN",
+          "columnName": "과거병력결핵여부",
+          "dataType": "String(1)",
+          "description": "과거병력결핵여부",
+          "reportedCount": 31410,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_TB_YN"
+        },
+        {
+          "sequence": 216,
+          "columnId": "PHIS_LVDZ_YN",
+          "columnName": "과거병력간질환여부",
+          "dataType": "String(1)",
+          "description": "과거병력간질환여부",
+          "reportedCount": 31410,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_LVDZ_YN"
+        },
+        {
+          "sequence": 217,
+          "columnId": "PHIS_CNCR_YN",
+          "columnName": "과거병력암여부",
+          "dataType": "String(1)",
+          "description": "과거병력암여부",
+          "reportedCount": 31410,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_CNCR_YN"
+        },
+        {
+          "sequence": 218,
+          "columnId": "PHIS_DEPR_YN",
+          "columnName": "과거병력우울증여부",
+          "dataType": "String(1)",
+          "description": "과거병력우울증여부",
+          "reportedCount": 31410,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_DEPR_YN"
+        },
+        {
+          "sequence": 219,
+          "columnId": "PHIS_INSM_YN",
+          "columnName": "과거병력불면증여부",
+          "dataType": "String(1)",
+          "description": "과거병력불면증여부",
+          "reportedCount": 31410,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_INSM_YN"
+        },
+        {
+          "sequence": 220,
+          "columnId": "PHIS_CADZ_YN",
+          "columnName": "과거병력심장질환여부",
+          "dataType": "String(1)",
+          "description": "과거병력심장질환여부",
+          "reportedCount": 31410,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_CADZ_YN"
+        },
+        {
+          "sequence": 221,
+          "columnId": "PHIS_ETC_YN",
+          "columnName": "과거병력기타여부",
+          "dataType": "String(1)",
+          "description": "과거병력기타여부",
+          "reportedCount": 31410,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_ETC_YN"
+        },
+        {
+          "sequence": 222,
+          "columnId": "PHIS_HTN_CMNT",
+          "columnName": "과거병력고혈압내용",
+          "dataType": "String(100)",
+          "description": "과거병력고혈압내용",
+          "reportedCount": 8206,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_HTN_CMNT"
+        },
+        {
+          "sequence": 223,
+          "columnId": "PHIS_DM_CMNT",
+          "columnName": "과거병력당뇨내용",
+          "dataType": "String(100)",
+          "description": "과거병력당뇨내용",
+          "reportedCount": 4282,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_DM_CMNT"
+        },
+        {
+          "sequence": 224,
+          "columnId": "PHIS_CADZ_CMNT",
+          "columnName": "과거병력심장질환내용",
+          "dataType": "String(100)",
+          "description": "과거병력심장질환내용",
+          "reportedCount": 1451,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_CADZ_CMNT"
+        },
+        {
+          "sequence": 225,
+          "columnId": "PHIS_ETC_CMNT",
+          "columnName": "과거병력기타내용",
+          "dataType": "String(100)",
+          "description": "과거병력기타내용",
+          "reportedCount": 15130,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_10.PHIS_ETC_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_HLTH",
+      "groupName": "환자건강정보",
+      "tableId": "LUNG_MR_HLTH_11",
+      "tableName": "주 증상",
+      "fields": [
+        {
+          "sequence": 226,
+          "columnId": "MAIN_SYMP_YN",
+          "columnName": "주 증상 여부",
+          "dataType": "String(1)",
+          "description": "주증상유무",
+          "reportedCount": 17500,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_MR_HLTH_11.MAIN_SYMP_YN"
+        },
+        {
+          "sequence": 227,
+          "columnId": "MAIN_SYMP_CMNT",
+          "columnName": "주증상내용",
+          "dataType": "String(100)",
+          "description": "주증상내용",
+          "reportedCount": 30592,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_MR_HLTH_11.MAIN_SYMP_CMNT"
+        }
+      ]
+    },
+    {
+      "groupId": "LUNG_CHMO_FLST",
+      "groupName": "항암 FlowSheet",
+      "tableId": "LUNG_PE_CHMO_FLST",
+      "tableName": "Flow Sheet",
+      "fields": [
+        {
+          "sequence": 228,
+          "columnId": "PT_SBST_NO",
+          "columnName": "환자대체번호",
+          "dataType": "String(10)",
+          "description": "환자대체번호",
+          "reportedCount": 128430,
+          "displayFormat": "RN+비식별숫자(8)",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.PT_SBST_NO"
+        },
+        {
+          "sequence": 229,
+          "columnId": "CHMO_FLST_YN",
+          "columnName": "존재 여부",
+          "dataType": "String(1)",
+          "description": "존재여부",
+          "reportedCount": 128430,
+          "displayFormat": "Y : 유 / N : 무",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.CHMO_FLST_YN"
+        },
+        {
+          "sequence": 230,
+          "columnId": "CHMO_STRT_YMD",
+          "columnName": "시작일",
+          "dataType": "DATE",
+          "description": "항암치료 시작일",
+          "reportedCount": 128428,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.CHMO_STRT_YMD"
+        },
+        {
+          "sequence": 231,
+          "columnId": "CHMO_END_YMD",
+          "columnName": "종료일",
+          "dataType": "DATE",
+          "description": "항암치료 종료일",
+          "reportedCount": 2232,
+          "displayFormat": "YYYY-MM-DD",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.CHMO_END_YMD"
+        },
+        {
+          "sequence": 232,
+          "columnId": "CHMO_PRPS_NM",
+          "columnName": "목적명",
+          "dataType": "String(50)",
+          "description": "목적코드",
+          "reportedCount": 128126,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.CHMO_PRPS_NM"
+        },
+        {
+          "sequence": 233,
+          "columnId": "CHMO_LINE_CNT",
+          "columnName": "LINE",
+          "dataType": "Integer(4)",
+          "description": "항암화학요법치료 LINE",
+          "reportedCount": 128430,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.CHMO_LINE_CNT"
+        },
+        {
+          "sequence": 234,
+          "columnId": "CHMO_CYCL_VL",
+          "columnName": "Cycle",
+          "dataType": "Integer(4)",
+          "description": "항암화학요법치료 Cycle",
+          "reportedCount": 128430,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.CHMO_CYCL_VL"
+        },
+        {
+          "sequence": 235,
+          "columnId": "CHMO_REGM_CMNT",
+          "columnName": "Regimen 내용",
+          "dataType": "String(100)",
+          "description": "항암화학요법치료 Regimen 내용",
+          "reportedCount": 128430,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.CHMO_REGM_CMNT"
+        },
+        {
+          "sequence": 236,
+          "columnId": "WBC_VL",
+          "columnName": "WBC",
+          "dataType": "String(20)",
+          "description": "WBC",
+          "reportedCount": 125345,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.WBC_VL"
+        },
+        {
+          "sequence": 237,
+          "columnId": "HB_VL",
+          "columnName": "HB",
+          "dataType": "String(20)",
+          "description": "HB",
+          "reportedCount": 125377,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.HB_VL"
+        },
+        {
+          "sequence": 238,
+          "columnId": "PLT_VL",
+          "columnName": "PLT",
+          "dataType": "String(20)",
+          "description": "PLT",
+          "reportedCount": 125350,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.PLT_VL"
+        },
+        {
+          "sequence": 239,
+          "columnId": "ANC_VL",
+          "columnName": "ANC",
+          "dataType": "Integer(5)",
+          "description": "ANC 수치",
+          "reportedCount": 117341,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.ANC_VL"
+        },
+        {
+          "sequence": 240,
+          "columnId": "TBIL_VL",
+          "columnName": "TBIL",
+          "dataType": "String(20)",
+          "description": "TBIL",
+          "reportedCount": 124085,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.TBIL_VL"
+        },
+        {
+          "sequence": 241,
+          "columnId": "AST_VL",
+          "columnName": "AST",
+          "dataType": "String(20)",
+          "description": "AST",
+          "reportedCount": 124162,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.AST_VL"
+        },
+        {
+          "sequence": 242,
+          "columnId": "ALT_VL",
+          "columnName": "ALT",
+          "dataType": "String(20)",
+          "description": "ALT",
+          "reportedCount": 124161,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.ALT_VL"
+        },
+        {
+          "sequence": 243,
+          "columnId": "CR_VL",
+          "columnName": "CR",
+          "dataType": "String(20)",
+          "description": "CR",
+          "reportedCount": 124281,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.CR_VL"
+        },
+        {
+          "sequence": 244,
+          "columnId": "FATG_CMNT",
+          "columnName": "FATIGUE 내용",
+          "dataType": "String(50)",
+          "description": "FATIGUE",
+          "reportedCount": 128430,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.FATG_CMNT"
+        },
+        {
+          "sequence": 245,
+          "columnId": "NV_CMNT",
+          "columnName": "NV 내용",
+          "dataType": "String(50)",
+          "description": "NV",
+          "reportedCount": 128430,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.NV_CMNT"
+        },
+        {
+          "sequence": 246,
+          "columnId": "CSTP_CMNT",
+          "columnName": "CONSTIPATION 내용",
+          "dataType": "String(50)",
+          "description": "CONSTIPATION",
+          "reportedCount": 128430,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.CSTP_CMNT"
+        },
+        {
+          "sequence": 247,
+          "columnId": "DIAR_CMNT",
+          "columnName": "DIARRHEA 내용",
+          "dataType": "String(50)",
+          "description": "DIARRHEA",
+          "reportedCount": 128430,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.DIAR_CMNT"
+        },
+        {
+          "sequence": 248,
+          "columnId": "SKIN_RASH_CMNT",
+          "columnName": "SKINRASH 내용",
+          "dataType": "String(50)",
+          "description": "SKINRASH",
+          "reportedCount": 128430,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.SKIN_RASH_CMNT"
+        },
+        {
+          "sequence": 249,
+          "columnId": "MCST_CMNT",
+          "columnName": "MUCOSITIS 내용",
+          "dataType": "String(50)",
+          "description": "MUCOSITIS",
+          "reportedCount": 128430,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.MCST_CMNT"
+        },
+        {
+          "sequence": 250,
+          "columnId": "NURO_PTHY_CMNT",
+          "columnName": "NEUROPATHY 내용",
+          "dataType": "String(50)",
+          "description": "NEUROPATHY",
+          "reportedCount": 128430,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.NURO_PTHY_CMNT"
+        },
+        {
+          "sequence": 251,
+          "columnId": "ECOG_CD",
+          "columnName": "ECOG 코드",
+          "dataType": "Integer(code)",
+          "description": "ECOG 전신상태평가",
+          "reportedCount": 70183,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.ECOG_CD"
+        },
+        {
+          "sequence": 252,
+          "columnId": "WT_VL",
+          "columnName": "체중 (kg)",
+          "dataType": "String(8)",
+          "description": "체중",
+          "reportedCount": 121580,
+          "displayFormat": "텍스트",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.WT_VL"
+        },
+        {
+          "sequence": 253,
+          "columnId": "BSA_VL",
+          "columnName": "BSA",
+          "dataType": "Float(102)",
+          "description": "체표면적",
+          "reportedCount": 121542,
+          "displayFormat": "숫자",
+          "sourceRecordId": "LUNG_PE_CHMO_FLST.BSA_VL"
+        }
+      ]
+    }
+  ],
+  "mappings": {
+    "pathologyReview": [
+      {
+        "targetKey": "tumorSize",
+        "label": "종양 크기",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 92,
+        "columnId": "TUMR_SIZE_VL",
+        "columnName": "종양의 크기",
+        "dataType": "String(100)",
+        "description": "종양의 크기",
+        "reportedCount": 5892,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.TUMR_SIZE_VL"
+      },
+      {
+        "targetKey": "diagnosis",
+        "label": "조직학적 진단명",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 93,
+        "columnId": "CELL_TYPE_CMNT",
+        "columnName": "Celltype 내용",
+        "dataType": "String(300)",
+        "description": "Cell type",
+        "reportedCount": 5948,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.CELL_TYPE_CMNT"
+      },
+      {
+        "targetKey": "adenocarcinomaSubtype",
+        "label": "선암 아형",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 94,
+        "columnId": "ADC_SUB_TYPE_CMNT",
+        "columnName": "ADC_subtype 내용",
+        "dataType": "String(350)",
+        "description": "ADC_subtype",
+        "reportedCount": 1895,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.ADC_SUB_TYPE_CMNT"
+      },
+      {
+        "targetKey": "grade",
+        "label": "분화도",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 95,
+        "columnId": "CELL_DIFF_CMNT",
+        "columnName": "CellDiff 내용",
+        "dataType": "String(150)",
+        "description": "CellDiff",
+        "reportedCount": 4704,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.CELL_DIFF_CMNT"
+      },
+      {
+        "targetKey": "bronchialMargin",
+        "label": "기관지 절제연",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 108,
+        "columnId": "BRON_MRGN_CMNT",
+        "columnName": "Bronchial margin",
+        "dataType": "String(250)",
+        "description": "Bronchial margin",
+        "reportedCount": 4588,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.BRON_MRGN_CMNT"
+      },
+      {
+        "targetKey": "safetyMargin",
+        "label": "안전 절제연",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 109,
+        "columnId": "SAFE_MRGN_VL",
+        "columnName": "Safety margin",
+        "dataType": "String(250)",
+        "description": "Safety margin",
+        "reportedCount": 4860,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.SAFE_MRGN_VL"
+      },
+      {
+        "targetKey": "dissectedNodes",
+        "label": "절제 림프절",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 110,
+        "columnId": "LYMP_DSCT_CMNT",
+        "columnName": "Dissected to Lymph node 내용",
+        "dataType": "String(1000)",
+        "description": "Dissected to Lymph node",
+        "reportedCount": 5220,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.LYMP_DSCT_CMNT"
+      },
+      {
+        "targetKey": "metastaticNodeCount",
+        "label": "전이 림프절 수",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 111,
+        "columnId": "MTST_LN_CNT",
+        "columnName": "Metastatic LN 개수",
+        "dataType": "String(100)",
+        "description": "Metastatic LN 개수",
+        "reportedCount": 2763,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.MTST_LN_CNT"
+      },
+      {
+        "targetKey": "pathologicStage",
+        "label": "병리학적 병기",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 116,
+        "columnId": "PATH_STAG",
+        "columnName": "Pathologic Stage",
+        "dataType": "String(20)",
+        "description": "병리 Stage",
+        "reportedCount": 5458,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.PATH_STAG"
+      },
+      {
+        "targetKey": "pathologicT",
+        "label": "병리 T 병기",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 118,
+        "columnId": "PATH_T_STAG",
+        "columnName": "T Stage",
+        "dataType": "String(10)",
+        "description": "병리 T Stage",
+        "reportedCount": 5438,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.PATH_T_STAG"
+      },
+      {
+        "targetKey": "pathologicN",
+        "label": "병리 N 병기",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 119,
+        "columnId": "PATH_N_STAG",
+        "columnName": "N Stage",
+        "dataType": "String(10)",
+        "description": "병리 N Stage",
+        "reportedCount": 5299,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.PATH_N_STAG"
+      },
+      {
+        "targetKey": "pathologicM",
+        "label": "병리 M 병기",
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "sequence": 120,
+        "columnId": "PATH_M_STAG",
+        "columnName": "M stage",
+        "dataType": "String(10)",
+        "description": "병리 M Stage",
+        "reportedCount": 47,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_SPR.PATH_M_STAG"
+      },
+      {
+        "targetKey": "molecularTestName",
+        "label": "분자검사 종류",
+        "tableId": "LUNG_PE_MUTA",
+        "tableName": "Mutation 결과",
+        "sequence": 70,
+        "columnId": "MUTA_CLSF_NM",
+        "columnName": "검사 종류명",
+        "dataType": "String(200)",
+        "description": "병리 검사종류",
+        "reportedCount": 49917,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_MUTA.MUTA_CLSF_NM"
+      },
+      {
+        "targetKey": "molecularResult",
+        "label": "분자검사 결과",
+        "tableId": "LUNG_PE_MUTA",
+        "tableName": "Mutation 결과",
+        "sequence": 71,
+        "columnId": "MUTA_RSLT_CMNT",
+        "columnName": "검사 결과 내용",
+        "dataType": "String(200)",
+        "description": "병리 검사결과",
+        "reportedCount": 49917,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_MUTA.MUTA_RSLT_CMNT"
+      }
+    ],
+    "referralSupport": [
+      {
+        "targetKey": "receivedDate",
+        "tableId": "LUNG_PE_BX_INIT",
+        "tableName": "Initial 병리 결과",
+        "sequence": 38,
+        "columnId": "BX_ACPT_YMD",
+        "columnName": "접수일",
+        "dataType": "DATE",
+        "description": "Biopsy 접수일자",
+        "reportedCount": 18640,
+        "displayFormat": "YYYY-MM-DD",
+        "sourceRecordId": "LUNG_PE_BX_INIT.BX_ACPT_YMD"
+      },
+      {
+        "targetKey": "reportedDate",
+        "tableId": "LUNG_PE_BX_INIT",
+        "tableName": "Initial 병리 결과",
+        "sequence": 39,
+        "columnId": "BX_READ_YMD",
+        "columnName": "판독일",
+        "dataType": "DATE",
+        "description": "병리검사 판독 일",
+        "reportedCount": 18640,
+        "displayFormat": "YYYY-MM-DD",
+        "sourceRecordId": "LUNG_PE_BX_INIT.BX_READ_YMD"
+      },
+      {
+        "targetKey": "internalExternal",
+        "tableId": "LUNG_PE_BX_INIT",
+        "tableName": "Initial 병리 결과",
+        "sequence": 40,
+        "columnId": "BX_INHS_YN",
+        "columnName": "외부/내부",
+        "dataType": "String(1)",
+        "description": "Biopsy 내부여부 (Y:내부 N:외부 Initial Biopsy)",
+        "reportedCount": 18640,
+        "displayFormat": "Y : 내부 / N : 외부",
+        "sourceRecordId": "LUNG_PE_BX_INIT.BX_INHS_YN"
+      },
+      {
+        "targetKey": "site",
+        "tableId": "LUNG_PE_BX_INIT",
+        "tableName": "Initial 병리 결과",
+        "sequence": 41,
+        "columnId": "BX_SITE_CMNT",
+        "columnName": "검사 부위 내용",
+        "dataType": "String(100)",
+        "description": "부위",
+        "reportedCount": 18640,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_BX_INIT.BX_SITE_CMNT"
+      },
+      {
+        "targetKey": "method",
+        "tableId": "LUNG_PE_BX_INIT",
+        "tableName": "Initial 병리 결과",
+        "sequence": 42,
+        "columnId": "BX_MTHD_CMNT",
+        "columnName": "검사 방법 내용",
+        "dataType": "String(100)",
+        "description": "Biopsy 방법",
+        "reportedCount": 18640,
+        "displayFormat": "텍스트",
+        "sourceRecordId": "LUNG_PE_BX_INIT.BX_MTHD_CMNT"
+      },
+      {
+        "targetKey": "result",
+        "tableId": "LUNG_PE_BX_INIT",
+        "tableName": "Initial 병리 결과",
+        "sequence": 44,
+        "columnId": "BX_RSLT_CMNT",
+        "columnName": "검사 결과 내용",
+        "dataType": "String(2000)",
+        "description": "결과",
+        "reportedCount": 18640,
+        "displayFormat": "Free 텍스트",
+        "sourceRecordId": "LUNG_PE_BX_INIT.BX_RSLT_CMNT"
+      }
+    ],
+    "dashboard": [
+      {
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "columnId": "TUMR_SIZE_VL",
+        "columnName": "종양의 크기",
+        "label": "종양 크기",
+        "reportedCount": 5892,
+        "denominatorColumnId": "PT_SBST_NO",
+        "denominatorReportedCount": 6518,
+        "reportedAvailabilityRate": 0.9039582694077938
+      },
+      {
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "columnId": "CELL_TYPE_CMNT",
+        "columnName": "Celltype 내용",
+        "label": "조직학적 진단명",
+        "reportedCount": 5948,
+        "denominatorColumnId": "PT_SBST_NO",
+        "denominatorReportedCount": 6518,
+        "reportedAvailabilityRate": 0.9125498619208346
+      },
+      {
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "columnId": "CELL_DIFF_CMNT",
+        "columnName": "CellDiff 내용",
+        "label": "분화도",
+        "reportedCount": 4704,
+        "denominatorColumnId": "PT_SBST_NO",
+        "denominatorReportedCount": 6518,
+        "reportedAvailabilityRate": 0.7216937710954281
+      },
+      {
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "columnId": "BRON_MRGN_CMNT",
+        "columnName": "Bronchial margin",
+        "label": "기관지 절제연",
+        "reportedCount": 4588,
+        "denominatorColumnId": "PT_SBST_NO",
+        "denominatorReportedCount": 6518,
+        "reportedAvailabilityRate": 0.7038969008898435
+      },
+      {
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "columnId": "MTST_LN_CNT",
+        "columnName": "Metastatic LN 개수",
+        "label": "전이 림프절 수",
+        "reportedCount": 2763,
+        "denominatorColumnId": "PT_SBST_NO",
+        "denominatorReportedCount": 6518,
+        "reportedAvailabilityRate": 0.42390303774163857
+      },
+      {
+        "tableId": "LUNG_PE_SPR",
+        "tableName": "수술 후 결과",
+        "columnId": "PATH_STAG",
+        "columnName": "Pathologic Stage",
+        "label": "병리학적 병기",
+        "reportedCount": 5458,
+        "denominatorColumnId": "PT_SBST_NO",
+        "denominatorReportedCount": 6518,
+        "reportedAvailabilityRate": 0.8373734274317275
+      }
+    ],
+    "patientTimeline": {
+      "key": "PT_SBST_NO",
+      "scope": "핵심 테이블의 환자 단위 연관 후보",
+      "tables": [
+        {
+          "tableId": "LUNG_PT_TRGT",
+          "tableName": "기본정보",
+          "patientKey": "PT_SBST_NO",
+          "patientKeyReportedCount": 24809
+        },
+        {
+          "tableId": "LUNG_RG_CNDX",
+          "tableName": "진단정보",
+          "patientKey": "PT_SBST_NO",
+          "patientKeyReportedCount": 39381
+        },
+        {
+          "tableId": "LUNG_PE_BX_INIT",
+          "tableName": "Initial 병리 결과",
+          "patientKey": "PT_SBST_NO",
+          "patientKeyReportedCount": 18640
+        },
+        {
+          "tableId": "LUNG_PE_OPRT",
+          "tableName": "수술정보",
+          "patientKey": "PT_SBST_NO",
+          "patientKeyReportedCount": 9923
+        },
+        {
+          "tableId": "LUNG_PE_SPR",
+          "tableName": "수술 후 결과",
+          "patientKey": "PT_SBST_NO",
+          "patientKeyReportedCount": 6518
+        },
+        {
+          "tableId": "LUNG_PE_MUTA",
+          "tableName": "Mutation 결과",
+          "patientKey": "PT_SBST_NO",
+          "patientKeyReportedCount": 49917
+        },
+        {
+          "tableId": "LUNG_PE_CHMO",
+          "tableName": "항암치료정보",
+          "patientKey": "PT_SBST_NO",
+          "patientKeyReportedCount": 72374
+        },
+        {
+          "tableId": "LUNG_PE_RTX",
+          "tableName": "방사선치료정보",
+          "patientKey": "PT_SBST_NO",
+          "patientKeyReportedCount": 13393
+        },
+        {
+          "tableId": "LUNG_PT_DEAD",
+          "tableName": "사망정보",
+          "patientKey": "PT_SBST_NO",
+          "patientKeyReportedCount": 24809
+        }
+      ],
+      "missingKeys": [
+        "specimen_id",
+        "material_id",
+        "surgical_report_id",
+        "molecular_order_id",
+        "molecular_result_id"
+      ]
+    }
+  },
+  "interpretation": {
+    "supported": [
+      "병리 결과 구조화 필드와 데이터 형식의 근거 참조",
+      "레지스트리 데이터 항목 정의 RAG",
+      "colCnt 기반 메타정보상 보고 건수와 제공 비율 표시",
+      "향후 합성 레코드의 환자 단위 치료 타임라인 스키마 설계"
+    ],
+    "unsupported": [
+      "이 메타정보만을 이용한 환자별 치료 경로 또는 생존율 계산",
+      "검체·블록·보고서·분자검사 결과 단위 연결",
+      "진단·판독·병기 산출 또는 자동 확정"
+    ],
+    "reportedCountCaution": "colCnt의 공식 산정 정의가 파일에 없으므로 결측률이 아니라 메타정보상 보고 건수·제공 비율로 표시합니다."
+  }
+}

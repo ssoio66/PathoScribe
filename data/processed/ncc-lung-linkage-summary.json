@@ -1,0 +1,271 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-22T13:30:47.913Z",
+  "source": {
+    "provider": "국립암센터",
+    "title": "암 임상 라이브러리 합성데이터 (폐암)",
+    "archiveDate": "2025-01-07",
+    "archiveSha256": "89A1350DD6A9560803389ACF7779058A719270716D026AC49CECF5B398B96AAC",
+    "workbookEntry": "암임상 라이브러리 합성데이터 train test set(폐암).xlsx",
+    "workbookSha256": "234A35E8483CA9DEFDF441DD45D57648E8E5A80F989F6ECE2444A568A3F321E6"
+  },
+  "workbook": {
+    "sheets": [
+      {
+        "name": "Adjusted_synlung_trainset",
+        "partition": "train",
+        "dimension": "A1:AH10001",
+        "dataRows": 10000,
+        "sequence": {
+          "sourceHeader": "순번(No)",
+          "uniqueWithinSheet": true,
+          "min": 0,
+          "max": 9999
+        }
+      },
+      {
+        "name": "Adjusted_synlung_test",
+        "partition": "test",
+        "dimension": "A1:AH5001",
+        "dataRows": 5000,
+        "sequence": {
+          "sourceHeader": "순번(No)",
+          "uniqueWithinSheet": true,
+          "min": 0,
+          "max": 4999
+        }
+      }
+    ],
+    "columnCount": 34,
+    "columns": [
+      {
+        "excelColumn": "A",
+        "sourceHeader": "순번(No)"
+      },
+      {
+        "excelColumn": "B",
+        "sourceHeader": "진단시연령(AGE)"
+      },
+      {
+        "excelColumn": "C",
+        "sourceHeader": "조직학적진단명 코드 설명(Adenocarcinoma)"
+      },
+      {
+        "excelColumn": "D",
+        "sourceHeader": "조직학적진단명 코드 설명(Large cell carcinoma)"
+      },
+      {
+        "excelColumn": "E",
+        "sourceHeader": "조직학적진단명 코드 설명(Squamous cell carcinoma)"
+      },
+      {
+        "excelColumn": "F",
+        "sourceHeader": "병기STAGE(TX)"
+      },
+      {
+        "excelColumn": "G",
+        "sourceHeader": "병기STAGE(T0)"
+      },
+      {
+        "excelColumn": "H",
+        "sourceHeader": "병기STAGE(T1)"
+      },
+      {
+        "excelColumn": "I",
+        "sourceHeader": "병기STAGE(T1a)"
+      },
+      {
+        "excelColumn": "J",
+        "sourceHeader": "병기STAGE(T1b)"
+      },
+      {
+        "excelColumn": "K",
+        "sourceHeader": "병기STAGE(T1c)"
+      },
+      {
+        "excelColumn": "L",
+        "sourceHeader": "병기STAGE(T2)"
+      },
+      {
+        "excelColumn": "M",
+        "sourceHeader": "병기STAGE(T2a)"
+      },
+      {
+        "excelColumn": "N",
+        "sourceHeader": "병기STAGE(T2b)"
+      },
+      {
+        "excelColumn": "O",
+        "sourceHeader": "병기STAGE(T3)"
+      },
+      {
+        "excelColumn": "P",
+        "sourceHeader": "병기STAGE(T4)"
+      },
+      {
+        "excelColumn": "Q",
+        "sourceHeader": "병기STAGE(N1)"
+      },
+      {
+        "excelColumn": "R",
+        "sourceHeader": "병기STAGE(N2)"
+      },
+      {
+        "excelColumn": "S",
+        "sourceHeader": "병기STAGE(N3)"
+      },
+      {
+        "excelColumn": "T",
+        "sourceHeader": "병기STAGE(M1a)"
+      },
+      {
+        "excelColumn": "U",
+        "sourceHeader": "병기STAGE(M1b)"
+      },
+      {
+        "excelColumn": "V",
+        "sourceHeader": "병기STAGE(M1c)"
+      },
+      {
+        "excelColumn": "W",
+        "sourceHeader": "음주종류(Type of Drink)"
+      },
+      {
+        "excelColumn": "X",
+        "sourceHeader": "흡연여부(Smoke)"
+      },
+      {
+        "excelColumn": "Y",
+        "sourceHeader": "신장값(Height)"
+      },
+      {
+        "excelColumn": "Z",
+        "sourceHeader": "체중측정값(Weight)"
+      },
+      {
+        "excelColumn": "AA",
+        "sourceHeader": "FEV 검사 값(FEV1_FVC_P)"
+      },
+      {
+        "excelColumn": "AB",
+        "sourceHeader": "DLCO 검사 값(DLCO_VA_P)"
+      },
+      {
+        "excelColumn": "AC",
+        "sourceHeader": "EGFR mutation 발견 여부(EGFR mutation Detection)"
+      },
+      {
+        "excelColumn": "AD",
+        "sourceHeader": "수술여부(Operation)"
+      },
+      {
+        "excelColumn": "AE",
+        "sourceHeader": "항암치료여부(Chemotherapy)"
+      },
+      {
+        "excelColumn": "AF",
+        "sourceHeader": "방사선치료여부(Radiation Therapy)"
+      },
+      {
+        "excelColumn": "AG",
+        "sourceHeader": "사망여부(Death)"
+      },
+      {
+        "excelColumn": "AH",
+        "sourceHeader": "암진단후생존일수(Survival period)"
+      }
+    ]
+  },
+  "mapping": {
+    "sourceRecordId": {
+      "expression": "ncc-lung:{partition}:{순번(No)}",
+      "sourceHeaders": [
+        "순번(No)"
+      ],
+      "scope": "합성데이터 원본 행 식별용이며 환자·검체·보고서 식별자가 아님"
+    },
+    "pathologyProxy": {
+      "sourceHeaders": [
+        "조직학적진단명 코드 설명(Adenocarcinoma)",
+        "조직학적진단명 코드 설명(Large cell carcinoma)",
+        "조직학적진단명 코드 설명(Squamous cell carcinoma)",
+        "병기STAGE(TX)",
+        "병기STAGE(T0)",
+        "병기STAGE(T1)",
+        "병기STAGE(T1a)",
+        "병기STAGE(T1b)",
+        "병기STAGE(T1c)",
+        "병기STAGE(T2)",
+        "병기STAGE(T2a)",
+        "병기STAGE(T2b)",
+        "병기STAGE(T3)",
+        "병기STAGE(T4)",
+        "병기STAGE(N1)",
+        "병기STAGE(N2)",
+        "병기STAGE(N3)",
+        "병기STAGE(M1a)",
+        "병기STAGE(M1b)",
+        "병기STAGE(M1c)",
+        "수술여부(Operation)"
+      ],
+      "scope": "조직형·TNM 플래그와 수술여부의 동일 행 관찰"
+    },
+    "molecularObservation": {
+      "sourceHeaders": [
+        "EGFR mutation 발견 여부(EGFR mutation Detection)"
+      ],
+      "scope": "EGFR 발견 여부 0/1만 유효 관찰, 99는 해당사항 없음"
+    },
+    "unavailableSourceKeys": [
+      "case_id",
+      "specimen_id",
+      "material_id",
+      "surgical_report_id",
+      "molecular_order_id",
+      "molecular_result_id"
+    ]
+  },
+  "statistics": {
+    "totalRecords": 15000,
+    "blankCells": 0,
+    "histology": {
+      "adenocarcinoma": 9823,
+      "largeCellCarcinoma": 3458,
+      "squamousCellCarcinoma": 4949,
+      "noFlag": 2615,
+      "exactlyOneFlag": 7275,
+      "multipleFlags": 5110
+    },
+    "stageFlags": {
+      "tNoFlag": 3,
+      "tMultipleFlags": 612,
+      "nNoFlag": 7094,
+      "nMultipleFlags": 275,
+      "mNoFlag": 7849,
+      "mMultipleFlags": 0
+    },
+    "egfr": {
+      "known": 5979,
+      "notApplicable99": 9021
+    },
+    "operationPositive": 8347,
+    "sameRowAssociations": {
+      "egfrKnown": 5979,
+      "egfrKnownWithHistologyFlag": 4925,
+      "egfrKnownWithOperationPositive": 3322,
+      "egfrKnownWithOperationAndHistologyFlag": 2715,
+      "clinicallyConfirmedLinks": 0
+    }
+  },
+  "linkageAssessment": {
+    "status": "analytical_same_row_only",
+    "canSupport": [
+      "합성데이터 동일 행에서 조직형/TNM/수술여부와 EGFR 유효값의 동시 존재 집계"
+    ],
+    "cannotSupport": [
+      "검체 또는 블록 단위 외과병리·분자병리 연결",
+      "외과병리 보고서와 분자검사 결과의 참조 무결성 검증",
+      "환자 단위 임상 연계 또는 진단·판독·병기 확정"
+    ]
+  }
+}

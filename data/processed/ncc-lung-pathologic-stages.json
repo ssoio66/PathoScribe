@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "fetchedAt": "2026-08-22T08:31:12.332Z",
+  "source": {
+    "provider": "국립암센터",
+    "service": "폐암 라이브러리 외과병리 병리학적 병기값",
+    "sourcePage": "https://www.data.go.kr/data/15077088/openapi.do",
+    "endpoint": "https://apis.data.go.kr/B551172/Lung20/luSurgicalByType",
+    "license": "공공저작물 출처표시 제1유형"
+  },
+  "interpretation": "센터·연도·연령·성별·병리학적 병기 통계 대상명별 집계 자료입니다. 병기 표준 규칙, TNM 계산기 또는 개별 환자 병기 정답 데이터가 아닙니다.",
+  "allowedUse": "병리 결과문에서 원문 근거로 추출한 병기값을 담당자가 수동 참고 대조하는 용도로만 사용합니다.",
+  "prohibitedUse": "병기 계산, 진단, 입력값 자동 수정, 자동 저장 또는 자동 확정에 사용하지 않습니다.",
+  "filters": {
+    "centerNm": "국립암센터",
+    "fromYear": "2010",
+    "toYear": "2019"
+  },
+  "quality": {
+    "referenceAvailable": false,
+    "warning": "공식 API 응답의 통계 대상 명(statsTrgtNm)이 모든 행에서 비어 있어 병기값 참조 목록을 만들 수 없습니다."
+  },
+  "statistics": {
+    "apiRows": 750,
+    "namedRows": 0,
+    "unnamedRows": 750,
+    "uniqueTargets": 0,
+    "observedCountSum": 3272,
+    "patientCountSum": 2986,
+    "yearRange": {
+      "from": "2010",
+      "to": "2019"
+    }
+  },
+  "targets": []
+}

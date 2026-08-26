@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "fetchedAt": "2026-08-24T04:48:45.560Z",
+  "source": {
+    "provider": "국립암센터",
+    "service": "폐암 라이브러리 기관지내시경검사 종류별",
+    "sourcePage": "https://www.data.go.kr/data/15077080/openapi.do",
+    "endpoint": "https://apis.data.go.kr/B551172/Lung16/luBronchoscopyByType",
+    "license": "공공저작물 출처표시 제1유형"
+  },
+  "interpretation": "센터·연도·연령·성별·기관지내시경검사 통계 대상명별 집계 자료입니다. 개별 검사 이력, 검체 채취 사실 또는 병리 결과가 아닙니다.",
+  "allowedUse": "가상 병리 업무 흐름에서 기관지내시경검사 종류와 조직채취 관련 보조 정보를 설명하는 집계 참고에만 사용합니다.",
+  "prohibitedUse": "개별 환자의 검사 여부·검체 채취 방법·병리 결과를 추정하거나 자동 입력·저장·확정하는 데 사용하지 않습니다.",
+  "filters": {
+    "centerNm": "국립암센터",
+    "fromYear": "2010",
+    "toYear": "2019"
+  },
+  "quality": {
+    "distributionAvailable": true,
+    "warning": null
+  },
+  "statistics": {
+    "apiRows": 1361,
+    "namedRows": 1361,
+    "unnamedRows": 0,
+    "uniqueTargets": 3,
+    "observedCountSum": 6633,
+    "patientCountSum": 6579,
+    "yearRange": {
+      "from": "2010",
+      "to": "2019"
+    }
+  },
+  "targets": [
+    {
+      "name": "기타",
+      "observedRows": 837,
+      "observedCountSum": 4989,
+      "patientCountSum": 4939,
+      "years": [
+        "2010",
+        "2011",
+        "2012",
+        "2013",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    {
+      "name": "기관지내시경초음파",
+      "observedRows": 263,
+      "observedCountSum": 828,
+      "patientCountSum": 826,
+      "years": [
+        "2010",
+        "2011",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    },
+    {
+      "name": "기관지경이용 폐엽측부환기검사",
+      "observedRows": 261,
+      "observedCountSum": 816,
+      "patientCountSum": 814,
+      "years": [
+        "2010",
+        "2011",
+        "2016",
+        "2017",
+        "2018",
+        "2019"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pathoscribe.local/schemas/evaluation-case.schema.json",
+  "title": "PathoScribe traceable educational evaluation case",
+  "description": "국립암센터 폐암 합성데이터의 실제 행과 프로젝트 생성값을 분리한 병리 전사·검수 평가사례",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "caseId",
+    "caseType",
+    "scenario",
+    "sourceType",
+    "sourceRowId",
+    "sourceLocation",
+    "sourceFields",
+    "generatedFields",
+    "templateVersion",
+    "inputText",
+    "groundTruth",
+    "injectedErrors",
+    "expectedWarnings",
+    "disclaimer"
+  ],
+  "properties": {
+    "caseId": { "type": "string", "pattern": "^EVAL-(GROSS|PATH|OUT)-[0-9]{3}$" },
+    "caseType": { "enum": ["gross", "pathology", "outsourced"] },
+    "scenario": { "enum": ["normal", "error"] },
+    "sourceType": { "const": "generated_demo" },
+    "sourceRowId": { "type": "string", "pattern": "^NCC-LUNG-(TRN|TST)-[0-9]{5}$" },
+    "sourceLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workbookEntry", "sheetName", "partition", "excelRow", "sourceSequence"],
+      "properties": {
+        "workbookEntry": { "type": "string", "minLength": 1 },
+        "sheetName": { "enum": ["Adjusted_synlung_trainset", "Adjusted_synlung_test"] },
+        "partition": { "enum": ["train", "test"] },
+        "excelRow": { "type": "integer", "minimum": 2 },
+        "sourceSequence": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "sourceFields": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/sourceField" } },
+    "generatedFields": { "type": "array", "items": { "$ref": "#/$defs/generatedField" } },
+    "templateVersion": { "type": "string", "pattern": "^(gross|pathology|outsourced)-eval-v[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "inputText": { "type": "string", "minLength": 1 },
+    "groundTruth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceContext", "referenceFields", "expectedExtraction"],
+      "properties": {
+        "sourceContext": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/truthField" } },
+        "referenceFields": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/truthField" } },
+        "expectedExtraction": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/truthField" } }
+      }
+    },
+    "injectedErrors": { "type": "array", "items": { "$ref": "#/$defs/checkItem" } },
+    "expectedWarnings": { "type": "array", "items": { "$ref": "#/$defs/checkItem" } },
+    "disclaimer": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "sourceField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "sourceHeader", "excelCell", "rawValue", "sourceType"],
+      "properties": {
+        "key": { "enum": ["histologyFlag", "stageTFlag", "stageNFlag", "stageMFlag", "egfrDetection", "operation"] },
+        "sourceHeader": { "type": "string", "minLength": 1 },
+        "excelCell": { "type": "string", "pattern": "^[A-Z]{1,2}[0-9]+$" },
+        "rawValue": { "type": ["number", "string", "null"] },
+        "sourceType": { "const": "public_synthetic" }
+      }
+    },
+    "generatedField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "value", "sourceType", "rationale"],
+      "properties": {
+        "key": { "type": "string", "minLength": 1 },
+        "value": { "type": ["string", "number", "boolean", "null"] },
+        "sourceType": { "const": "generated_demo" },
+        "rationale": { "type": "string", "minLength": 1 }
+      }
+    },
+    "truthField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "label", "value", "evidenceText", "status", "sourceType", "sourceHeader", "derivation"],
+      "properties": {
+        "key": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "value": { "type": ["string", "number", "boolean", "null"] },
+        "evidenceText": { "type": ["string", "null"] },
+        "status": { "enum": ["extracted", "needs_review", "missing"] },
+        "sourceType": { "enum": ["public_synthetic", "generated_demo"] },
+        "sourceHeader": { "type": ["string", "null"] },
+        "derivation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "checkItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "fieldKeys", "description"],
+      "properties": {
+        "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+        "fieldKeys": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

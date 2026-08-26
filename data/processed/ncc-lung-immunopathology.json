@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "fetchedAt": "2026-08-22T08:18:07.801Z",
+  "source": {
+    "provider": "국립암센터",
+    "service": "폐암 라이브러리 면역병리 종류별",
+    "sourcePage": "https://www.data.go.kr/data/15077086/openapi.do",
+    "endpoint": "https://apis.data.go.kr/B551172/Lung18/luImmuneByType",
+    "license": "공공저작물 출처표시 제1유형"
+  },
+  "interpretation": "센터·연도·연령·성별·면역병리 통계 대상명별 집계 자료입니다. 개별 검사 결과나 판독 원문이 아니며 진단 또는 결과 검증의 근거로 사용할 수 없습니다.",
+  "filters": {
+    "centerNm": "국립암센터",
+    "fromYear": "2010",
+    "toYear": "2019"
+  },
+  "quality": {
+    "distributionAvailable": false,
+    "warning": "공식 API 응답의 통계 대상 명(statsTrgtNm)이 모든 행에서 비어 있어 면역병리 종류별 분포를 계산할 수 없습니다."
+  },
+  "statistics": {
+    "apiRows": 1027,
+    "namedRows": 0,
+    "unnamedRows": 1027,
+    "uniqueTargets": 0,
+    "observedCountSum": 35220,
+    "patientCountSum": 9838,
+    "yearRange": {
+      "from": "2010",
+      "to": "2019"
+    }
+  },
+  "targets": []
+}
