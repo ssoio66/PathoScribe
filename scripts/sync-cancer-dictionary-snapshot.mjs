@@ -7,11 +7,9 @@ const DEFAULT_INPUT_PATH = path.join(process.cwd(), "data", "raw", "cancer-dicti
 const OUTPUT_PATH = path.join(process.cwd(), "data", "processed", "cancer-dictionary-rag.json");
 const SOURCE_PAGE = "https://www.cancer.go.kr/lay1/S1T523C850/contents.do";
 const SOURCE_ENDPOINT = "https://www.cancer.go.kr/api/dictionaryworks.do";
-const inputPath = path.resolve(process.argv[2] || DEFAULT_INPUT_PATH);
-
-if (!fs.existsSync(inputPath)) {
-  throw new Error("암정보사전 원본을 찾을 수 없습니다: " + inputPath);
-}
+const fetchOfficial = process.argv.includes("--fetch-official");
+const positionalInput = process.argv.slice(2).find((argument) => !argument.startsWith("--"));
+const inputPath = path.resolve(positionalInput || DEFAULT_INPUT_PATH);
 
 function normalizeText(value) {
   return String(value ?? "").normalize("NFKC").replace(/\r/g, "").trim();
@@ -39,7 +37,19 @@ function normalizedTerm(value) {
   return normalizeText(value).toLocaleLowerCase("ko").replace(/\s+/g, " ");
 }
 
-const sourceBuffer = fs.readFileSync(inputPath);
+let sourceBuffer;
+let acquisition;
+if (fs.existsSync(inputPath)) {
+  sourceBuffer = fs.readFileSync(inputPath);
+  acquisition = "사용자가 제공한 고정 JSON/HTML 스냅샷";
+} else if (fetchOfficial) {
+  const response = await fetch(SOURCE_ENDPOINT, { headers: { Accept: "application/json" } });
+  if (!response.ok) throw new Error(`암정보사전 공식 OPEN API 호출 실패: HTTP ${response.status}`);
+  sourceBuffer = Buffer.from(await response.arrayBuffer());
+  acquisition = "배포 빌드 시 국가암지식정보센터 공식 OPEN API 동기화";
+} else {
+  throw new Error("암정보사전 원본을 찾을 수 없습니다: " + inputPath);
+}
 const parsed = JSON.parse(sourceBuffer.toString("utf8"));
 if (!parsed || !Array.isArray(parsed.result)) {
   throw new Error("암정보사전 원본의 result 배열을 찾을 수 없습니다.");
@@ -97,7 +107,7 @@ const snapshot = {
     collection: "암정보사전",
     sourcePage: SOURCE_PAGE,
     sourceEndpoint: SOURCE_ENDPOINT,
-    acquisition: "사용자가 제공한 고정 JSON/HTML 스냅샷",
+    acquisition,
     sourceSha256: crypto.createHash("sha256").update(sourceBuffer).digest("hex").toUpperCase(),
   },
   interpretation: "암·의학 용어의 일반 설명 자료입니다. 병리 표준 사전, 검사별 입력 지침, 진단 기준 또는 기관 업무 매뉴얼이 아닙니다.",

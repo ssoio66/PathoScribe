@@ -12,6 +12,7 @@
 /data/raw/
 /data/processed/cancer-dictionary-rag.json
 /data/generated/*.json
+!/data/generated/web_preview.json
 /tmp/
 
 # local secrets and environment files

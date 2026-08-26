@@ -99,6 +99,7 @@ PATHOSCRIBE_RATE_LIMIT_WINDOW_SECONDS
 6. 호출 제한은 Preview에서 낮은 테스트 한도를 설정한 뒤 한도를 넘긴 고정 사례 요청이 429인지 확인하고, 검증 후 운영 한도로 되돌린다.
 7. 배포 로그에는 HTTP 상태, 실패 범주, 응답시간만 확인하고 요청 원문·응답 전문·환경변수 값을 남기지 않는다.
 8. 환경변수를 변경하면 Vercel의 해당 Preview 또는 Production deployment를 재배포한 뒤 status Route부터 다시 확인한다.
+9. 배포 후 `/api/data/pathology-workflow`가 HTTP 200으로 가상 미리보기를 반환하고 `/api/knowledge/browse?category=all&page=1`이 암정보사전 3,544개를 보고하는지 확인한다.
 
 ## v1.1 변경 검증
 
