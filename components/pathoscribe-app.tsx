@@ -46,6 +46,7 @@ import type { WorkflowPreviewCase, WorkflowPreviewResponse, WorkflowSourceType }
 import { STAGE_FIELD_DEFINITIONS, STAGE_REVIEW_DISCLAIMER, isStageValueAllowed, stageValuesMatch } from "@/lib/stage-review";
 import { canonicalConfirmedValueOption, getConfirmedValueControl, OTHER_CONFIRMED_VALUE } from "@/lib/confirmed-value-controls";
 import type { AnalyzeKind, AnalyzeResponse, ExtractedField, MedicalTermReview, ReviewIssue, TermReviewStatus } from "@/lib/types";
+import { evaluationComparisonStatus, normalizeEvaluationValue, type EvaluationComparisonStatus } from "@/lib/evaluation-comparison";
 
 type ViewId = "intro" | "demo" | "service" | "dashboard" | "worklist" | "workflow" | "gross" | "pathology" | "referral" | "knowledge" | "sources" | "history" | "settings";
 type RoleId = "him" | "pathologist" | "lab" | "quality";
@@ -740,7 +741,6 @@ type EvaluationCase = {
 };
 type EvaluationCasesResponse = { fixtureVersion: string; generationMode: string; cases: EvaluationCase[]; disclaimer: string };
 type GeminiRuntimeStatus = { publicDeployment: boolean; demoMode: boolean; canAnalyze: boolean; liveAvailable: boolean; reason: string | null; disclaimer: string };
-type EvaluationComparisonStatus = "exact" | "missing" | "mismatch" | "generated";
 type ReferralFixtureMeta = { id: string; label: string; file_name: string; asset_path: string; format: "pdf" | "image"; quality: "readable" | "poor"; watermark: string; evaluation_case_id: string };
 type ReferralComparison = { key: string; label: string; extracted: string | null; expected: string; status: "match" | "mismatch" | "missing" };
 type ReferralCompareResponse = {
@@ -765,26 +765,16 @@ type GeminiReferralExtractResponse = {
   evaluatedAt?: string;
 };
 
-function normalizeEvaluationValue(value: string | null | undefined) {
-  return String(value ?? "").normalize("NFKC").trim().replace(/\s+/g, " ").toLocaleLowerCase("en");
-}
-
-function evaluationComparisonStatus(actual: string | null | undefined, expected: string | null | undefined): EvaluationComparisonStatus {
-  if (expected === null || expected === undefined) return actual === null || actual === undefined || actual.trim() === "" ? "exact" : "generated";
-  if (actual === null || actual === undefined || actual.trim() === "") return "missing";
-  return normalizeEvaluationValue(actual) === normalizeEvaluationValue(expected) ? "exact" : "mismatch";
-}
-
 function evaluationStatusLabel(status: EvaluationComparisonStatus) {
-  return status === "exact" ? "정확 일치" : status === "missing" ? "누락" : status === "mismatch" ? "불일치" : "원문 밖 생성값";
+  return status === "exact" ? "정확 일치" : status === "equivalent" ? "의미상 일치" : status === "missing" ? "누락" : status === "mismatch" ? "불일치" : "원문 밖 생성값";
 }
 
 function evaluationDisplayLabel(status: EvaluationComparisonStatus, errorCase: boolean) {
-  return errorCase && status === "exact" ? "원문 추출 일치" : evaluationStatusLabel(status);
+  return errorCase && (status === "exact" || status === "equivalent") ? "원문 추출 일치" : evaluationStatusLabel(status);
 }
 
 function evaluationStatusTone(status: EvaluationComparisonStatus) {
-  return status === "exact" ? "success" as const : status === "missing" ? "warning" as const : "danger" as const;
+  return status === "exact" || status === "equivalent" ? "success" as const : status === "missing" ? "warning" as const : "danger" as const;
 }
 
 function evaluationWarningValueSummary(
@@ -1310,7 +1300,7 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
   const evaluationReferenceByKey = new Map(loadedEvaluationCase?.groundTruth.referenceFields.map((field) => [field.key, field]) ?? []);
   // Keep the evaluation against the original AI response, not a value the user edited afterwards.
   const evaluationComparisons = result && loadedEvaluationCase
-    ? result.fields.map((field) => ({ field, truth: evaluationTruthByKey.get(field.key), status: evaluationComparisonStatus(field.value, evaluationTruthByKey.get(field.key)?.value) }))
+    ? result.fields.map((field) => ({ field, truth: evaluationTruthByKey.get(field.key), status: evaluationComparisonStatus(field.key, field.value, evaluationTruthByKey.get(field.key)?.value) }))
     : [];
   const evaluationWarningResults = result && loadedEvaluationCase
     ? loadedEvaluationCase.expectedWarnings.map((warning) => ({
@@ -1523,7 +1513,8 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
               <div className="evaluation-case-meta" aria-label="분석 실행 정보"><span>{result.mode === "gemini" ? "실시간 Gemini 분석" : "저장된 검증 예시·데모 분석"}</span><span>모델: {result.model ?? "실시간 모델 미사용"}</span><span>응답시간: {result.latencyMs ?? 0}ms</span><span>프롬프트: {result.promptVersion ?? "해당 없음"}</span><span>사례: {result.caseVersion ?? "직접 작성 예시"}</span><span>실행: {result.evaluatedAt ?? "해당 없음"}</span></div>
               {loadedEvaluationCase && <div className="evaluation-result-summary" aria-label="추출 정확도 대조 요약">
                 <span><strong>{isErrorEvaluationCase ? "원문 추출 대조" : "추출 정확도 대조"}</strong><small>{loadedEvaluationCase.caseId} · {isErrorEvaluationCase ? "오류 여부는 아래 기준값과 오류 검수 결과를 확인" : "원문에 실제 있는 값 기준"}</small></span>
-                <div>{(["exact", "missing", "mismatch", "generated"] as EvaluationComparisonStatus[]).map((status) => <StatusChip key={status} tone={evaluationStatusTone(status)}>{evaluationDisplayLabel(status, isErrorEvaluationCase)} {evaluationComparisons.filter((item) => item.status === status).length}</StatusChip>)}</div>
+                <div>{(["exact", "equivalent", "missing", "mismatch", "generated"] as EvaluationComparisonStatus[]).map((status) => <StatusChip key={status} tone={evaluationStatusTone(status)}>{evaluationDisplayLabel(status, isErrorEvaluationCase)} {evaluationComparisons.filter((item) => item.status === status).length}</StatusChip>)}</div>
+                {evaluationComparisons.some((item) => item.status === "equivalent") && <small>의미상 일치: 검체·진단명·조직학적 유형은 주변 설명이 포함돼도 핵심 용어가 같으면 별도로 표시합니다.</small>}
               </div>}
               {loadedEvaluationCase?.scenario === "error" && <div className="evaluation-warning-summary" aria-label="오류 검수 재현 결과">
                 <div className="evaluation-warning-heading">
@@ -1549,7 +1540,7 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
                   const usesOtherInput = confirmedControl.type === "select" && selectedControlValue === OTHER_CONFIRMED_VALUE;
                   const changedFromSource = Boolean(sourceValue && confirmedValue && sourceValue !== confirmedValue);
                   const evaluationTruth = evaluationTruthByKey.get(field.key);
-                  const evaluationStatus = loadedEvaluationCase ? evaluationComparisonStatus(sourceValue, evaluationTruth?.value) : null;
+                  const evaluationStatus = loadedEvaluationCase ? evaluationComparisonStatus(field.key, sourceValue, evaluationTruth?.value) : null;
                   const fieldWarningResults = evaluationWarningResults.filter(({ warning }) => warning.fieldKeys.includes(field.key));
                   return (
                     <div className={`review-field ${field.status} ${changedFromSource ? "mismatch" : ""}`} key={field.key}>

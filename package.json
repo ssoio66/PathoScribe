@@ -14,6 +14,7 @@
     "test:normal-cases": "node scripts/validate-normal-demo-cases.mjs",
     "test:error-cases": "node scripts/validate-error-demo-cases.mjs",
     "test:case-audit": "node scripts/audit-evaluation-cases.mjs",
+    "test:comparison": "node --experimental-strip-types scripts/validate-evaluation-comparison.mjs",
     "test:worklist-links": "node scripts/validate-worklist-evaluation-links.mjs",
     "test:web": "node scripts/verify-web-routes.mjs",
     "data:sync:diagnoses": "node scripts/sync-ncc-diagnosis-reference.mjs",
