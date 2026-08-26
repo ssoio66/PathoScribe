@@ -770,7 +770,9 @@ function evaluationStatusLabel(status: EvaluationComparisonStatus) {
 }
 
 function evaluationDisplayLabel(status: EvaluationComparisonStatus, errorCase: boolean) {
-  return errorCase && (status === "exact" || status === "equivalent") ? "원문 추출 일치" : evaluationStatusLabel(status);
+  if (errorCase && status === "exact") return "원문 추출 일치";
+  if (errorCase && status === "equivalent") return "원문 추출 의미상 일치";
+  return evaluationStatusLabel(status);
 }
 
 function evaluationStatusTone(status: EvaluationComparisonStatus) {
