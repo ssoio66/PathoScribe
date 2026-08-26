@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { getRedisRestConfiguration } from "./public-runtime";
 
 const DEFAULT_LIMIT = 12;
 const DEFAULT_WINDOW_SECONDS = 3_600;
@@ -23,8 +24,7 @@ function hashedKey(request: Request, scope: string) {
 }
 
 export async function enforceDistributedRateLimit(request: Request, scope: string): Promise<RateLimitResult> {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const { url, token } = getRedisRestConfiguration();
   if (!url || !token || !process.env.PATHOSCRIBE_RATE_LIMIT_SALT) {
     throw new Error("Distributed rate limiting is not configured");
   }

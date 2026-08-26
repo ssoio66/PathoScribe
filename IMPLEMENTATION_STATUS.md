@@ -50,6 +50,7 @@
 - [x] Gemini API 환경변수 연결 및 서버 호출 검증 (`@google/genai`, `gemini-3.6-flash`, HTTP 200)
 - [x] 공개 배포 모드의 고정 평가사례 전용 Gemini Route, 서버 caseId 검증, Upstash Redis REST 호출 제한
 - [ ] Vercel Preview/Production Upstash 연결 후 실제 공개 Gemini 시연 검증
+- [x] Vercel Upstash 자동 변수명(`KV_REST_API_URL`, `KV_REST_API_TOKEN`)과 기존 `UPSTASH_REDIS_*` 변수명 호환 처리
 - [x] 공공데이터 API 키와 폐암 세부진단 종류별 엔드포인트 연결
 - [x] 폐암 면역병리 종류별 API 키와 집계 엔드포인트 연결
 - [x] 외과병리 병리학적 병기값 API 750행 동기화와 로컬 수동 참조 UI

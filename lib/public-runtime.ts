@@ -11,10 +11,18 @@ export function isDemoMode() {
   return process.env.PATHOSCRIBE_DEMO_MODE !== "false";
 }
 
+export function getRedisRestConfiguration() {
+  return {
+    url: process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN,
+  };
+}
+
 export function hasPublicRateLimitConfiguration() {
+  const redis = getRedisRestConfiguration();
   return Boolean(
-    process.env.UPSTASH_REDIS_REST_URL
-      && process.env.UPSTASH_REDIS_REST_TOKEN
+    redis.url
+      && redis.token
       && process.env.PATHOSCRIBE_RATE_LIMIT_SALT,
   );
 }
