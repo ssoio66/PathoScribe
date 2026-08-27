@@ -20,7 +20,7 @@
 | evidenceText | 실제 Gemini 1건 및 런타임 검증 | 통과 | HTTP 200, 9개 추출 필드 모두 원문 근거 확인 | 없음 |
 | not_found | demo 통합 테스트 | 통과 | null·근거 null·`not_found` 조합 확인 | 실제 Gemini 사례는 모든 필드가 있어 실호출 확인은 미실행 |
 | 검수 PDF 저장 | `window.print()` 코드·print CSS 검사 | 미실행 | 버튼과 인쇄 스타일은 존재 | 브라우저 인쇄 대화상자와 A4 잘림 수동 확인 필요 |
-| AI 검증 요약 | 결과 API·화면 코드 검사 | 통과 | 결과 인덱스가 비어 있으면 임의 지표 대신 `평가 실행 전` 표시 | 35건 승인 평가 후 실제 지표 생성 |
+| AI 검증 요약 | 결과 API·화면 코드 검사 | 통과 | 결과 인덱스가 비어 있으면 35건 데이터셋 구성·대표 사례 시연 제공·전체 정량 성능평가 미실시를 표시하고 모델·지표를 추정하지 않음 | 35건 승인 평가 후 실제 지표 생성 |
 | 데이터 출처·안전고지 | 화면 코드 검사 | 통과 | 공개 합성·가상자료, 서버 키, 사용자 확인, 환자정보 금지 표시 | 브라우저 가시성 수동 확인 필요 |
 | 실제 Gemini smoke | `POST /api/analyze` 고정 caseId 1건 | 통과 | HTTP 200, `gemini-3.6-flash`, `mode=gemini`, 17필드 스키마, 근거 15개, `not_found` 2개, 9,971ms | 전체 35건 평가는 별도 승인 필요 |
 | 전체 Gemini 평가 | 평가 인덱스 확인 | 미실행 | `latest=null`, 결과 파일 없음 | `--confirm`을 명시한 개발자 평가로만 실행 |
@@ -32,6 +32,7 @@
 | 호출 제한 | Upstash 미설정 공개 모드 | 부분 통과 | `rate_limit_not_configured`, 실시간 분석 fail-closed | Preview/Production에 Upstash 연결 후 HTTP 429 검증 |
 | 중복 클릭 방지 | 컴포넌트 정적 검사 | 부분 통과 | 분석 중 `loading`/`geminiLoading`으로 버튼 비활성화 | 실제 동시 클릭·다중 탭 요청은 미실행 |
 | 실패 결과 처리 | Route·UI 검사 | 통과 | `analysisState=live_failed`, 가짜 성공 응답 없음, 저장 예시와 실시간 결과 라벨 분리 | 배포 장애 시나리오 수동 확인 권장 |
+| Gemini 오류 사용자 안내 | `npm.cmd run test:v1.1` 오류 분류 단위검사·Route 코드 검사 | 통과(코드) | 429 할당량, 5xx, timeout, 응답 스키마 오류를 구분하고 저장된 교육용 사례 이용 안내를 반환 | Vercel에서 실제 무료 할당량 소진 응답은 미실행 |
 | 평가 계산 원칙 | 평가 실행기 검사 | 통과 | ground truth 항목만 계산, 분모 0은 null/N/A, 실패 호출 제외, 버전 메타데이터 기록 | 실제 35건 지표는 미실행 |
 | 웹 핵심 지표 수 | 컴포넌트 검사 | 통과 | `displayedMetricKeys` 중 최대 3개만 표시 | 없음 |
 | TypeScript | `npm.cmd run typecheck` | 통과 | 종료 코드 0 | 없음 |

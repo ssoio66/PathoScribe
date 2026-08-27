@@ -21,6 +21,7 @@ function loadTypeScriptModule(relativePath) {
 const matcher = loadTypeScriptModule("lib/medical-term-matcher.ts");
 const decisions = loadTypeScriptModule("lib/term-review-state.ts");
 const confirmedControls = loadTypeScriptModule("lib/confirmed-value-controls.ts");
+const geminiErrors = loadTypeScriptModule("lib/gemini-error.ts");
 
 const terms = [
   { term: "adenocarcinoma", normalizedTerm: matcher.normalizeMedicalTerm("adenocarcinoma"), aliases: ["선암"] },
@@ -78,5 +79,11 @@ for (const missingControl of [missingGrossLaterality, missingPathologyDiagnosis,
   assert.deepEqual(missingControl.options, [], "원문 값이 null이면 선택 후보를 노출하면 안 됩니다.");
   assert.equal(missingControl.allowOther, false, "원문 값이 null이면 기타 선택지도 노출하면 안 됩니다.");
 }
+
+assert.equal(geminiErrors.classifyGeminiFailure({ status: 429, message: "RESOURCE_EXHAUSTED" }), "quota", "Gemini 할당량 오류를 quota로 분류해야 합니다.");
+assert.equal(geminiErrors.classifyGeminiFailure({ status: 503, message: "service unavailable" }), "upstream", "Gemini 상위 API 5xx를 upstream으로 분류해야 합니다.");
+assert.equal(geminiErrors.classifyGeminiFailure({ name: "AbortError", message: "The operation timed out" }), "timeout", "Gemini 시간 초과를 timeout으로 분류해야 합니다.");
+assert.equal(geminiErrors.classifyGeminiFailure({ message: "Gemini response schema is invalid" }), "schema", "잘못된 Gemini 응답 스키마를 schema로 분류해야 합니다.");
+assert.match(geminiErrors.geminiFailureMessage("quota"), /무료 API 할당량이 소진되어 실시간 분석을 잠시 사용할 수 없습니다/);
 
 console.log(`v1.1 단위 검증 통과: 용어 정규화·오탈자·미등재 6건, 고위험 차단 ${highRiskCases.length}건, 승인 상태 6건.`);

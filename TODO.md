@@ -74,6 +74,7 @@
 - [x] Gemini 서버 전용 호출과 `value`·`evidenceText`·`status` JSON Schema/런타임 응답 검증
 - [x] 원문 미존재값의 `null`·`not_found` 정규화와 Gemini confidence 미사용
 - [x] Gemini 실패 시 가짜 성공 응답 차단
+- [x] Gemini 할당량·상위 API·시간 초과·응답 스키마 오류를 구분한 사용자 안내와 20초 timeout 처리
 - [x] 날짜·숫자·단위·좌우·분자/분모·필수값·검사번호·검체명 규칙 기반 재검수
 - [x] Gemini 텍스트 구조화 후 규칙 기반 재검수와 교육용 PDF·이미지 Gemini 재추출 Route 연결
 - [x] Gemini Developer API 서버 호출 검증: `@google/genai` + `gemini-3.6-flash`, 짧은 실제 요청 HTTP 200 확인
@@ -108,6 +109,7 @@
 - [x] `.env` Git 제외와 `.env.example` 비밀값 미포함 확인
 - [ ] 실제 Gemini 응답의 `not_found` 확인: 승인된 정상 사례에는 미존재 필드가 없었음
 - [ ] Upstash가 연결된 Vercel Preview·Production에서 실제 429 호출 제한 검증
+- [x] 반응형 CSS·역할 요약 ARIA·키보드 포커스 규칙·아코디언·상태 텍스트 정적 검증 (`npm.cmd run test:responsive`)
 - [ ] 브라우저 버튼·링크·반응형·키보드·인쇄 PDF 수동 검증
 - [ ] PDF 렌더링 기반 A4 글자·표 잘림 검증
 - [ ] 35건 전체 Gemini 평가와 실제 성능 지표 산출

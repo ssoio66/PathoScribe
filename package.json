@@ -17,6 +17,7 @@
     "test:comparison": "node --experimental-strip-types scripts/validate-evaluation-comparison.mjs",
     "test:worklist-links": "node scripts/validate-worklist-evaluation-links.mjs",
     "test:web": "node scripts/verify-web-routes.mjs",
+    "test:responsive": "node scripts/validate-responsive-a11y.mjs",
     "data:sync:diagnoses": "node scripts/sync-ncc-diagnosis-reference.mjs",
     "data:sync:immunopathology": "node scripts/sync-ncc-immunopathology.mjs",
     "data:sync:pathologic-stages": "node scripts/sync-ncc-pathologic-stages.mjs",

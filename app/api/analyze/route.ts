@@ -5,7 +5,8 @@ import { enforceDistributedRateLimit } from "@/lib/distributed-rate-limit";
 import { applyEvaluationCaseReview, applyEvaluationFieldReviewStatus } from "@/lib/evaluation-case-review";
 import { findEvaluationCase, getEvaluationCaseVersion, type EvaluationCaseType } from "@/lib/evaluation-cases";
 import { buildMedicalTermReviews } from "@/lib/medical-term-review";
-import { MAX_ANALYZE_REQUEST_BYTES, PROMPT_VERSION, getGeminiAvailability, isPublicDeployment } from "@/lib/public-runtime";
+import { classifyGeminiFailure, geminiFailureLogDetails, geminiFailureMessage, geminiFailureStatus } from "@/lib/gemini-error";
+import { GEMINI_REQUEST_TIMEOUT_MS, MAX_ANALYZE_REQUEST_BYTES, PROMPT_VERSION, getGeminiAvailability, isPublicDeployment } from "@/lib/public-runtime";
 import { assertSyntheticInput } from "@/lib/safety";
 import type { AnalyzeKind, AnalyzeResponse, ExtractedField, ReviewIssue } from "@/lib/types";
 
@@ -190,7 +191,7 @@ export async function POST(request: Request) {
         "Copy pT, pN, pM, and Stage only when explicitly present. Never calculate a stage.",
         `Source text:\n${sourceText}`,
       ].join("\n\n"),
-      config: { responseMimeType: "application/json", responseJsonSchema: responseSchemaFor(kind), temperature: 0 },
+      config: { responseMimeType: "application/json", responseJsonSchema: responseSchemaFor(kind), temperature: 0, httpOptions: { timeout: GEMINI_REQUEST_TIMEOUT_MS } },
     });
     const parsed = validateEvidence(sourceText, normalizeGeminiResponse(JSON.parse(response.text ?? "{}"), kind), kind);
     const issues = applyEvaluationCaseReview(selectedCase, parsed.fields, parsed.issues);
@@ -198,11 +199,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ ...parsed, fields, issues, termReviews: buildMedicalTermReviews(fields, kind), model, latencyMs: Date.now() - startedAt, promptVersion: PROMPT_VERSION, caseVersion, evaluatedAt, analysisState: "live" }, { headers: { "Cache-Control": "no-store", ...rateLimitHeaders } });
   } catch (error) {
     const message = error instanceof Error ? error.message : "unknown_error";
-    const safeMessage = process.env.GEMINI_API_KEY ? message.replaceAll(process.env.GEMINI_API_KEY, "[REDACTED]") : message;
-    const status = error && typeof error === "object" && "status" in error ? String((error as { status?: unknown }).status ?? "unknown") : "unknown";
-    console.error(`[analyze] live analysis failed (status=${status}; message=${safeMessage})`);
+    const failureKind = classifyGeminiFailure(error);
+    const details = geminiFailureLogDetails(error);
+    const safeMessage = process.env.GEMINI_API_KEY ? details.message.replaceAll(process.env.GEMINI_API_KEY, "[REDACTED]") : details.message;
+    console.error(`[analyze] live analysis failed (kind=${failureKind}; status=${details.status}; code=${details.code}; message=${safeMessage})`);
     if (message === "request_too_large") return errorResponse("요청 크기가 허용 범위를 초과했습니다.", 413);
     if (message === "invalid_json") return errorResponse("요청 형식이 올바르지 않습니다.", 400);
-    return errorResponse("실시간 분석에 실패했습니다. 저장된 예시 결과로 대체하지 않았습니다.", 502, { evaluatedAt });
+    return errorResponse(geminiFailureMessage(failureKind), geminiFailureStatus(failureKind), { evaluatedAt });
   }
 }

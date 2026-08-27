@@ -2,6 +2,7 @@ export const PROMPT_VERSION = "public-evaluation-v1";
 export const MAX_ANALYZE_REQUEST_BYTES = 2_048;
 export const MAX_REFERRAL_REQUEST_BYTES = 1_024;
 export const MAX_REFERRAL_FIXTURE_BYTES = 5_000_000;
+export const GEMINI_REQUEST_TIMEOUT_MS = 20_000;
 
 export function isPublicDeployment() {
   return process.env.PATHOSCRIBE_PUBLIC_DEPLOYMENT === "true" || process.env.VERCEL === "1";

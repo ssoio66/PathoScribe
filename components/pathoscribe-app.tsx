@@ -82,7 +82,7 @@ function navItemsForRole(role: ActiveRoleId) {
 
 const VIEW_META: Record<ViewId, { title: string; description: string }> = {
   intro: { title: "서비스 소개", description: "폐암 병리 전사·검수 업무를 보조하는 교육용 시제품의 목적을 먼저 확인합니다." },
-  demo: { title: "업무 시연", description: "역할을 선택하고 대표 평가사례를 열어 핵심 검수 흐름을 확인합니다." },
+  demo: { title: "업무 시연", description: "역할과 업무를 선택하고 고정된 가상 사례로 핵심 검수 흐름을 확인합니다." },
   service: { title: "서비스 설명", description: "문제, 기능, AI 활용 방식과 검증 범위를 짧게 확인합니다." },
   dashboard: { title: "데이터 품질 대시보드", description: "합성데이터와 세션 내 검수 현황을 한눈에 확인합니다." },
   worklist: { title: "검수 작업 목록", description: "원천 행 ID가 일치한 경우에만 같은 평가사례 시연을 열고, 그 외 행은 연결 데이터를 확인합니다." },
@@ -334,40 +334,61 @@ const STAGE_FORMAT_EXAMPLES: Record<string, string> = IASLC_LUNG_TNM_9TH_FORMAT_
 
 function RoleScopeBanner({ role, onNavigate }: { role: RoleId; onNavigate: (view: ViewId) => void }) {
   const profile = ROLE_PROFILES[role];
+  const [expandedRole, setExpandedRole] = useState<RoleId | null>(null);
+  const expanded = expandedRole === role;
+  const detailId = `role-scope-details-${role}`;
+  const summaryByRole: Record<RoleId, string> = {
+    him: `입력·수정 ${profile.allowed.length}개 · 조회 중심 ${profile.readonly.length}개 · 미구현 ${profile.blocked.length}개`,
+    pathologist: `검토·조회 ${profile.allowed.length}개 · 읽기 전용 ${profile.readonly.length}개 · 미구현 ${profile.blocked.length}개`,
+    lab: `검사 수행·결과 확인 ${profile.allowed.length}개 · 조회 중심 ${profile.readonly.length}개 · 미구현 ${profile.blocked.length}개`,
+    quality: `오류·품질지표 조회 ${profile.allowed.length}개 · 제한 ${profile.readonly.length + profile.blocked.length}개`,
+  };
+
   return (
     <section className="role-scope-banner" aria-label="역할별 화면 보기 범위">
-      <div className="role-scope-main">
-        <span className="eyebrow">역할별 화면 보기 · 시제품</span>
-        <h2>{profile.label}</h2>
-        <p>{profile.focus}</p>
-        <small>실제 인증·권한체계가 아닌, 시제품에서 역할별 업무 화면 차이를 보여 주기 위한 선택기입니다.</small>
+      <div className="role-scope-summary">
+        <div>
+          <span className="eyebrow">역할별 화면 보기 · 시제품</span>
+          <p><strong>{profile.label} 보기</strong><span aria-hidden="true"> · </span>{summaryByRole[role]}</p>
+        </div>
+        <button type="button" className="role-scope-toggle" aria-expanded={expanded} aria-controls={detailId} onClick={() => setExpandedRole((value) => value === role ? null : role)}>
+          {expanded ? "역할 범위 접기" : "역할 범위 자세히 보기"}
+          <ChevronRight size={16} aria-hidden="true" />
+        </button>
       </div>
-      <div className="role-permission-grid">
-        <div>
-          <strong>수정·작성 가능</strong>
-          <div className="role-pill-list">
-            {profile.allowed.slice(0, 4).map((item) => <span key={item}>{item}</span>)}
+      <div id={detailId} className="role-scope-details" aria-hidden={!expanded} style={{ display: expanded ? "grid" : "none" }}>
+        <div className="role-scope-main">
+          <h2>{profile.label}</h2>
+          <p>{profile.focus}</p>
+          <small>실제 인증·권한체계가 아닌, 시제품에서 역할별 업무 화면 차이를 보여 주기 위한 선택기입니다.</small>
+        </div>
+        <div className="role-permission-grid">
+          <div>
+            <strong>수정·작성 가능</strong>
+            <div className="role-pill-list">
+              {profile.allowed.slice(0, 4).map((item) => <span key={item}>{item}</span>)}
+            </div>
+          </div>
+          <div>
+            <strong>조회 중심</strong>
+            <div className="role-pill-list muted">
+              {profile.readonly.slice(0, 3).map((item) => <span key={item}>{item}</span>)}
+            </div>
+          </div>
+          <div>
+            <strong>구현하지 않음</strong>
+            <div className="role-pill-list blocked">
+              {profile.blocked.slice(0, 4).map((item) => <span key={item}>{item}</span>)}
+            </div>
           </div>
         </div>
-        <div>
-          <strong>조회 중심</strong>
-          <div className="role-pill-list muted">
-            {profile.readonly.slice(0, 3).map((item) => <span key={item}>{item}</span>)}
-          </div>
+        <div className="role-quick-actions" aria-label={`${profile.label} 주요 화면 이동`}>
+          {profile.primaryViews.map((view) => (
+            <button type="button" key={view} onClick={() => onNavigate(view)}>
+              {VIEW_META[view].title}
+            </button>
+          ))}
         </div>
-        <div>
-          <strong>구현하지 않음</strong>
-          <div className="role-pill-list blocked">
-            {profile.blocked.slice(0, 4).map((item) => <span key={item}>{item}</span>)}
-          </div>
-        </div>
-      </div>
-      <div className="role-quick-actions" aria-label={`${profile.label} 주요 화면 이동`}>
-        {profile.primaryViews.map((view) => (
-          <button type="button" key={view} onClick={() => onNavigate(view)}>
-            {VIEW_META[view].title}
-          </button>
-        ))}
       </div>
     </section>
   );
@@ -433,8 +454,8 @@ function IntroView({ onNavigate }: { onNavigate: (view: ViewId) => void }) {
           </div>
           <div className="intro-side-card muted">
             <span className="eyebrow">30초 핵심 흐름</span>
-            <strong>사례 선택 → AI 구조화 → 원문 대조 → 담당자 확인</strong>
-            <p>첫 방문자는 업무 시연 메뉴에서 고정된 대표 사례를 한 번의 클릭으로 열 수 있습니다.</p>
+            <strong>역할 선택 → 업무 선택 → 가상 사례 불러오기 → AI 구조화 → 원문 대조 → 담당자 확인</strong>
+            <p>역할을 선택하면 직군별 업무 메뉴와 고정 가상 사례가 제공됩니다.</p>
           </div>
         </div>
       </section>
@@ -463,6 +484,7 @@ function IntroView({ onNavigate }: { onNavigate: (view: ViewId) => void }) {
           <li><strong>지원:</strong> 공개 폐암 합성데이터와 서비스 생성 가상자료를 사용해 원문 근거와 비교 가능한 화면을 제공합니다.</li>
           <li><strong>원칙:</strong> 중요한 누락·불일치는 원문 확인 필요로 남기며, AI는 담당자가 원문을 확인하기 전 자동 확정하지 않습니다.</li>
         </ul>
+        <p className="panel-note">개인 프로젝트 · 서비스 기획, 공개데이터 정제, AI 프롬프트·검수 규칙 설계, 웹 구현 및 Vercel 배포</p>
       </section>
     </div>
   );
@@ -550,13 +572,19 @@ function EvaluationSummary() {
   const detail = latest?.detail;
   return (
     <article className="panel intro-panel evaluation-verification-panel">
-      <div className="panel-heading"><div><span className="eyebrow">AI 검증 요약</span><h2>측정된 결과만 표시</h2></div><StatusChip tone={latest ? "teal" : error ? "danger" : "warning"}>{latest ? "측정 결과 있음" : error || "평가 실행 전"}</StatusChip></div>
+      <div className="panel-heading"><div><span className="eyebrow">AI 검증 요약</span><h2>평가 구성과 실제 검증 상태</h2></div><StatusChip tone={latest ? "teal" : error ? "danger" : "warning"}>{latest ? "측정 결과 있음" : error || "대표 사례 시연 제공"}</StatusChip></div>
       <div className="evaluation-meta-grid">
-        <div><span>평가사례</span><strong>{latest ? `${latest.successCases}/${latest.totalCases}건` : "35건"}</strong><small>{latest ? `실패 ${latest.failedCases} · 제외 ${latest.excludedCases}` : "고정 교육용 사례"}</small></div>
-        <div><span>사용 모델</span><strong>{latest?.model ?? "평가 실행 전"}</strong><small>{latest ? `실행일 ${latest.evaluatedAt.slice(0, 10)}` : "실행 후 서버 응답으로 기록"}</small></div>
-        <div><span>평가 기준</span><strong>ground truth</strong><small>공개 폐암 합성데이터에서 파생</small></div>
+        {latest ? <>
+          <div><span>평가사례</span><strong>{`${latest.successCases}/${latest.totalCases}건`}</strong><small>{`실패 ${latest.failedCases} · 제외 ${latest.excludedCases}`}</small></div>
+          <div><span>사용 모델</span><strong>{latest.model}</strong><small>{`실행일 ${latest.evaluatedAt.slice(0, 10)}`}</small></div>
+          <div><span>평가 기준</span><strong>ground truth</strong><small>공개 폐암 합성데이터에서 파생</small></div>
+        </> : <>
+          <div><span>평가 데이터셋</span><strong>35건 구성</strong><small>육안 10건 · 병리 결과 15건 · 위탁검사 10건</small></div>
+          <div><span>실시간 대표 사례 시연</span><strong>제공</strong><small>허용된 교육용 가상 사례만 분석</small></div>
+          <div><span>전체 정량 성능평가</span><strong>미실시</strong><small>명시적 개발자 실행 전</small></div>
+        </>}
       </div>
-      {displayedMetrics.length > 0 ? <div className="evaluation-summary-grid evaluation-measured-metrics">{displayedMetrics.map((metric) => <div key={metric.key}><span>{metric.label}</span><strong>{formatEvaluationRate(metric)}</strong><small>{metric.numerator}/{metric.denominator}{metric.direction === "lower_is_better" ? " · 낮을수록 좋음" : ""}</small></div>)}</div> : <p className="panel-note">전체 35건 실시간 평가는 자동 실행하지 않습니다. 명시적으로 실행된 결과가 없으므로 임의 지표를 표시하지 않습니다.</p>}
+      {displayedMetrics.length > 0 && <div className="evaluation-summary-grid evaluation-measured-metrics">{displayedMetrics.map((metric) => <div key={metric.key}><span>{metric.label}</span><strong>{formatEvaluationRate(metric)}</strong><small>{metric.numerator}/{metric.denominator}{metric.direction === "lower_is_better" ? " · 낮을수록 좋음" : ""}</small></div>)}</div>}
       <details className="evaluation-details"><summary>상세 평가 보기</summary><div className="service-detail-content">
         {latest ? <>
           <dl className="evaluation-detail-list">{Object.entries(detail?.byCaseType ?? {}).map(([caseType, summary]) => <div key={caseType}><dt>{caseType === "gross" ? "육안 소견" : caseType === "pathology" ? "병리 결과" : "위탁검사"}</dt><dd>성공 {summary.successCases}/{summary.totalCases} · 실패 {summary.failedCases} · 제외 {summary.excludedCases}</dd></div>)}</dl>
@@ -565,7 +593,7 @@ function EvaluationSummary() {
           <div className="evaluation-detail-section"><strong>대표 사례</strong><p>성공: {detail?.representativeSuccessCases?.join(", ") || "없음"}</p><p>실패: {detail?.representativeFailureCases?.join(", ") || "없음"}</p></div>
           <div className="evaluation-detail-section"><strong>평가 제외·정규화·한계</strong>{Object.entries(detail?.evaluationExclusions ?? {}).map(([key, value]) => <p key={key}>{key}: {String(value)}</p>)}{Object.entries(detail?.normalization ?? {}).map(([key, value]) => <p key={key}>{key}: {value}</p>)}{detail?.limitations?.map((item) => <p key={item}>{item}</p>)}</div>
         </> : <>
-          <dl className="evaluation-detail-list"><div><dt>육안 소견</dt><dd>10건 · 정상 4건 · 오류 포함 6건</dd></div><div><dt>병리 결과</dt><dd>15건 · 정상 5건 · 오류 포함 10건</dd></div><div><dt>위탁검사</dt><dd>10건 · 정상 3건 · 오류 포함 7건</dd></div><div><dt>비교 결과</dt><dd>규칙 기반·Gemini 단독·하이브리드 모두 N/A</dd></div></dl><p>전체 평가 실행 전에는 대표 성공·실패 사례, 오류 유형별 결과, 실제 성능 지표를 생성하지 않습니다.</p>
+           <dl className="evaluation-detail-list"><div><dt>육안 소견</dt><dd>10건 · 정상 4건 · 오류 포함 6건</dd></div><div><dt>병리 결과</dt><dd>15건 · 정상 5건 · 오류 포함 10건</dd></div><div><dt>위탁검사</dt><dd>10건 · 정상 3건 · 오류 포함 7건</dd></div><div><dt>비교 결과</dt><dd>규칙 기반·Gemini 단독·하이브리드 모두 N/A</dd></div></dl><p>전체 정량 성능평가는 개발 환경에서 명시적으로 실행하기 전까지 미실시 상태입니다. 실행하지 않은 성공·실패 사례나 성능 지표는 생성하지 않습니다.</p>
         </>}
         <p>{result?.disclaimer ?? "결과 파일에는 API 키, 전체 내부 프롬프트, 실제 환자정보를 저장하지 않습니다."}</p>
       </div></details>
@@ -593,7 +621,7 @@ function ServiceDescriptionView({ onNavigate, onOpenDemo }: { onNavigate: (view:
         <div className="panel-heading"><div><span className="eyebrow">문제-기능-기대효과</span><h2>병리 전사 실무의 문제와 화면 기능을 연결했습니다</h2></div></div>
         <div className="intro-problem-table-wrap"><table className="intro-problem-table"><thead><tr><th scope="col">핵심 문제</th><th scope="col">연결된 웹 기능</th><th scope="col">기대효과</th></tr></thead><tbody>{INTRO_PROBLEM_ROWS.map((row) => <tr key={row.problem}><td>{row.problem}</td><td>{row.feature}</td><td>{row.effect}</td></tr>)}</tbody></table></div>
         <p className="panel-note">기대효과는 업무 흐름상 기대되는 변화이며, 정확도 향상률이나 시간 단축률을 실제 측정한 결과로 해석하지 않습니다.</p>
-      </section>
+       </section>
 
       <section className="panel service-ai-panel">
         <div className="panel-heading"><div><span className="eyebrow">생성형 AI를 이렇게 활용했습니다</span><h2>원문 대조가 가능한 네 가지 보조 기능</h2></div></div>
@@ -623,7 +651,6 @@ function ServiceDescriptionView({ onNavigate, onOpenDemo }: { onNavigate: (view:
           <li>ground truth 기반 추출·누락·불일치 평가와 실제 실행 결과만 성능 표시</li>
         </ul>
         <div className="service-safety-chips" aria-label="공개 배포 안전장치"><StatusChip tone="teal">API 키 서버 보관</StatusChip><StatusChip tone="teal">가상사례만 실시간 분석</StatusChip><StatusChip tone="warning">사용자 최종 확인</StatusChip><StatusChip tone="danger">실제 환자정보 입력 금지</StatusChip></div>
-        <SafetyBanner />
         <div className="intro-pill-list service-scope-pills">{INTRO_NOT_THIS.map((item) => <span key={item}>{item}</span>)}</div>
       </section>
 
@@ -1482,7 +1509,7 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
         <section className="panel input-panel">
           <div className="panel-heading"><div><span className="step-label">STEP 1</span><h2>가상 원문 입력</h2></div>{!publicDeployment && <button className="text-button" onClick={() => { setLoadedEvaluationCase(null); setText(sample); setConfirmedSynthetic(true); setResult(null); setFields([]); setTemplateValues({}); setConfirmedValues({}); setConfirmedControlModes({}); setTermDecisions({}); termDecisionLocks.current.clear(); setFinalized(false); }}>직접 작성 예시</button>}</div>
           <div className="evaluation-case-picker">
-            <div><span className="eyebrow">실행 가능한 평가사례</span><strong>{evaluationLoading ? "사례 준비 중" : loadedEvaluationCase ? `${loadedEvaluationCase.caseId} · ${loadedEvaluationCase.scenario === "normal" ? "정상" : "오류 포함"}` : "사례를 선택하세요"}</strong></div>
+             <div><span className="eyebrow">실행 가능한 평가사례</span><strong title={loadedEvaluationCase ? `${loadedEvaluationCase.caseId} · ${loadedEvaluationCase.scenario === "normal" ? "정상" : "오류 포함"}` : undefined}>{evaluationLoading ? "사례 준비 중" : loadedEvaluationCase ? `${loadedEvaluationCase.caseId} · ${loadedEvaluationCase.scenario === "normal" ? "정상" : "오류 포함"}` : "사례를 선택하세요"}</strong></div>
             <label>
               <span className="sr-only">평가사례 선택</span>
               <select value={selectedEvaluationCaseId} disabled={evaluationLoading || !evaluationCases.length} onChange={(event) => setSelectedEvaluationCaseId(event.target.value)}>
@@ -1881,13 +1908,21 @@ function workflowCaseToTask(item: WorkflowPreviewCase, evaluationCase?: Evaluati
     : null;
   const issueCount = item.transcription_review.issue_count;
   const isLinked = Boolean(evaluationCase);
+  const status = !isLinked
+    ? "검수 대기"
+    : evaluationCase?.scenario === "error"
+      ? "확인 필요"
+      : kind === "referral"
+        ? "대조 대기"
+        : "검수 완료";
+  const linkLabel = !isLinked ? "연결된 실행 평가사례 없음" : `${evaluationCase?.scenario === "error" ? "오류 포함" : "정상"} 평가사례 연결`;
   return {
     id: item.order.order_id,
     kind,
     label: kind === "gross" ? "육안 소견 입력·검수" : kind === "pathology" ? "병리 결과 입력·검수" : kind === "referral" ? "위탁검사 결과 입력·대조" : "가상 연결 데이터 확인",
-    status: isLinked ? `${evaluationCase?.scenario === "error" ? "오류 포함" : "정상"} 평가사례 연결` : "연결된 실행 평가사례 없음",
+    status,
     tone: isLinked ? evaluationCase?.scenario === "error" ? "danger" : "success" : issueCount > 0 ? "danger" : "warning",
-    detail: `${item.specimen.specimen_id} · ${item.pathology_report.report_id} · ${item.order.source_record_id}`,
+    detail: `${linkLabel} · ${item.specimen.specimen_id} · ${item.pathology_report.report_id} · ${item.order.source_record_id}`,
     updated: item.partition === "train" ? "합성 훈련 시트" : "합성 테스트 시트",
     sourceRowId: item.order.source_record_id,
     evaluationCaseId: evaluationCase?.caseId,
@@ -2588,7 +2623,7 @@ export function PathoScribeApp() {
           </div>
         </header>
         <main id="main-content" ref={mainRef} tabIndex={-1}>{activeRole && !["intro", "demo", "service"].includes(activeView) && <RoleScopeBanner role={activeRole} onNavigate={navigate} />}{content}</main>
-        <footer><span>PathoScribe v0.1 · 가상·공개 합성데이터 전용</span><strong>진단·판독 도구가 아닌 전사·검수 지원 도구입니다.</strong></footer>
+        <footer><span>PathoScribe · Portfolio Prototype v1.1 · 가상·공개 합성데이터 전용</span><strong>진단·판독 도구가 아닌 전사·검수 지원 도구입니다.</strong></footer>
       </div>
     </div>
   );

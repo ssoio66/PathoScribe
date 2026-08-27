@@ -8,7 +8,8 @@ import { enforceDistributedRateLimit } from "@/lib/distributed-rate-limit";
 import { applyEvaluationCaseReview } from "@/lib/evaluation-case-review";
 import { findEvaluationCase } from "@/lib/evaluation-cases";
 import { runReferralRuleReview } from "@/lib/hybrid-review";
-import { MAX_REFERRAL_FIXTURE_BYTES, MAX_REFERRAL_REQUEST_BYTES, PROMPT_VERSION, getGeminiAvailability, isPublicDeployment } from "@/lib/public-runtime";
+import { classifyGeminiFailure, geminiFailureLogDetails, geminiFailureMessage, geminiFailureStatus } from "@/lib/gemini-error";
+import { GEMINI_REQUEST_TIMEOUT_MS, MAX_REFERRAL_FIXTURE_BYTES, MAX_REFERRAL_REQUEST_BYTES, PROMPT_VERSION, getGeminiAvailability, isPublicDeployment } from "@/lib/public-runtime";
 
 export const runtime = "nodejs";
 
@@ -106,11 +107,11 @@ export async function POST(request: Request) {
     if (!fixture) return NextResponse.json({ error: "검증된 교육용 가상 문서를 찾을 수 없습니다." }, { status: 404 });
     const availability = getGeminiAvailability();
     if (availability.demoMode) {
-      return NextResponse.json({ error: "교육 데모 모드에서는 Gemini 문서 재추출을 실행하지 않습니다. 사전 검증된 fixture 추출값만 사용합니다." }, { status: 503 });
+      return NextResponse.json({ error: "교육 데모 모드에서는 Gemini 문서 재추출을 실행하지 않습니다. 사전 검증된 fixture 추출값만 사용합니다.", analysisState: "live_failed", evaluatedAt }, { status: 503, headers: { "Cache-Control": "no-store" } });
     }
     if (!availability.liveAvailable) return NextResponse.json({ error: "실시간 Gemini 분석 설정이 필요합니다.", analysisState: "live_failed", evaluatedAt }, { status: 503, headers: { "Cache-Control": "no-store" } });
     const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) return NextResponse.json({ error: "Gemini API 환경변수가 없어 문서 재추출을 실행하지 않습니다." }, { status: 503 });
+    if (!apiKey) return NextResponse.json({ error: "Gemini API 환경변수가 없어 문서 재추출을 실행하지 않습니다.", analysisState: "live_failed", evaluatedAt }, { status: 503, headers: { "Cache-Control": "no-store" } });
 
     let rateLimitHeaders: Record<string, string> = {};
     if (isPublicDeployment()) {
@@ -140,7 +141,7 @@ export async function POST(request: Request) {
         { inlineData: { mimeType, data: bytes.toString("base64") } },
         { text: "This is an educational synthetic outsourced pathology test document with no real patient information. Extract only text visibly present in the document. Return every schema field exactly once. If absent, return value null, evidenceText null, status not_found. Do not infer results, diagnosis, stage, treatment, or confirmation. Do not emit confidence." },
       ] }],
-      config: { responseMimeType: "application/json", responseJsonSchema: RESPONSE_SCHEMA, temperature: 0 },
+      config: { responseMimeType: "application/json", responseJsonSchema: RESPONSE_SCHEMA, temperature: 0, httpOptions: { timeout: GEMINI_REQUEST_TIMEOUT_MS } },
     });
     const extracted = normalizeGeminiFields(JSON.parse(response.text ?? "{}"), sourceText);
     const order = orders.find((item) => item.fixture_id === fixture.id);
@@ -164,9 +165,10 @@ export async function POST(request: Request) {
     const message = error instanceof Error ? error.message : "Gemini 문서 재추출에 실패했습니다.";
     if (message === "request_too_large") return NextResponse.json({ error: "요청 크기가 허용 범위를 초과했습니다.", analysisState: "live_failed", evaluatedAt }, { status: 413, headers: { "Cache-Control": "no-store" } });
     if (message === "invalid_json") return NextResponse.json({ error: "요청 형식이 올바르지 않습니다.", analysisState: "live_failed", evaluatedAt }, { status: 400, headers: { "Cache-Control": "no-store" } });
-    const category = /model|not.?found|404/i.test(message) ? "model_or_endpoint" : /quota|429/i.test(message) ? "quota_or_rate_limit" : "upstream_or_schema";
-    const safeMessage = process.env.GEMINI_API_KEY ? message.replaceAll(process.env.GEMINI_API_KEY, "[REDACTED]") : message;
-    console.error(`[referral/gemini-extract] failed (${category}; message=${safeMessage})`);
-    return NextResponse.json({ error: "Gemini 문서 재추출에 실패했습니다. 추출값을 저장하거나 가짜 성공 결과로 대체하지 않습니다." }, { status: 502 });
+    const failureKind = classifyGeminiFailure(error);
+    const details = geminiFailureLogDetails(error);
+    const safeMessage = process.env.GEMINI_API_KEY ? details.message.replaceAll(process.env.GEMINI_API_KEY, "[REDACTED]") : details.message;
+    console.error(`[referral/gemini-extract] failed (kind=${failureKind}; status=${details.status}; code=${details.code}; message=${safeMessage})`);
+    return NextResponse.json({ error: geminiFailureMessage(failureKind), analysisState: "live_failed", evaluatedAt }, { status: geminiFailureStatus(failureKind), headers: { "Cache-Control": "no-store" } });
   }
 }
