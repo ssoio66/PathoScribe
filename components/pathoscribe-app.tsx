@@ -45,6 +45,7 @@ import { NCC_LUNG_DERIVED, NCC_LUNG_SUMMARY } from "@/lib/data/ncc-lung-summary"
 import type { WorkflowPreviewCase, WorkflowPreviewResponse, WorkflowSourceType } from "@/lib/pathology-workflow";
 import { STAGE_FIELD_DEFINITIONS, STAGE_REVIEW_DISCLAIMER, isStageValueAllowed, stageValuesMatch } from "@/lib/stage-review";
 import { canonicalConfirmedValueOption, getConfirmedValueControl, OTHER_CONFIRMED_VALUE } from "@/lib/confirmed-value-controls";
+import { getReviewPermissions } from "@/lib/review-permissions";
 import type { AnalyzeKind, AnalyzeResponse, ExtractedField, MedicalTermReview, ReviewIssue, TermReviewStatus } from "@/lib/types";
 import { evaluationComparisonStatus, normalizeEvaluationValue, type EvaluationComparisonStatus } from "@/lib/evaluation-comparison";
 
@@ -1289,8 +1290,8 @@ function MedicalTermReviewPanel({
 }
 
 function stageAuditStatus(source: string | null, entered: string | null): "match" | "mismatch" | "missing" {
-  if (!source && !entered) return "missing";
-  if (!source || !entered) return "mismatch";
+  if (!entered) return "missing";
+  if (!source) return "mismatch";
   return stageValuesMatch(source, entered) ? "match" : "mismatch";
 }
 
@@ -1314,9 +1315,9 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
   const [evaluationLoading, setEvaluationLoading] = useState(true);
   const [geminiRuntime, setGeminiRuntime] = useState<GeminiRuntimeStatus | null>(null);
   const publicDeployment = geminiRuntime?.publicDeployment === true;
-  const canEdit = role === "him" && !publicDeployment;
+  const { canEditSource, canEditConfirmedValues } = getReviewPermissions(role, geminiRuntime?.publicDeployment ?? null);
   const isPathologistReview = role === "pathologist";
-  const edited = fields.some((field) => (confirmedValues[field.key] ?? "") !== (field.value ?? ""));
+  const edited = fields.some((field) => Object.hasOwn(confirmedValues, field.key) && (confirmedValues[field.key] ?? "") !== (field.value ?? ""));
   const stageAudit = kind === "pathology"
     ? STAGE_FIELD_DEFINITIONS.map(({ key, label }) => {
       const source = result?.fields.find((field) => field.key === key)?.value ?? null;
@@ -1430,7 +1431,7 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
   }
 
   function editField(index: number, value: string) {
-    if (!canEdit) return;
+    if (!canEditConfirmedValues) return;
     const key = fields[index]?.key;
     if (!key) return;
     setConfirmedValues((current) => ({ ...current, [key]: value }));
@@ -1440,14 +1441,14 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
   }
 
   function clearConfirmedField(index: number) {
-    if (!canEdit) return;
+    if (!canEditConfirmedValues) return;
     const key = fields[index]?.key;
     if (!key) return;
     setConfirmedValues((current) => Object.fromEntries(Object.entries(current).filter(([fieldKey]) => fieldKey !== key)));
   }
 
   function selectConfirmedValue(index: number, value: string) {
-    if (!canEdit) return;
+    if (!canEditConfirmedValues) return;
     const key = fields[index]?.key;
     if (!key) return;
     setConfirmedControlModes((current) => ({ ...current, [key]: value }));
@@ -1459,7 +1460,7 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
   }
 
   function acceptTermSuggestion(review: MedicalTermReview) {
-    if (!canEdit || !review.suggestedValue || termDecisionLocks.current.has(review.suggestionId)) return;
+    if (!canEditConfirmedValues || !review.suggestedValue || termDecisionLocks.current.has(review.suggestionId)) return;
     termDecisionLocks.current.add(review.suggestionId);
     const nextDecision = createTermReviewDecision("accepted", review.suggestedValue);
     const confirmedValue = confirmedValueFromDecision(nextDecision);
@@ -1468,14 +1469,14 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
   }
 
   function rejectTermSuggestion(review: MedicalTermReview) {
-    if (!canEdit || termDecisionLocks.current.has(review.suggestionId)) return;
+    if (!canEditConfirmedValues || termDecisionLocks.current.has(review.suggestionId)) return;
     termDecisionLocks.current.add(review.suggestionId);
     const nextDecision = createTermReviewDecision("rejected");
     setTermDecisions((current) => ({ ...current, [review.suggestionId]: applyUniqueTermReviewDecision(current[review.suggestionId], nextDecision) }));
   }
 
   function markTermNeedsReview(review: MedicalTermReview) {
-    if (!canEdit || termDecisionLocks.current.has(review.suggestionId)) return;
+    if (!canEditConfirmedValues || termDecisionLocks.current.has(review.suggestionId)) return;
     termDecisionLocks.current.add(review.suggestionId);
     const nextDecision = createTermReviewDecision("needs_review");
     setTermDecisions((current) => ({ ...current, [review.suggestionId]: applyUniqueTermReviewDecision(current[review.suggestionId], nextDecision) }));
@@ -1486,7 +1487,7 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
   }
 
   function finalize() {
-    if (!canEdit) return;
+    if (!canEditConfirmedValues) return;
     setFinalized(true);
     const stageIssues = stageAudit.filter((item) => item.status === "mismatch").map((item) => `${item.label} 원문 불일치`);
     onReviewed({ edited, issueTitles: [...(result?.issues.map((issue) => issue.title) ?? []), ...stageIssues] });
@@ -1503,7 +1504,7 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
           {kind === "pathology" && <SourceActionButton sourceId="lung13-diagnosis-reference" onNavigate={onNavigate} label="API 출처" />}
         </div>
       </div>
-      {publicDeployment && <div className="notice-strip"><ShieldCheck size={17} /><span><strong>공개 시연 제한:</strong> 서비스가 제공하는 고정 평가사례만 실시간 Gemini 분석 대상으로 허용됩니다. 임의 원문과 실제 환자정보는 입력하거나 전송할 수 없습니다.</span></div>}
+      {publicDeployment && <div className="notice-strip"><ShieldCheck size={17} /><span><strong>공개 시연 제한:</strong> 서비스가 제공하는 고정 평가사례만 실시간 Gemini 분석 대상으로 허용됩니다. 임의 원문과 실제 환자정보는 입력하거나 전송할 수 없습니다. 담당자 확정값 수정은 현재 브라우저 세션에만 반영되며 서버에 저장되지 않습니다.</span></div>}
       {liveAnalysisUnavailable && <div className="inline-error"><AlertCircle size={17} />실시간 Gemini 분석 설정 또는 공개 호출 제한 설정이 필요합니다. 저장된 예시 결과를 실제 분석 결과로 표시하지 않습니다.</div>}
       <div className="workspace-grid">
         <section className="panel input-panel">
@@ -1520,9 +1521,9 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
           </div>
           {loadedEvaluationCase && <div className="evaluation-case-meta"><span>원천 행: {loadedEvaluationCase.sourceRowId}</span><span>템플릿: {loadedEvaluationCase.templateVersion}</span><span>원문 값과 생성값은 사례 데이터에서 구분됨</span></div>}
           <label className="field-label" htmlFor={`${kind}-source`}>{kind === "gross" ? "육안 소견 문장 또는 음성 전사문" : "병리 결과문"}</label>
-          <textarea id={`${kind}-source`} className="source-textarea" value={text} readOnly={!canEdit} onChange={(event) => { setText(event.target.value); setResult(null); setFinalized(false); }} placeholder={kind === "gross" ? "실제 환자정보가 없는 가상의 육안 소견을 입력하세요." : "실제 환자정보가 없는 가상의 병리 결과문을 입력하세요."} />
+          <textarea id={`${kind}-source`} className="source-textarea" value={text} readOnly={!canEditSource} onChange={(event) => { setText(event.target.value); setResult(null); setFinalized(false); }} placeholder={kind === "gross" ? "실제 환자정보가 없는 가상의 육안 소견을 입력하세요." : "실제 환자정보가 없는 가상의 병리 결과문을 입력하세요."} />
           <div className="input-meta"><span>{text.length.toLocaleString()} / 20,000자</span><span>질문·결과 미저장</span></div>
-          <label className="check-row"><input type="checkbox" checked={confirmedSynthetic} disabled={!canEdit} onChange={(event) => setConfirmedSynthetic(event.target.checked)} /><span><strong>가상 또는 공개 합성데이터임을 확인했습니다.</strong><small>실제 환자정보가 포함된 경우 분석을 진행하지 않습니다.</small></span></label>
+          <label className="check-row"><input type="checkbox" checked={confirmedSynthetic} disabled={!canEditSource} onChange={(event) => setConfirmedSynthetic(event.target.checked)} /><span><strong>가상 또는 공개 합성데이터임을 확인했습니다.</strong><small>실제 환자정보가 포함된 경우 분석을 진행하지 않습니다.</small></span></label>
           {error && <div className="inline-error"><AlertCircle size={17} />{error}</div>}
           <button className="primary-button" disabled={loading || evaluationLoading || liveAnalysisUnavailable || (publicDeployment && !loadedEvaluationCase)} onClick={analyze}>{loading ? <span className="spinner" /> : <Sparkles size={18} />}{loading ? "분석 중" : "AI 구조화 분석 실행"}</button>
           <div className="guardrail-list">
@@ -1587,15 +1588,15 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
                       </div>
                       <label className="confirmed-value-label" htmlFor={`${kind}-${field.key}`}>담당자 확정값</label>
                       {confirmedControl.type === "select" ? <div className="confirmed-value-control">
-                        <select id={`${kind}-${field.key}`} value={selectedControlValue} disabled={!canEdit} onChange={(event) => selectConfirmedValue(index, event.target.value)}>
+                        <select id={`${kind}-${field.key}`} value={selectedControlValue} disabled={!canEditConfirmedValues} onChange={(event) => selectConfirmedValue(index, event.target.value)}>
                           <option value="">확인 필요</option>
                           {confirmedControl.options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
                           {confirmedControl.allowOther && <option value={OTHER_CONFIRMED_VALUE}>기타 직접 입력</option>}
                         </select>
-                        {usesOtherInput && <input id={`${kind}-${field.key}-other`} value={confirmedValue ?? ""} readOnly={!canEdit} onChange={(event) => editField(index, event.target.value)} placeholder="원문 표현을 그대로 입력" />}
+                        {usesOtherInput && <input id={`${kind}-${field.key}-other`} value={confirmedValue ?? ""} readOnly={!canEditConfirmedValues} onChange={(event) => editField(index, event.target.value)} placeholder="원문 표현을 그대로 입력" />}
                         <small>{confirmedControl.hint}</small>
                       </div> : <div className="confirmed-value-control">
-                        <input id={`${kind}-${field.key}`} inputMode={confirmedControl.inputMode} value={confirmedValue ?? ""} readOnly={!canEdit} onChange={(event) => editField(index, event.target.value)} placeholder="확인 필요" />
+                        <input id={`${kind}-${field.key}`} inputMode={confirmedControl.inputMode} value={confirmedValue ?? ""} readOnly={!canEditConfirmedValues} onChange={(event) => editField(index, event.target.value)} placeholder="확인 필요" />
                         <small>{confirmedControl.hint}</small>
                       </div>}
                     </div>
@@ -1605,7 +1606,7 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
               <MedicalTermReviewPanel
                 reviews={result.termReviews ?? []}
                 decisions={termDecisions}
-                canEdit={canEdit}
+                canEdit={canEditConfirmedValues}
                 onAccept={acceptTermSuggestion}
                 onReject={rejectTermSuggestion}
                 onNeedsReview={markTermNeedsReview}
@@ -1639,7 +1640,7 @@ function AnalyzeWorkspace({ kind, sample, onReviewed, onNavigate, role, linkedEv
                 교육용 가상 자료를 이용한 입력 검수 결과이며 실제 진단·판독·공식 의료기록에 사용할 수 없습니다. 모든 결과는 담당자의 원문 대조가 필요합니다.
                 {kind === "pathology" ? ` ${STAGE_REVIEW_DISCLAIMER}` : ""}
               </div>
-              <div className="finalize-row"><p><strong>자동 확정되지 않습니다.</strong><br />원문 대조 후 담당자가 직접 완료하세요.</p><div className="finalize-actions"><button type="button" className="secondary-button" disabled={!canEdit} onClick={() => window.print()}><Download size={17} />브라우저 인쇄·PDF 저장</button><button type="button" className="secondary-button" disabled={finalized || !canEdit} onClick={finalize}>{finalized ? <Check size={17} /> : <ClipboardCheck size={17} />}{finalized ? "세션 검수 완료" : "검수 완료 표시"}</button></div></div>
+              <div className="finalize-row"><p><strong>자동 확정되지 않습니다.</strong><br />원문 대조 후 담당자가 직접 완료하세요.</p><div className="finalize-actions"><button type="button" className="secondary-button" disabled={!canEditConfirmedValues} onClick={() => window.print()}><Download size={17} />브라우저 인쇄·PDF 저장</button><button type="button" className="secondary-button" disabled={finalized || !canEditConfirmedValues} onClick={finalize}>{finalized ? <Check size={17} /> : <ClipboardCheck size={17} />}{finalized ? "세션 검수 완료" : "검수 완료 표시"}</button></div></div>
             </>
           )}
         </section>
@@ -1663,8 +1664,7 @@ function ReferralView({ onNavigate, role, linkedEvaluationCaseId }: { onNavigate
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const publicDeployment = geminiRuntime?.publicDeployment === true;
-  const canEdit = role === "him" && !publicDeployment;
+  const { canEditSource, canEditConfirmedValues } = getReviewPermissions(role, geminiRuntime?.publicDeployment ?? null);
 
   function chooseFixture(fixture: ReferralFixtureMeta) {
     setSelectedFixtureId(fixture.id);
@@ -1774,19 +1774,19 @@ function ReferralView({ onNavigate, role, linkedEvaluationCaseId }: { onNavigate
       <div className="referral-grid">
         <section className="panel upload-panel">
           <div className="panel-heading"><div><span className="step-label">STEP 1</span><h2>가상 문서 선택</h2></div></div>
-          <button className="upload-zone" type="button" disabled={!canEdit} onClick={() => inputRef.current?.click()}>
+          <button className="upload-zone" type="button" disabled={!canEditSource} onClick={() => inputRef.current?.click()}>
             <UploadCloud size={30} /><strong>{fileName || "PDF 또는 이미지 선택"}</strong><span>PDF, JPG, PNG · 최대 10MB</span>
           </button>
-          <input ref={inputRef} hidden type="file" disabled={!canEdit} accept="application/pdf,image/png,image/jpeg" onChange={(event) => { setFileName(event.target.files?.[0]?.name ?? ""); setSelectedFixtureId(""); setComparison(null); setReviewConfirmed(false); setConfirmed(false); setError(""); }} />
+          <input ref={inputRef} hidden type="file" disabled={!canEditSource} accept="application/pdf,image/png,image/jpeg" onChange={(event) => { setFileName(event.target.files?.[0]?.name ?? ""); setSelectedFixtureId(""); setComparison(null); setReviewConfirmed(false); setConfirmed(false); setError(""); }} />
           <label className="field-label" htmlFor="outsourced-fixture">평가 사례 불러오기</label>
           <select id="outsourced-fixture" className="fixture-select" value={selectedFixtureId} onChange={(event) => { const fixture = fixtures.find((candidate) => candidate.id === event.target.value); if (fixture) chooseFixture(fixture); }}>
             <option value="">파일을 직접 선택하거나 사례를 고르세요</option>
             {fixtures.map((fixture) => <option value={fixture.id} key={fixture.id}>{fixture.label} · {fixture.format.toUpperCase()}</option>)}
           </select>
           {selectedFixtureId && <div className="fixture-loaded-row"><span>{fixtures.find((fixture) => fixture.id === selectedFixtureId)?.watermark}</span><button type="button" className="text-button" onClick={() => { const fixture = fixtures.find((candidate) => candidate.id === selectedFixtureId); if (fixture) chooseFixture(fixture); }}>선택 사례 다시 불러오기</button></div>}
-          <label className="check-row compact"><input type="checkbox" checked={confirmed} disabled={!canEdit} onChange={(event) => setConfirmed(event.target.checked)} /><span><strong>가상 위탁검사 문서임을 확인</strong><small>현재 데모 모드에서는 선택한 파일을 외부로 전송하지 않습니다.</small></span></label>
+          <label className="check-row compact"><input type="checkbox" checked={confirmed} disabled={!canEditSource} onChange={(event) => setConfirmed(event.target.checked)} /><span><strong>가상 위탁검사 문서임을 확인</strong><small>현재 데모 모드에서는 선택한 파일을 외부로 전송하지 않습니다.</small></span></label>
           {error && <div className="inline-error"><AlertCircle size={17} />{error}</div>}
-          <button className="primary-button" disabled={(!confirmed && canEdit) || !fileName || loading} onClick={runComparison}>{loading ? <span className="spinner" /> : <Sparkles size={18} />}{loading ? "대조 중" : "추출 결과 대조"}</button>
+          <button className="primary-button" disabled={(!confirmed && canEditSource) || !fileName || loading} onClick={runComparison}>{loading ? <span className="spinner" /> : <Sparkles size={18} />}{loading ? "대조 중" : "추출 결과 대조"}</button>
           <button className="secondary-button" type="button" disabled={!selectedFixtureId || geminiLoading || geminiRuntime?.liveAvailable !== true} onClick={runGeminiExtraction}>{geminiLoading ? <span className="spinner" /> : <FileScan size={17} />}{geminiLoading ? "Gemini 문서 추출 중" : "Gemini 문서 재추출"}</button>
           {geminiError && <div className="inline-error"><AlertCircle size={17} />{geminiError}</div>}
           <div className="internal-order"><span className="eyebrow">대조 방식</span><p>선택한 교육용 fixture의 추출 결과를 서버에 저장하지 않고, 가상 내부 의뢰정보 JSON과 항목별로 비교합니다.</p><small>실제 파일은 외부 AI나 공공데이터 API로 전송하지 않습니다.</small></div>
@@ -1799,7 +1799,7 @@ function ReferralView({ onNavigate, role, linkedEvaluationCaseId }: { onNavigate
             {comparison.fixture.quality === "poor" && <div className="inline-warning"><AlertTriangle size={17} />촬영 상태가 좋지 않아 자동 추출하지 않았습니다. 아래 항목은 모두 원문 확인이 필요합니다.</div>}
             <div className="referral-fields">{comparison.comparisons.map((item) => {
               const changed = (confirmedValues[item.key] ?? "") !== (item.extracted ?? "");
-              return <div className={`referral-field ${item.status} ${changed ? "edited" : ""}`} key={item.key}><div><span>{item.label}</span><StatusChip tone={changed ? "teal" : statusTone(item.status)}>{changed ? "사용자 수정" : statusLabel(item.status)}</StatusChip></div><strong>{item.extracted ?? "null · 확인 필요"}</strong><small>내부 의뢰: {item.expected}</small><label className="referral-confirmed-value"><span>담당자 확정값</span><input value={confirmedValues[item.key] ?? ""} readOnly={!canEdit} placeholder="확인 필요" onChange={(event) => setConfirmedValues((current) => ({ ...current, [item.key]: event.target.value }))} /></label></div>;
+              return <div className={`referral-field ${item.status} ${changed ? "edited" : ""}`} key={item.key}><div><span>{item.label}</span><StatusChip tone={changed ? "teal" : statusTone(item.status)}>{changed ? "사용자 수정" : statusLabel(item.status)}</StatusChip></div><strong>{item.extracted ?? "null · 확인 필요"}</strong><small>내부 의뢰: {item.expected}</small><label className="referral-confirmed-value"><span>담당자 확정값</span><input value={confirmedValues[item.key] ?? ""} readOnly={!canEditConfirmedValues} placeholder="확인 필요" onChange={(event) => { if (canEditConfirmedValues) setConfirmedValues((current) => ({ ...current, [item.key]: event.target.value })); }} /></label></div>;
             })}</div>
             <div className={`referral-field revised-report-field ${comparison.revisedReport.status === "needs_review" ? "missing" : ""}`}><div><span>수정 보고서 여부</span><StatusChip tone={comparison.revisedReport.status === "needs_review" ? "warning" : "success"}>{comparison.revisedReport.label}</StatusChip></div><strong>{comparison.revisedReport.evidence ?? "null · 확인 필요"}</strong><small>원문에 명시된 경우에만 수정 보고서로 표시합니다.</small></div>
             <div className="referral-note"><span>추출 참고사항</span><strong>{comparison.extracted.reference_note ?? "null · 확인 필요"}</strong></div>
@@ -1807,7 +1807,7 @@ function ReferralView({ onNavigate, role, linkedEvaluationCaseId }: { onNavigate
             {comparison.ruleIssues.length > 0 && <div className="validation-box hybrid-rule-box"><h3><ListChecks size={17} /> 규칙 기반 재검수</h3>{comparison.ruleIssues.map((issue) => <div className={`validation-item ${issue.severity}`} key={issue.id}><span>{issue.title}</span><p>{issue.detail}</p></div>)}</div>}
             {geminiExtraction && <div className="validation-box gemini-document-box"><h3><FileScan size={17} /> Gemini 문서 재추출</h3><div className="evaluation-case-meta"><span>실시간 Gemini 분석</span><span>모델: {geminiExtraction.model ?? "미표시"}</span><span>응답시간: {geminiExtraction.latencyMs ?? 0}ms</span><span>프롬프트: {geminiExtraction.promptVersion ?? "미표시"}</span><span>사례: {geminiExtraction.caseVersion ?? "미표시"}</span><span>실행: {geminiExtraction.evaluatedAt ?? "미표시"}</span></div><div className="gemini-document-fields">{geminiExtraction.fields.map((field) => <div key={field.key}><span>{field.label}</span><strong>{field.value ?? "null · 확인 필요"}</strong><small>{field.evidenceText ?? "원문 근거 없음"}</small></div>)}</div>{geminiExtraction.ruleIssues.length > 0 && <div className="hybrid-rule-inline">{geminiExtraction.ruleIssues.map((issue) => <span key={issue.id}>{issue.title}</span>)}</div>}<p>{geminiExtraction.disclaimer}</p></div>}
             <p className="panel-note">{comparison.disclaimer}</p>
-            <div className="finalize-row"><p><strong>{reviewConfirmed ? "담당자 확인 표시됨" : "결과를 자동 확정하지 않습니다."}</strong><br />{reviewConfirmed ? "세션에만 표시되며 결과를 저장하지 않습니다." : referralEdited ? "담당자 수정값을 포함해 원문과 다시 대조한 뒤 확인하세요." : "모든 불일치·누락을 원문과 대조한 뒤 담당자가 직접 확인하세요."}</p><div className="finalize-actions"><button type="button" className="secondary-button" onClick={() => window.print()}><Download size={17} />브라우저 인쇄·PDF 저장</button><button className="secondary-button" disabled={reviewConfirmed || !canEdit} onClick={() => setReviewConfirmed(true)}>{reviewConfirmed ? <Check size={17} /> : <ClipboardCheck size={17} />}{reviewConfirmed ? "확인 완료 표시됨" : "담당자 확인 표시"}</button></div></div>
+            <div className="finalize-row"><p><strong>{reviewConfirmed ? "담당자 확인 표시됨" : "결과를 자동 확정하지 않습니다."}</strong><br />{reviewConfirmed ? "세션에만 표시되며 결과를 저장하지 않습니다." : referralEdited ? "담당자 수정값을 포함해 원문과 다시 대조한 뒤 확인하세요." : "모든 불일치·누락을 원문과 대조한 뒤 담당자가 직접 확인하세요."}</p><div className="finalize-actions"><button type="button" className="secondary-button" disabled={!canEditConfirmedValues} onClick={() => window.print()}><Download size={17} />브라우저 인쇄·PDF 저장</button><button className="secondary-button" disabled={reviewConfirmed || !canEditConfirmedValues} onClick={() => setReviewConfirmed(true)}>{reviewConfirmed ? <Check size={17} /> : <ClipboardCheck size={17} />}{reviewConfirmed ? "확인 완료 표시됨" : "담당자 확인 표시"}</button></div></div>
           </>}
         </section>
       </div>

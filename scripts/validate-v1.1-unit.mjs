@@ -21,6 +21,7 @@ function loadTypeScriptModule(relativePath) {
 const matcher = loadTypeScriptModule("lib/medical-term-matcher.ts");
 const decisions = loadTypeScriptModule("lib/term-review-state.ts");
 const confirmedControls = loadTypeScriptModule("lib/confirmed-value-controls.ts");
+const reviewPermissions = loadTypeScriptModule("lib/review-permissions.ts");
 const geminiErrors = loadTypeScriptModule("lib/gemini-error.ts");
 
 const terms = [
@@ -79,6 +80,45 @@ for (const missingControl of [missingGrossLaterality, missingPathologyDiagnosis,
   assert.deepEqual(missingControl.options, [], "원문 값이 null이면 선택 후보를 노출하면 안 됩니다.");
   assert.equal(missingControl.allowOther, false, "원문 값이 null이면 기타 선택지도 노출하면 안 됩니다.");
 }
+
+const errorFieldControls = [
+  ["gross", "size", "4.4 x 2.9 x 1.4", "text"],
+  ["gross", "laterality", "우측", "select"],
+  ["gross", "cutSurface", "회백색이며 단단하다", "select"],
+  ["gross", "lesionLocation", "하엽 말초", "text"],
+  ["gross", "blockCount", "3개", "text"],
+  ["pathology", "tumorSize", "4.2", "text"],
+  ["pathology", "laterality", "우측", "select"],
+  ["pathology", "margin", "절제연 음성", "select"],
+  ["pathology", "lymphNodes", "2개/22개", "text"],
+  ["pathology", "pathologicM", "pM1a", "select"],
+  ["pathology", "immunopathology", "TTF-1 검사 시행", "text"],
+];
+for (const [kind, fieldName, sourceValue, expectedType] of errorFieldControls) {
+  assert.equal(
+    confirmedControls.getConfirmedValueControl(kind, fieldName, sourceValue).type,
+    expectedType,
+    `${kind}.${fieldName} 오류 사례의 담당자 확정값 입력 형식이 유지되어야 합니다.`,
+  );
+}
+
+const publicHimPermissions = reviewPermissions.getReviewPermissions("him", true);
+assert.equal(publicHimPermissions.canEditSource, false, "공개 배포에서는 자유 원문 편집을 차단해야 합니다.");
+assert.equal(publicHimPermissions.canEditConfirmedValues, true, "공개 배포에서도 담당자 확정값은 세션 내에서 편집할 수 있어야 합니다.");
+const localHimPermissions = reviewPermissions.getReviewPermissions("him", false);
+assert.equal(localHimPermissions.canEditSource, true, "로컬 비공개 환경의 보건의료정보관리사는 가상 원문을 편집할 수 있어야 합니다.");
+assert.equal(localHimPermissions.canEditConfirmedValues, true, "로컬 환경의 담당자 확정값 편집을 허용해야 합니다.");
+for (const role of ["pathologist", "lab", "quality"]) {
+  const permissions = reviewPermissions.getReviewPermissions(role, true);
+  assert.equal(permissions.canEditSource, false, `${role} 역할은 원문 편집이 불가해야 합니다.`);
+  assert.equal(permissions.canEditConfirmedValues, false, `${role} 역할은 담당자 확정값 편집이 불가해야 합니다.`);
+}
+
+const appSource = fs.readFileSync("components/pathoscribe-app.tsx", "utf8");
+assert.match(appSource, /source-textarea[\s\S]*readOnly=\{!canEditSource\}/, "원문 입력은 공개 배포의 원문 편집 권한을 따라야 합니다.");
+assert.match(appSource, /confirmed-value-control[\s\S]*readOnly=\{!canEditConfirmedValues\}/, "육안·병리 담당자 확정값은 세션 편집 권한을 따라야 합니다.");
+assert.match(appSource, /referral-confirmed-value[\s\S]*readOnly=\{!canEditConfirmedValues\}/, "위탁검사 담당자 확정값은 세션 편집 권한을 따라야 합니다.");
+assert.doesNotMatch(appSource, /const canEdit = role === "him" && !publicDeployment/, "공개 배포 여부로 모든 편집을 함께 차단하는 이전 권한 결합이 남아 있으면 안 됩니다.");
 
 assert.equal(geminiErrors.classifyGeminiFailure({ status: 429, message: "RESOURCE_EXHAUSTED" }), "quota", "Gemini 할당량 오류를 quota로 분류해야 합니다.");
 assert.equal(geminiErrors.classifyGeminiFailure({ status: 503, message: "service unavailable" }), "upstream", "Gemini 상위 API 5xx를 upstream으로 분류해야 합니다.");

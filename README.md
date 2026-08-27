@@ -48,6 +48,7 @@ PathoScribe는 중요한 오류를 자동으로 해결하거나 의료적 판단
 - 낮은 위험 단순 오탈자만 수정 후보로 제시하며 `제안 적용`은 담당자 확정값에만 반영합니다. 원문·AI 값은 변경하지 않습니다.
 - 양성·음성, 좌우, 병기, 크기·단위, 절제연, 림프절, 유전자·면역표지자, 검사번호·검체명은 자동 수정하지 않고 원문 확인을 요구합니다.
 - 새 Gemini 호출이나 외부 용어 API를 추가하지 않았고, 기존 서버 전용 키·고정 caseId·공개 호출 제한을 유지합니다.
+- 공개 배포에서도 보건의료정보관리사는 고정 평가사례의 담당자 확정값을 현재 브라우저 세션에서 수정할 수 있습니다. 임의 원문·파일 입력은 계속 차단되며 확정값과 승인 상태는 서버에 저장되지 않습니다.
 
 ## 평가 사례 시연
 
@@ -161,7 +162,7 @@ PATHOSCRIBE_RATE_LIMIT_WINDOW_SECONDS=3600
 
 Vercel의 `VERCEL=1` 시스템 환경변수를 사용할 수도 있지만, Preview와 Production 모두에서 확실히 공개 제한을 적용하려면 `PATHOSCRIBE_PUBLIC_DEPLOYMENT=true`를 함께 등록합니다. `GEMINI_API_KEY`, Upstash URL·토큰·salt 중 하나라도 없으면 빌드는 성공하지만 공개 페이지의 실시간 Gemini 버튼은 비활성화되고 서버도 요청을 거부합니다.
 
-공개 URL의 `/api/analyze`는 `caseId`와 `kind`만 허용하며, 서버가 `data/evaluation/evaluation-cases.json`의 고정 평가사례인지 다시 검증합니다. 임의 `text`, 실제 환자정보, 업로드 파일은 분석 대상으로 전송할 수 없습니다. 위탁검사 Gemini Route는 `data/fixtures/outsourced-test/referral-fixtures.json`에 등록된 PDF·이미지 fixture만 읽습니다. 두 Route는 Upstash Redis REST의 원자적 카운터로 IP 해시별 시간당 12회 제한을 적용하며, 호출 제한 저장소에 접근하지 못하면 fail-closed로 실제 호출을 하지 않습니다.
+공개 URL의 `/api/analyze`는 `caseId`와 `kind`만 허용하며, 서버가 `data/evaluation/evaluation-cases.json`의 고정 평가사례인지 다시 검증합니다. 임의 `text`, 실제 환자정보, 업로드 파일은 분석 대상으로 전송할 수 없습니다. 위탁검사 Gemini Route는 `data/fixtures/outsourced-test/referral-fixtures.json`에 등록된 PDF·이미지 fixture만 읽습니다. Redis REST 환경변수가 구성된 경우 두 Route는 원자적 카운터로 IP 해시별 시간당 12회 제한을 적용하며, 호출 제한 저장소에 접근하지 못하면 fail-closed로 실제 호출을 하지 않습니다.
 
 배포 후에는 다음 순서로 확인합니다.
 
@@ -183,7 +184,7 @@ Vercel의 `VERCEL=1` 시스템 환경변수를 사용할 수도 있지만, Previ
 
 정확한 데이터명, 건수, 위치, 출처, 기준일과 한계는 [데이터 카탈로그](./docs/data-catalog.md)를 확인합니다.
 
-Vercel 배포에는 개인정보 없는 `data/generated/web_preview.json`만 포함합니다. 이 파일은 검사·검체·블록·보고서 타임라인 48건을 표시하기 위한 가상 미리보기이며, 전체 15,000건 대용량 생성 테이블과 원본 ZIP/XLSX는 Git에 포함하지 않습니다.
+Vercel 배포에는 개인정보 없는 `data/generated/web_preview.json`만 포함합니다. 이 파일은 검사·검체·블록·보고서 타임라인 48건을 표시하기 위한 가상 미리보기이며, 전체 9개 가상 업무 테이블 150,000행과 원본 ZIP/XLSX는 Git에 포함하지 않습니다. 원천 합성 XLSX는 훈련 10,000건과 테스트 5,000건, 총 15,000개 합성 레코드입니다.
 
 ## 안전 원칙
 
@@ -197,6 +198,16 @@ Vercel 배포에는 개인정보 없는 `data/generated/web_preview.json`만 포
 - 모든 결과에 담당자 원문 대조 필요 표시
 
 세부 정책은 [AI 안전정책](./docs/ai-safety.md)을 확인합니다.
+
+## 포트폴리오 PDF
+
+- [PathoScribe Portfolio Prototype v1.2 PDF 원고](./docs/portfolio-pdf-content.md)
+- [PathoScribe Portfolio Prototype v1.2 PDF](./output/pdf/PathoScribe_Portfolio_v1.2.pdf)
+- [PathoScribe Portfolio Prototype v1.1 PDF 보존본](./output/pdf/PathoScribe_Portfolio_v1.1.pdf)
+- PDF 화면 자산: `public/images/portfolio/`의 교육용 업무 화면 캡처 3개
+- 생성 명령: `C:\Users\USER\AppData\Local\Programs\Python\Python312\python.exe scripts/generate-portfolio-pdf.py`
+
+최종 PDF는 12쪽 A4 가로형입니다. 핵심 영역을 확대한 실제 웹 시연 화면과 고정 교육용 fixture 기반 검수 패널을 함께 사용하며, PyMuPDF로 12쪽 전체를 PNG로 렌더링해 글자·표·QR·화면 요소의 잘림과 겹침이 없는지 확인했습니다. 표 셀과 짧은 상태 박스는 문단 높이를 기준으로 정렬하고, 긴 원문과 검수 항목은 박스 안에서 줄바꿈되도록 재검수했습니다. 이 검증은 웹 업무 화면의 `window.print()` 검수 PDF와 별개의 포트폴리오 산출물 검증입니다.
 
 ## 문서
 
