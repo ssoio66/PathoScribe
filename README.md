@@ -92,6 +92,8 @@ npm.cmd run evaluate:gemini -- --confirm --base-url http://127.0.0.1:3000
 
 ## 실행
 
+채용 담당자는 메인 화면의 `핵심 기능 체험` 카드 또는 `/demo/health-information-manager`에서 보건의료정보관리사 관점의 체험 화면으로 바로 진입할 수 있습니다. 병리 결과 검수 화면이 기본으로 열리며, 고정된 교육용 가상 사례로 검수 흐름을 확인합니다. 실제 환자정보와 실제 Gemini 호출은 포함하지 않습니다.
+
 Node.js 20 이상과 npm이 필요합니다. 원본 XLSX를 다시 처리할 때는 Windows PowerShell 5.1 이상도 필요합니다.
 
 ```powershell

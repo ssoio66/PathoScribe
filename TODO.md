@@ -1,5 +1,11 @@
 # PathoScribe 구현 및 검증 TODO
 
+## 채용 담당자용 핵심 기능 체험
+- [x] 메인 사이드바 `핵심 기능 체험` 진입 카드 추가
+- [x] `/demo/health-information-manager` 별도 Route 추가
+- [x] 병리 결과 검수 기본 진입 및 기존 gross/referral 흐름 재사용
+- [ ] GitHub push 및 Vercel Production 배포 확인(권한/CLI 상태 확인 필요)
+
 `[x]`는 현재 코드에서 구현되고 자동검사를 통과한 항목만 표시합니다.
 
 ## 포트폴리오 정체성

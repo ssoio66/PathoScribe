@@ -446,6 +446,9 @@ function IntroView({ onNavigate }: { onNavigate: (view: ViewId) => void }) {
             <StatusChip tone="warning">공개 합성데이터·가상 자료만 사용</StatusChip>
             <StatusChip tone="danger">진단·판독·공식 의료기록 사용 금지</StatusChip>
           </div>
+          <div className="intro-actions">
+            <button type="button" className="primary-button" onClick={() => onNavigate("demo")}><Sparkles size={17} />핵심 기능 체험</button>
+          </div>
         </div>
         <div className="intro-hero-side">
           <div className="intro-side-card">
@@ -2499,9 +2502,9 @@ function KnowledgeView({ onNavigate }: { onNavigate: (view: ViewId) => void }) {
   );
 }
 
-export function PathoScribeApp() {
-  const [activeView, setActiveView] = useState<ViewId>("intro");
-  const [activeRole, setActiveRole] = useState<ActiveRoleId>(null);
+export function PathoScribeApp({ initialView = "intro", initialRole = null }: { initialView?: ViewId; initialRole?: ActiveRoleId } = {}) {
+  const [activeView, setActiveView] = useState<ViewId>(initialView);
+  const [activeRole, setActiveRole] = useState<ActiveRoleId>(initialRole);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sessionReviewed, setSessionReviewed] = useState(0);
@@ -2596,6 +2599,11 @@ export function PathoScribeApp() {
         <nav className="sidebar-primary-nav" aria-label="서비스 메뉴">
           {PRIMARY_MENU_ITEMS.filter(({ id }) => id !== "demo").map(({ id, label }) => <button type="button" key={id} className={activeView === id ? "active" : ""} onClick={() => navigate(id)} title={sidebarCollapsed ? label : undefined}><span>{label}</span>{activeView === id && <ChevronRight className="nav-chevron" size={16} />}</button>)}
         </nav>
+        <a className="sidebar-demo-card" href="/demo/health-information-manager">
+          <span className="eyebrow">채용 담당자용</span>
+          <strong>핵심 기능 체험</strong>
+          <small>3분 안에 주요 검수 흐름 확인 <ChevronRight size={14} /></small>
+        </a>
         <label className="sidebar-role-picker">
           <span>업무 시연</span>
           <select value={activeRole ?? ""} onChange={(event) => changeRole((event.target.value || null) as ActiveRoleId)} aria-label="업무 시연 역할 선택">

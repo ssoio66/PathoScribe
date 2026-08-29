@@ -23,6 +23,15 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .sidebar nav button,.collapse-button { position:relative; width:100%; min-height:43px; flex:0 0 auto; display:flex; align-items:center; gap:12px; border:1px solid transparent; border-radius:4px; padding:0 12px; color:var(--sidebar-muted); background:transparent; font-size:14px; font-weight:600; text-align:left; white-space:nowrap; overflow:hidden; }
 .sidebar nav button:hover,.collapse-button:hover { color:var(--teal-dark); background:#e6e8ea; }.sidebar nav button.active { color:#fff; background:#008080; }.sidebar nav button.active::before { display:none; }.sidebar nav span,.collapse-button span { min-width:0; flex:1; overflow:hidden; text-overflow:ellipsis; }.nav-chevron { flex:0 0 auto; margin-left:auto; }
 .sidebar-primary-nav { margin-bottom:4px; }
+.sidebar-demo-card { display:block; margin:8px 0 12px; padding:13px; border:1px solid #8ccfca; border-radius:4px; color:#164747; background:#eafffc; text-decoration:none; }
+.sidebar-demo-card:hover { border-color:var(--teal); background:#ddfaf6; }
+.sidebar-demo-card .eyebrow { color:var(--teal-dark); font-size:10px; }
+.sidebar-demo-card strong,.sidebar-demo-card small { display:block; }
+.sidebar-demo-card strong { margin-top:5px; font-size:14px; }
+.sidebar-demo-card small { display:flex; align-items:center; gap:3px; margin-top:7px; color:var(--muted); font-size:10px; }
+.sidebar-collapsed .sidebar-demo-card { width:42px; height:42px; margin-inline:auto; padding:0; overflow:hidden; font-size:0; }
+.sidebar-collapsed .sidebar-demo-card strong { display:none; }
+.sidebar-collapsed .sidebar-demo-card small { justify-content:center; height:100%; margin:0; }
 .sidebar-common-nav { margin:0 0 16px; padding-bottom:12px; border-bottom:1px solid var(--line); }
 .sidebar-section-label { display:block; padding:0 12px 6px; color:var(--muted); font-size:11px; font-weight:850; letter-spacing:.04em; text-transform:uppercase; }
 .sidebar-primary-button { width:100%; min-height:42px; display:flex; align-items:center; justify-content:center; gap:8px; margin:0 0 20px; border:1px solid var(--teal-dark); border-radius:4px; color:#fff; background:var(--teal-dark); font-size:12px; font-weight:800; }.sidebar-primary-button:hover { background:#004f4f; }.sidebar-collapsed .sidebar-primary-button { width:42px; margin-inline:auto; padding:0; font-size:0; }.sidebar-collapsed .sidebar-primary-button svg { margin:0; }
