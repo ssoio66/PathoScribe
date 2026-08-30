@@ -2519,6 +2519,27 @@ export function PathoScribeApp({ initialView = "intro", initialRole = null, core
   const roleNavItems = activeNavItems.filter((item) => item.id !== "intro");
   const commonNavItems = NAV_ITEMS.filter((item) => SIDEBAR_COMMON_NAV_IDS.includes(item.id));
   const primaryAction = activeRole ? ROLE_PRIMARY_ACTION[activeRole] : null;
+
+  // The core-demo route intentionally renders a dedicated, single-case flow.
+  // Its shared sidebar must therefore leave that route before opening any of
+  // the normal application views.
+  function openStandardView(view: ViewId, role: ActiveRoleId) {
+    const params = new URLSearchParams({ view });
+    if (role) params.set("role", role);
+    window.location.assign(`/?${params.toString()}`);
+  }
+
+  useEffect(() => {
+    if (coreDemo || typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const requestedView = params.get("view") as ViewId | null;
+    const requestedRole = params.get("role") as RoleId | null;
+    const role = requestedRole && requestedRole in ROLE_PROFILES ? requestedRole : null;
+    const view = requestedView && NAV_ITEMS.some((item) => item.id === requestedView) ? requestedView : null;
+    if (!view) return;
+    setActiveRole(role);
+    setActiveView(role && !COMMON_NAV_IDS.includes(view) && !ROLE_PROFILES[role].navViews.includes(view) ? ROLE_PROFILES[role].defaultView : view);
+  }, [coreDemo]);
   const content = (() => {
     if (coreDemo) return <CoreFeatureDemo />;
     if (activeView === "intro") return <IntroView onNavigate={(view) => navigate(view)} />;
@@ -2550,6 +2571,10 @@ export function PathoScribeApp({ initialView = "intro", initialRole = null, core
   }
 
   function navigate(view: ViewId) {
+    if (coreDemo) {
+      openStandardView(view, activeRole);
+      return;
+    }
     setLinkedReviewContext(null);
     setSelectedWorkflowOrderId(null);
     if (!activeRole) {
@@ -2571,6 +2596,10 @@ export function PathoScribeApp({ initialView = "intro", initialRole = null, core
   }
 
   function changeRole(role: ActiveRoleId) {
+    if (coreDemo) {
+      openStandardView(role ? ROLE_PROFILES[role].defaultView : "intro", role);
+      return;
+    }
     setLinkedReviewContext(null);
     setSelectedWorkflowOrderId(null);
     setActiveRole(role);
