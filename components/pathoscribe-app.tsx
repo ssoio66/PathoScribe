@@ -2531,14 +2531,22 @@ export function PathoScribeApp({ initialView = "intro", initialRole = null, core
 
   useEffect(() => {
     if (coreDemo || typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    const requestedView = params.get("view") as ViewId | null;
-    const requestedRole = params.get("role") as RoleId | null;
-    const role = requestedRole && requestedRole in ROLE_PROFILES ? requestedRole : null;
-    const view = requestedView && NAV_ITEMS.some((item) => item.id === requestedView) ? requestedView : null;
-    if (!view) return;
-    setActiveRole(role);
-    setActiveView(role && !COMMON_NAV_IDS.includes(view) && !ROLE_PROFILES[role].navViews.includes(view) ? ROLE_PROFILES[role].defaultView : view);
+    const applyRequestedView = () => {
+      const params = new URLSearchParams(window.location.search);
+      const requestedView = params.get("view") as ViewId | null;
+      const requestedRole = params.get("role") as RoleId | null;
+      const role = requestedRole && requestedRole in ROLE_PROFILES ? requestedRole : null;
+      const view = requestedView && NAV_ITEMS.some((item) => item.id === requestedView) ? requestedView : null;
+      if (!view) return;
+      setActiveRole(role);
+      setActiveView(role && !COMMON_NAV_IDS.includes(view) && !ROLE_PROFILES[role].navViews.includes(view) ? ROLE_PROFILES[role].defaultView : view);
+    };
+    const timer = window.setTimeout(applyRequestedView, 0);
+    window.addEventListener("popstate", applyRequestedView);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("popstate", applyRequestedView);
+    };
   }, [coreDemo]);
   const content = (() => {
     if (coreDemo) return <CoreFeatureDemo />;

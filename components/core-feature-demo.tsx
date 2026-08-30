@@ -95,7 +95,7 @@ export function CoreFeatureDemo() {
       <nav className="core-demo-steps" aria-label="핵심 기능 체험 단계">
         {STEPS.map((step, index) => {
           const stepNumber = index + 1;
-          return <a key={step} href={`#core-step-${stepNumber}`} className={activeStep === stepNumber ? "active" : ""} aria-current={activeStep === stepNumber ? "step" : undefined} onClick={(event) => { event.preventDefault(); setActiveStep(stepNumber); }}><span>{stepNumber}</span>{step}</a>;
+          return <a key={step} href={`#core-step-${stepNumber}`} className={activeStep === stepNumber ? "active" : ""} aria-current={activeStep === stepNumber ? "step" : undefined} onClick={(event) => { event.preventDefault(); setActiveStep((current) => current === stepNumber ? null : stepNumber); }}><span>{stepNumber}</span>{step}</a>;
         })}
       </nav>
 
