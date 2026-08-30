@@ -2587,6 +2587,18 @@ export function PathoScribeApp({ initialView = "intro", initialRole = null, core
     setMobileNavOpen(false);
   }
 
+  function goHome() {
+    if (coreDemo) {
+      window.location.assign("/");
+      return;
+    }
+    setLinkedReviewContext(null);
+    setSelectedWorkflowOrderId(null);
+    setActiveRole(null);
+    setActiveView("intro");
+    setMobileNavOpen(false);
+  }
+
   function openDemoCase(view: ViewId) {
     setLinkedReviewContext(null);
     setSelectedWorkflowOrderId(null);
@@ -2626,7 +2638,7 @@ export function PathoScribeApp({ initialView = "intro", initialRole = null, core
       <a className="skip-link" href="#main-content">본문 바로가기</a>
       {mobileNavOpen && <button className="mobile-scrim" aria-label="메뉴 닫기" onClick={() => setMobileNavOpen(false)} />}
       <aside className={`sidebar ${mobileNavOpen ? "mobile-open" : ""}`}>
-        <div className="brand"><div className="brand-mark"><Image src="/images/pathoscribe-lung-mark.png" alt="" width={34} height={34} priority aria-hidden="true" /></div><div><strong>PathoScribe</strong><span>폐암 병리 전사·검수 지원</span></div><button type="button" className="mobile-close" aria-label="메뉴 닫기" onClick={() => setMobileNavOpen(false)}><X size={20} aria-hidden="true" /></button></div>
+        <div className="brand"><button type="button" className="brand-home" onClick={goHome} aria-label="서비스 소개 첫 화면으로 이동"><div className="brand-mark"><Image src="/images/pathoscribe-lung-mark.png" alt="" width={34} height={34} priority aria-hidden="true" /></div><div><strong>PathoScribe</strong><span>폐암 병리 전사·검수 지원</span></div></button><button type="button" className="mobile-close" aria-label="메뉴 닫기" onClick={() => setMobileNavOpen(false)}><X size={20} aria-hidden="true" /></button></div>
         <nav className="sidebar-primary-nav" aria-label="서비스 메뉴">
           {PRIMARY_MENU_ITEMS.filter(({ id }) => id !== "demo").map(({ id, label }) => <button type="button" key={id} className={activeView === id ? "active" : ""} onClick={() => navigate(id)} title={sidebarCollapsed ? label : undefined}><span>{label}</span>{activeView === id && <ChevronRight className="nav-chevron" size={16} />}</button>)}
         </nav>

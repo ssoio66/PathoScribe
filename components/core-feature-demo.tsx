@@ -75,6 +75,7 @@ function EvidenceSearch({ label, initialQuery }: { label: string; initialQuery: 
 }
 
 export function CoreFeatureDemo() {
+  const [activeStep, setActiveStep] = useState<number | null>(null);
   const [confirmedLaterality, setConfirmedLaterality] = useState<string>(CORE_DEMO_CASE.warning.originalValue);
   const [correctionApplied, setCorrectionApplied] = useState(false);
   const [finalized, setFinalized] = useState(false);
@@ -92,14 +93,17 @@ export function CoreFeatureDemo() {
         <dl><div><dt>검사</dt><dd>{CORE_DEMO_CASE.specimen.orderId}</dd></div><div><dt>검체</dt><dd>{CORE_DEMO_CASE.specimen.specimenId}</dd></div><div><dt>블록</dt><dd>{CORE_DEMO_CASE.specimen.blockId}</dd></div></dl>
       </div>
       <nav className="core-demo-steps" aria-label="핵심 기능 체험 단계">
-        {STEPS.map((step, index) => <a key={step} href={`#core-step-${index + 1}`}><span>{index + 1}</span>{step}</a>)}
+        {STEPS.map((step, index) => {
+          const stepNumber = index + 1;
+          return <a key={step} href={`#core-step-${stepNumber}`} className={activeStep === stepNumber ? "active" : ""} aria-current={activeStep === stepNumber ? "step" : undefined} onClick={(event) => { event.preventDefault(); setActiveStep(stepNumber); }}><span>{stepNumber}</span>{step}</a>;
+        })}
       </nav>
 
-      <DemoSection id="core-step-1" step={1} title="육안 소견 입력" sourceText={CORE_DEMO_CASE.gross.sourceText} fields={CORE_DEMO_CASE.gross.fields} />
-      <DemoSection id="core-step-2" step={2} title="병리 결과 입력" sourceText={CORE_DEMO_CASE.pathology.sourceText} fields={CORE_DEMO_CASE.pathology.fields} />
-      <DemoSection id="core-step-3" step={3} title="위탁검사 결과 입력" sourceText={CORE_DEMO_CASE.outsourced.sourceText} fields={CORE_DEMO_CASE.outsourced.fields} />
+      {(activeStep === null || activeStep === 1) && <DemoSection id="core-step-1" step={1} title="육안 소견 입력" sourceText={CORE_DEMO_CASE.gross.sourceText} fields={CORE_DEMO_CASE.gross.fields} />}
+      {(activeStep === null || activeStep === 2) && <DemoSection id="core-step-2" step={2} title="병리 결과 입력" sourceText={CORE_DEMO_CASE.pathology.sourceText} fields={CORE_DEMO_CASE.pathology.fields} />}
+      {(activeStep === null || activeStep === 3) && <DemoSection id="core-step-3" step={3} title="위탁검사 결과 입력" sourceText={CORE_DEMO_CASE.outsourced.sourceText} fields={CORE_DEMO_CASE.outsourced.fields} />}
 
-      <DemoSection id="core-step-4" step={4} title="입력 오류 확인 및 수정">
+      {(activeStep === null || activeStep === 4) && <DemoSection id="core-step-4" step={4} title="입력 오류 확인 및 수정">
         <div className="core-demo-warning" role="alert"><AlertTriangle size={20} aria-hidden="true" /><div><strong>{CORE_DEMO_CASE.warning.label}</strong><p>{CORE_DEMO_CASE.warning.evidence}</p><code>{CORE_DEMO_CASE.warning.code} · {CORE_DEMO_CASE.warning.fieldKey}</code></div></div>
         <div className="core-demo-correction">
           <div><span>수정 전</span><strong>{CORE_DEMO_CASE.warning.originalValue}</strong></div>
@@ -108,22 +112,22 @@ export function CoreFeatureDemo() {
           <button type="button" className="secondary-button" onClick={applyCorrection}>제안 적용</button>
         </div>
         <p className="core-demo-state"><ClipboardCheck size={17} aria-hidden="true" />{correctionApplied ? "수정 후 값이 확인되었습니다. 사용자가 최종 확인할 수 있습니다." : "AI가 값을 확정하지 않습니다. 사용자가 수정값을 확인해 주세요."}</p>
-      </DemoSection>
+      </DemoSection>}
 
-      <DemoSection id="core-step-5" step={5} title="암·병리 용어·데이터 항목 검색">
+      {(activeStep === null || activeStep === 5) && <DemoSection id="core-step-5" step={5} title="암·병리 용어·데이터 항목 검색">
         <div className="core-demo-search-grid">
           <EvidenceSearch label="암·병리 용어" initialQuery={CORE_DEMO_CASE.searches.terminology} />
           <EvidenceSearch label="데이터 항목" initialQuery={CORE_DEMO_CASE.searches.dataField} />
         </div>
-      </DemoSection>
+      </DemoSection>}
 
-      <DemoSection id="core-step-6" step={6} title="최종 확인">
+      {(activeStep === null || activeStep === 6) && <DemoSection id="core-step-6" step={6} title="최종 확인">
         <div className={`core-demo-final ${finalized ? "complete" : ""}`}>
           {finalized ? <CheckCircle2 size={22} aria-hidden="true" /> : <BookOpen size={22} aria-hidden="true" />}
           <div><strong>{finalized ? "사용자 최종 확인 완료" : "사용자 최종 확인 대기"}</strong><p>육안 소견·병리 결과·위탁검사 결과와 좌우 오류 수정값을 같은 사례 ID로 확인합니다.</p></div>
           <button type="button" className="secondary-button" disabled={!correctionApplied} onClick={() => setFinalized(true)}>{finalized ? "확인 완료" : "최종 확인"}</button>
         </div>
-      </DemoSection>
+      </DemoSection>}
     </div>
   );
 }
