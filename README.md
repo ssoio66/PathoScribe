@@ -92,7 +92,9 @@ npm.cmd run evaluate:gemini -- --confirm --base-url http://127.0.0.1:3000
 
 ## 실행
 
-채용 담당자는 메인 화면의 `핵심 기능 체험` 카드 또는 `/demo/health-information-manager`에서 보건의료정보관리사 관점의 체험 화면으로 바로 진입할 수 있습니다. 병리 결과 검수 화면이 기본으로 열리며, 고정된 교육용 가상 사례로 검수 흐름을 확인합니다. 실제 환자정보와 실제 Gemini 호출은 포함하지 않습니다.
+메인 화면의 `핵심 기능 체험` 카드 또는 `/demo/health-information-manager`에서 보건의료정보관리사 관점의 체험 화면으로 바로 진입할 수 있습니다. `CORE-DEMO-HIM-001` 하나의 연결된 오류 포함 사례에서 육안 소견, 병리 결과, 위탁검사 결과, 오류 수정, 암·병리 용어와 데이터 항목 검색, 최종 확인을 순서대로 확인합니다. 구조화 결과는 저장된 재현 가능 fixture를 사용하며 실시간 Gemini를 호출하지 않습니다.
+
+통합 사례는 원천 오류 사례 `EVAL-PATH-008`의 `sourceRowId`, 원문, `LATERALITY_CONFLICT` 경고와 기대 수정값을 보존합니다. `npm.cmd run test:core-demo`는 모든 단계의 단일 ID, 원천 사례 연결, 오류·수정값, 로컬 검색 근거 및 Gemini 미호출을 검사합니다. 기존 35건 평가는 정상 사례의 의도하지 않은 경고 부재와 오류 사례의 주입 오류·`expectedWarnings`·실제 규칙 경고·수정 기준 일치를 별도로 검사합니다.
 
 Node.js 20 이상과 npm이 필요합니다. 원본 XLSX를 다시 처리할 때는 Windows PowerShell 5.1 이상도 필요합니다.
 
@@ -118,7 +120,7 @@ npm.cmd run data:test:outsourced-fixtures
 npm.cmd run build
 ```
 
-`test:web`은 개발 서버가 실행 중일 때 주요 화면과 API의 성공·실패 경로를 확인합니다. `test:responsive`는 반응형 CSS, 키보드 포커스, 역할 요약 ARIA, 아코디언, 긴 ID 처리와 색상 외 상태 라벨을 정적으로 검사합니다(실제 브라우저 스크린샷은 별도 확인 필요). `test:normal-cases`는 실제 Gemini를 호출하지 않는 데모 모드에서 정상 육안·병리 9건, 정상 위탁검사 2건, 저화질 확인 필요 1건을 재현해 정답 불일치와 규칙 오탐을 검사합니다. `test:error-cases`는 오류 사례 23건에서 원문 추출 정답과 주입 오류별 예상 경고 코드가 모두 재현되는지 검사합니다. `test:case-audit`는 35건을 개별 실행하여 값·상태·근거·기대 경고와 의도하지 않은 추가 경고를 함께 점검하고 감사표를 갱신합니다.
+`test:web`은 개발 서버가 실행 중일 때 주요 화면과 API의 성공·실패 경로를 확인합니다. `test:core-demo`는 핵심 기능 체험의 단일 사례 연결, 오류 수정값, 로컬 검색 근거, Gemini 미호출을 검사합니다. `test:responsive`는 반응형 CSS, 키보드 포커스, 역할 요약 ARIA, 아코디언, 긴 ID 처리와 색상 외 상태 라벨을 정적으로 검사합니다(실제 브라우저 스크린샷은 별도 확인 필요). `test:normal-cases`는 실제 Gemini를 호출하지 않는 데모 모드에서 정상 육안·병리 9건, 정상 위탁검사 2건, 저화질 확인 필요 1건을 재현해 정답 불일치와 규칙 오탐을 검사합니다. `test:error-cases`는 오류 사례 23건에서 원문 추출 정답과 주입 오류별 예상 경고 코드가 모두 재현되는지 검사합니다. `test:case-audit`는 35건을 개별 실행하여 값·상태·근거·기대 경고와 의도하지 않은 추가 경고를 함께 점검하고 감사표를 갱신합니다.
 위탁검사 fixture는 `npm.cmd run data:generate:outsourced-fixtures`로 평가 ground truth에서 재생성하고 `npm.cmd run data:test:outsourced-fixtures`로 파일·워터마크·대조 유형을 검증합니다.
 평가사례는 `npm.cmd run data:generate:evaluation`로 결정론적으로 재생성하고 `npm.cmd run data:test:evaluation`로 원본 매핑과 정답 구성을 검증합니다. `npm.cmd run test:worklist-links`는 작업 목록 미리보기와 평가사례의 `source_record_id`·`sourceRowId` 정확한 연결을 검증합니다.
 

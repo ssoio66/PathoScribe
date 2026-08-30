@@ -1,0 +1,62 @@
+export const CORE_DEMO_CASE = {
+  caseId: "CORE-DEMO-HIM-001",
+  sourceEvaluationCaseId: "EVAL-PATH-008",
+  sourceRowId: "NCC-LUNG-TST-00081",
+  scenario: "error" as const,
+  title: "폐 하엽 절제 검체 연결 사례",
+  specimen: {
+    orderId: "ORD-CORE-DEMO-001",
+    specimenId: "SPC-CORE-DEMO-001",
+    blockId: "BLK-CORE-DEMO-A1",
+    organ: "폐",
+    site: "하엽",
+  },
+  gross: {
+    sourceText: "좌측 폐 하엽 절제 검체 1개가 포르말린에 고정되어 접수되었다. 검체 크기는 6.0 x 3.5 x 2.0 cm이다. 절단면은 회백색이며 병변은 하엽 말초에 위치한다. 대표 블록 A1을 제작하였다.",
+    fields: [
+      { key: "organ", label: "장기", aiValue: "폐", confirmedValue: "폐", evidence: "폐" },
+      { key: "site", label: "부위", aiValue: "하엽", confirmedValue: "하엽", evidence: "하엽" },
+      { key: "laterality", label: "좌우", aiValue: "좌측", confirmedValue: "좌측", evidence: "좌측" },
+      { key: "specimen", label: "검체", aiValue: "폐 하엽 절제 검체", confirmedValue: "폐 하엽 절제 검체", evidence: "폐 하엽 절제 검체" },
+      { key: "size", label: "검체 크기", aiValue: "6.0 x 3.5 x 2.0 cm", confirmedValue: "6.0 x 3.5 x 2.0 cm", evidence: "6.0 x 3.5 x 2.0 cm" },
+      { key: "block", label: "대표 블록", aiValue: "A1", confirmedValue: "A1", evidence: "대표 블록 A1" },
+    ],
+  },
+  pathology: {
+    sourceText: "좌측 및 우측 폐 하엽 폐 절제술: 선암, acinar predominant type, 저분화. 종양 크기: 2.8 cm. 절제연은 종양 음성이다. 림프절 1개/15개. 병리학적 병기 pT1a pN1 pM1a. TTF-1: 음성. EGFR mutation: not detected.",
+    fields: [
+      { key: "diagnosis", label: "조직학적 진단명", aiValue: "선암", confirmedValue: "선암", evidence: "선암" },
+      { key: "histologicType", label: "조직학적 유형", aiValue: "acinar predominant type", confirmedValue: "acinar predominant type", evidence: "acinar predominant type" },
+      { key: "grade", label: "분화도", aiValue: "저분화", confirmedValue: "저분화", evidence: "저분화" },
+      { key: "tumorSize", label: "종양 크기", aiValue: "2.8 cm", confirmedValue: "2.8 cm", evidence: "2.8 cm" },
+      { key: "pathologicT", label: "pT", aiValue: "pT1a", confirmedValue: "pT1a", evidence: "pT1a" },
+      { key: "pathologicN", label: "pN", aiValue: "pN1", confirmedValue: "pN1", evidence: "pN1" },
+      { key: "pathologicM", label: "pM", aiValue: "pM1a", confirmedValue: "pM1a", evidence: "pM1a" },
+      { key: "immunopathology", label: "면역병리", aiValue: "TTF-1: 음성", confirmedValue: "TTF-1: 음성", evidence: "TTF-1: 음성" },
+      { key: "molecularPathology", label: "분자병리", aiValue: "EGFR mutation: not detected", confirmedValue: "EGFR mutation: not detected", evidence: "EGFR mutation: not detected" },
+    ],
+  },
+  outsourced: {
+    sourceText: "의뢰번호 EXT-CORE-DEMO-001 / 검사명 EGFR mutation analysis / 검체 FFPE tissue, block A1 / 접수일 2026-05-05 / 보고일 2026-05-08 / 결과 Not detected",
+    fields: [
+      { key: "order_number", label: "의뢰번호", aiValue: "EXT-CORE-DEMO-001", confirmedValue: "EXT-CORE-DEMO-001" },
+      { key: "test_name", label: "검사명", aiValue: "EGFR mutation analysis", confirmedValue: "EGFR mutation analysis" },
+      { key: "specimen", label: "검체", aiValue: "FFPE tissue, block A1", confirmedValue: "FFPE tissue, block A1" },
+      { key: "received_date", label: "접수일", aiValue: "2026-05-05", confirmedValue: "2026-05-05" },
+      { key: "reported_date", label: "보고일", aiValue: "2026-05-08", confirmedValue: "2026-05-08" },
+      { key: "result", label: "결과", aiValue: "Not detected", confirmedValue: "Not detected" },
+    ],
+  },
+  warning: {
+    code: "LATERALITY_CONFLICT",
+    fieldKey: "laterality",
+    label: "좌우 부위 불일치 확인 필요",
+    originalValue: "좌측 및 우측",
+    suggestedValue: "좌측",
+    evidence: "육안 소견과 기준값은 좌측이며 병리 원문은 좌측 및 우측이 함께 입력되어 있습니다.",
+  },
+  searches: {
+    terminology: "TTF-1",
+    dataField: "종양 크기 필드",
+  },
+} as const;

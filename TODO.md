@@ -1,8 +1,11 @@
 # PathoScribe 구현 및 검증 TODO
 
-## 채용 담당자용 핵심 기능 체험
+## 핵심 기능 체험
 - [x] 메인 사이드바 `핵심 기능 체험` 진입 카드 추가
 - [x] `/demo/health-information-manager` 별도 Route 추가
+- [x] 단일 연결 사례 `CORE-DEMO-HIM-001`의 육안·병리·위탁검사·오류 수정·근거 검색·최종 확인 흐름 구성
+- [x] 체험 Route에서만 역할·데이터·공개 시연 안내를 제외하고 다른 업무 화면은 유지
+- [ ] 포트폴리오 PDF 원고에 단일 연결 사례 화면 구조 반영(이번 작업에서는 PDF 재생성 제외)
 - [x] 병리 결과 검수 기본 진입 및 기존 gross/referral 흐름 재사용
 - [x] GitHub push 및 Vercel Production 메인·체험 Route HTTP 200 확인
 

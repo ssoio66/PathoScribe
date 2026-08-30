@@ -48,6 +48,7 @@ import { canonicalConfirmedValueOption, getConfirmedValueControl, OTHER_CONFIRME
 import { getReviewPermissions } from "@/lib/review-permissions";
 import type { AnalyzeKind, AnalyzeResponse, ExtractedField, MedicalTermReview, ReviewIssue, TermReviewStatus } from "@/lib/types";
 import { evaluationComparisonStatus, normalizeEvaluationValue, type EvaluationComparisonStatus } from "@/lib/evaluation-comparison";
+import { CoreFeatureDemo } from "@/components/core-feature-demo";
 
 type ViewId = "intro" | "demo" | "service" | "dashboard" | "worklist" | "workflow" | "gross" | "pathology" | "referral" | "knowledge" | "sources" | "history" | "settings";
 type RoleId = "him" | "pathologist" | "lab" | "quality";
@@ -2502,7 +2503,7 @@ function KnowledgeView({ onNavigate }: { onNavigate: (view: ViewId) => void }) {
   );
 }
 
-export function PathoScribeApp({ initialView = "intro", initialRole = null }: { initialView?: ViewId; initialRole?: ActiveRoleId } = {}) {
+export function PathoScribeApp({ initialView = "intro", initialRole = null, coreDemo = false }: { initialView?: ViewId; initialRole?: ActiveRoleId; coreDemo?: boolean } = {}) {
   const [activeView, setActiveView] = useState<ViewId>(initialView);
   const [activeRole, setActiveRole] = useState<ActiveRoleId>(initialRole);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -2513,12 +2514,13 @@ export function PathoScribeApp({ initialView = "intro", initialRole = null }: { 
   const [linkedReviewContext, setLinkedReviewContext] = useState<LinkedReviewContext | null>(null);
   const [selectedWorkflowOrderId, setSelectedWorkflowOrderId] = useState<string | null>(null);
   const mainRef = useRef<HTMLElement>(null);
-  const meta = VIEW_META[activeView];
+  const meta = coreDemo ? { title: "핵심 기능 체험", description: "" } : VIEW_META[activeView];
   const activeNavItems = navItemsForRole(activeRole);
   const roleNavItems = activeNavItems.filter((item) => item.id !== "intro");
   const commonNavItems = NAV_ITEMS.filter((item) => SIDEBAR_COMMON_NAV_IDS.includes(item.id));
   const primaryAction = activeRole ? ROLE_PRIMARY_ACTION[activeRole] : null;
   const content = (() => {
+    if (coreDemo) return <CoreFeatureDemo />;
     if (activeView === "intro") return <IntroView onNavigate={(view) => navigate(view)} />;
     if (activeView === "demo") return <DemoView activeRole={activeRole} onSelectRole={changeRole} onOpenDemo={openDemoCase} />;
     if (activeView === "service") return <ServiceDescriptionView onNavigate={navigate} onOpenDemo={openDemoCase} />;
@@ -2600,7 +2602,6 @@ export function PathoScribeApp({ initialView = "intro", initialRole = null }: { 
           {PRIMARY_MENU_ITEMS.filter(({ id }) => id !== "demo").map(({ id, label }) => <button type="button" key={id} className={activeView === id ? "active" : ""} onClick={() => navigate(id)} title={sidebarCollapsed ? label : undefined}><span>{label}</span>{activeView === id && <ChevronRight className="nav-chevron" size={16} />}</button>)}
         </nav>
         <a className="sidebar-demo-card" href="/demo/health-information-manager">
-          <span className="eyebrow">채용 담당자용</span>
           <strong>핵심 기능 체험</strong>
           <small>3분 안에 주요 검수 흐름 확인 <ChevronRight size={14} /></small>
         </a>
@@ -2624,13 +2625,13 @@ export function PathoScribeApp({ initialView = "intro", initialRole = null }: { 
       <div className="main-shell">
         <header className="topbar">
           <button type="button" className="mobile-menu" aria-label="메뉴 열기" onClick={() => setMobileNavOpen(true)}><Menu size={21} aria-hidden="true" /></button>
-          <div className="page-title"><h1>{meta.title}</h1><p>{meta.description}</p></div>
+          <div className={`page-title ${coreDemo ? "core-demo-title" : ""}`}><h1>{meta.title}</h1>{meta.description && <p>{meta.description}</p>}</div>
           <div className="top-actions">
             <StatusChip tone={activeRole ? "teal" : "warning"}>{activeRole ? `${ROLE_PROFILES[activeRole].shortLabel} 보기` : "역할 선택 필요"}</StatusChip>
             <StatusChip tone="warning"><span className="live-dot" />DEMO</StatusChip>
           </div>
         </header>
-        <main id="main-content" ref={mainRef} tabIndex={-1}>{activeRole && !["intro", "demo", "service"].includes(activeView) && <RoleScopeBanner role={activeRole} onNavigate={navigate} />}{content}</main>
+        <main id="main-content" ref={mainRef} tabIndex={-1}>{!coreDemo && activeRole && !["intro", "demo", "service"].includes(activeView) && <RoleScopeBanner role={activeRole} onNavigate={navigate} />}{content}</main>
         <footer><span>PathoScribe · Portfolio Prototype v1.1 · 가상·공개 합성데이터 전용</span><strong>진단·판독 도구가 아닌 전사·검수 지원 도구입니다.</strong></footer>
       </div>
     </div>
