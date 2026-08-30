@@ -2640,7 +2640,7 @@ export function PathoScribeApp({ initialView = "intro", initialRole = null, core
     setActiveView("workflow");
     setMobileNavOpen(false);
   }
-  useEffect(() => { mainRef.current?.focus(); }, [activeView]);
+  useEffect(() => { mainRef.current?.focus({ preventScroll: true }); }, [activeView]);
   return (
     <div className={`app-shell ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
       <a className="skip-link" href="#main-content">본문 바로가기</a>
